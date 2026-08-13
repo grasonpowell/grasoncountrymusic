@@ -71,7 +71,7 @@
     }
 
     .nav-links {
-      display: flex; gap: 1rem;
+      display: flex; gap: 0.8rem;
       list-style: none; align-items: center;
     }
 
@@ -132,6 +132,11 @@
       color: #080605; display: flex; align-items: center; justify-content: center;
       font-weight: 800; font-size: 0.85rem; object-fit: cover;
       border: 1px solid var(--accent-gold);
+      overflow: hidden;
+    }
+
+    .avatar-circle img {
+      width: 100%; height: 100%; object-fit: cover;
     }
 
     /* --- TITLE ANIMATION --- */
@@ -167,7 +172,7 @@
       display: inline-block; padding: 0.8rem 2rem;
       border-radius: 30px; font-weight: 700; letter-spacing: 1px;
       text-transform: uppercase; font-size: 0.8rem; cursor: pointer;
-      transition: all 0.3s; border: none;
+      transition: all 0.3s; border: none; text-align: center;
     }
 
     .btn-primary {
@@ -292,6 +297,7 @@
         <li><button class="nav-tab" onclick="switchTab('postsView')">Grason's Posts</button></li>
         <li><button class="nav-tab" onclick="switchTab('musicView')">Music</button></li>
         <li><button class="nav-tab" onclick="switchTab('merchView')">Merch Store</button></li>
+        <li><button class="nav-tab" onclick="switchTab('surveyView')">Fan Survey</button></li>
         <li><button class="nav-tab" onclick="switchTab('requestView')">Song Request</button></li>
         <li id="vipNavTab" style="display: none;"><button class="nav-tab vip-tab-link" onclick="switchTab('boardView')">VIP Board</button></li>
         <li id="artistNavTab" style="display: none;"><button class="nav-tab artist-tab-link" onclick="switchTab('artistPanel')">👑 Artist Panel</button></li>
@@ -331,7 +337,7 @@
       <p id="pollResult" style="color: var(--accent-gold); margin-top: 0.8rem; font-weight: 700;"></p>
     </div>
 
-    <!-- UNLOCKED MEMBER BANNER (UPDATED MESSAGE) -->
+    <!-- UNLOCKED MEMBER BANNER -->
     <div class="content-card" id="premiumHomeContent" style="display: none; border-color: var(--accent-gold);">
       <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.8rem; margin-bottom: 1rem;">
         🔥 VIP Member Access Unlocked
@@ -356,7 +362,7 @@
       <div id="artistPostsFeed">
         <div class="post-card">
           <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 0.8rem;">
-            <div class="avatar-circle">GP</div>
+            <div class="avatar-circle" id="feedDefaultArtistAvatar">GP</div>
             <div>
               <strong style="color: var(--accent-gold); font-size: 1.1rem;">
                 Grason Powell
@@ -396,15 +402,26 @@
     </div>
   </div>
 
-  <!-- MERCH STORE VIEW -->
+  <!-- MERCH STORE VIEW (WITH WORKING BUY BUTTONS) -->
   <div class="view-container" id="merchView">
     <div class="content-card">
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 1.5rem;">
         <h2 class="burn-title" style="font-size: 2.2rem;">Official Merch Store</h2>
-        <a href="https://rx63su-pf.myshopify.com" target="_blank" class="btn btn-outline" style="font-size: 0.75rem;">Open Full Shopify Site ↗</a>
+        <a href="https://rx63su-pf.myshopify.com" target="_blank" class="btn btn-outline" style="font-size: 0.75rem;">Open Full Shopify Store ↗</a>
       </div>
 
-      <div id='collection-component-1786603249726'></div>
+      <!-- SHOPIFY COLLECTION CONTAINER -->
+      <div id='collection-component-1786603249726' style="min-height: 300px;"></div>
+
+      <!-- DIRECT FALLBACK BUY BUTTONS IN CASE SDK PREVENTED BY BLOCKERS -->
+      <div id="fallbackStoreButtons" style="margin-top: 2rem; border-top: 1px solid var(--border-glow); padding-top: 2rem;">
+        <h3 style="color: var(--accent-gold); margin-bottom: 1rem; font-family: var(--font-display);">Direct Checkout Options</h3>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+          <a href="https://rx63su-pf.myshopify.com/collections/all" target="_blank" class="btn btn-primary">Browse All Merch Items 🛒</a>
+          <a href="https://rx63su-pf.myshopify.com/cart" target="_blank" class="btn btn-outline">View Cart / Checkout ↗</a>
+        </div>
+      </div>
+
       <script type="text/javascript">
       /*<![CDATA[*/
       (function () {
@@ -436,62 +453,85 @@
               node: document.getElementById('collection-component-1786603249726'),
               moneyFormat: '%24%7B%7Bamount%7D%7D',
               options: {
-        "product": {
-          "styles": {
-            "product": {
-              "@media (min-width: 601px)": {
-                "max-width": "calc(25% - 20px)",
-                "margin-left": "20px",
-                "margin-bottom": "50px",
-                "width": "calc(25% - 20px)"
-              },
-              "img": {
-                "height": "calc(100% - 15px)",
-                "position": "absolute",
-                "left": "0",
-                "right": "0",
-                "top": "0"
-              },
-              "imgWrapper": {
-                "padding-top": "calc(75% + 15px)",
-                "position": "relative",
-                "height": "0"
+                "product": {
+                  "styles": {
+                    "product": {
+                      "@media (min-width: 601px)": {
+                        "max-width": "calc(25% - 20px)",
+                        "margin-left": "20px",
+                        "margin-bottom": "50px",
+                        "width": "calc(25% - 20px)"
+                      }
+                    },
+                    "title": { "color": "#ffaa00" },
+                    "button": {
+                      "font-family": "Quantico, sans-serif",
+                      "color": "#080605",
+                      ":hover": { "color": "#ffffff", "background-color": "#ff4500" },
+                      "background-color": "#ffaa00"
+                    },
+                    "price": { "color": "#ffaa00" }
+                  },
+                  "text": { "button": "Add to cart" }
+                },
+                "cart": {
+                  "styles": {
+                    "button": {
+                      "font-family": "Quantico, sans-serif",
+                      "color": "#ffffff",
+                      "background-color": "#ff4500"
+                    },
+                    "title": { "color": "#ffaa00" },
+                    "cart": { "background-color": "#110f0d" }
+                  },
+                  "text": { "button": "Checkout" }
+                }
               }
-            },
-            "title": { "color": "#ffaa00" },
-            "button": {
-              "font-family": "Quantico, sans-serif",
-              "color": "#080605",
-              ":hover": {
-                "color": "#ffffff",
-                "background-color": "#ff4500"
-              },
-              "background-color": "#ffaa00"
-            },
-            "price": { "color": "#ffaa00" }
-          },
-          "text": { "button": "Add to cart" },
-          "googleFonts": [ "Quantico" ]
-        },
-        "cart": {
-          "styles": {
-            "button": {
-              "font-family": "Quantico, sans-serif",
-              "color": "#ffffff",
-              "background-color": "#ff4500"
-            },
-            "title": { "color": "#ffaa00" },
-            "cart": { "background-color": "#110f0d" }
-          },
-          "text": { "button": "Checkout" }
-        }
-      },
             });
           });
         }
       })();
       /*]]>*/
       </script>
+    </div>
+  </div>
+
+  <!-- FAN OPTIONAL SURVEY VIEW -->
+  <div class="view-container" id="surveyView">
+    <div class="content-card" style="max-width: 750px;">
+      <h2 class="burn-title" style="font-size: 2.2rem;">Optional Fan Survey</h2>
+      <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 2rem;">
+        Help Grason know his listener base better! This survey is 100% optional. Answer as many or as few questions as you like.
+      </p>
+
+      <form onsubmit="handleFanSurvey(event)">
+        <div class="form-group">
+          <label>1. What's your favorite song and why?</label>
+          <textarea id="surveyFavSong" class="form-control" rows="3" placeholder="Tell Grason which song hits closest to home..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>2. How did you first discover Grason Powell's music?</label>
+          <input type="text" id="surveyDiscovery" class="form-control" placeholder="e.g. TikTok, Spotify recommendation, a friend, social media...">
+        </div>
+
+        <div class="form-group">
+          <label>3. Which city / state would you love to see Grason perform live in?</label>
+          <input type="text" id="surveyCity" class="form-control" placeholder="e.g. Nashville TN, Austin TX, Charlotte NC...">
+        </div>
+
+        <div class="form-group">
+          <label>4. What type of merch items would you be most excited to buy?</label>
+          <input type="text" id="surveyMerch" class="form-control" placeholder="e.g. Campfire hoodies, vinyl records, trucker hats, guitar picks...">
+        </div>
+
+        <div class="form-group">
+          <label>5. Any general message or note for Grason?</label>
+          <textarea id="surveyNotes" class="form-control" rows="3" placeholder="Write a note directly to Grason..."></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Survey Responses 📝</button>
+      </form>
     </div>
   </div>
 
@@ -544,8 +584,22 @@
   <div class="view-container" id="artistPanel">
     <div class="content-card" style="max-width: 850px; border-color: #00ffaa;">
       <h2 class="burn-title" style="font-size: 2.2rem; color: #00ffaa;">👑 Artist Studio Control Panel</h2>
-      <p style="color: var(--text-muted); margin-bottom: 2rem;">Manage official posts, upload photos/videos/audio, and edit the home fan poll.</p>
+      <p style="color: var(--text-muted); margin-bottom: 2rem;">Manage official posts, upload photos/videos/audio, update your official profile picture, and edit the home fan poll.</p>
 
+      <!-- ARTIST PROFILE PICTURE UPLOADER -->
+      <div style="background: rgba(0, 255, 170, 0.08); border: 1px solid #00ffaa; border-radius: 12px; padding: 1.8rem; margin-bottom: 2rem;">
+        <h3 style="color: #00ffaa; margin-bottom: 1rem;">🖼️ Update Official Artist Profile Picture</h3>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">Upload your official avatar picture. It will display next to all your feed posts, VIP board comments, and navigation badge!</p>
+        <div style="display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap;">
+          <div id="artistPanelAvatarPreview" class="avatar-circle" style="width: 70px; height: 70px; font-size: 1.8rem;">GP</div>
+          <div>
+            <label for="artistAvatarFile" class="btn btn-outline" style="border-color: #00ffaa; color: #00ffaa; font-size: 0.75rem;">📷 Select New Profile Photo</label>
+            <input type="file" id="artistAvatarFile" accept="image/*" style="display: none;" onchange="handleArtistAvatarUpload(event)">
+          </div>
+        </div>
+      </div>
+
+      <!-- PUBLISH POST -->
       <div style="background: rgba(0, 255, 170, 0.08); border: 1px solid #00ffaa; border-radius: 12px; padding: 1.8rem; margin-bottom: 2rem;">
         <h3 style="color: #00ffaa; margin-bottom: 1rem;">📸 Publish Post with Photo, Video, or Audio</h3>
         <form onsubmit="publishArtistMediaPost(event)">
@@ -561,6 +615,7 @@
         </form>
       </div>
 
+      <!-- EDIT POLL -->
       <div style="background: rgba(8, 6, 5, 0.85); border: 1px solid var(--border-glow); border-radius: 12px; padding: 1.8rem;">
         <h3 style="color: var(--accent-gold); margin-bottom: 1rem;">📊 Edit Fan Song Poll</h3>
         <form onsubmit="updatePollFromAdmin(event)">
@@ -596,7 +651,7 @@
         <div>
           <div id="memberBadge" style="display: inline-block; background: var(--accent-ember); color: #fff; padding: 2px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; margin-bottom: 0.5rem;">Free Member</div>
           <div>
-            <label for="avatarInput" class="btn btn-outline" style="font-size: 0.75rem; padding: 0.4rem 0.8rem;">📷 Change Photo</label>
+            <label for="avatarInput" class="btn btn-outline" style="font-size: 0.75rem; padding: 0.4rem 0.8rem;">📷 Change Profile Photo</label>
             <input type="file" id="avatarInput" accept="image/*" style="display: none;" onchange="handleAvatarUpload(event)">
           </div>
         </div>
@@ -607,86 +662,12 @@
         <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.6rem; margin-bottom: 0.5rem;">Upgrade to Premium Member Pass</h3>
         <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">Join the VIP inner circle for <strong>$10/year</strong> via secure Shopify checkout below.</p>
 
-        <button class="btn btn-primary" onclick="activateMembershipOnCheckout()" style="margin-bottom: 1.5rem; width: 100%; max-width: 320px;">
+        <!-- DIRECT SUBSCRIPTION BUY BUTTON LINKED TO SHOPIFY CHECKOUT -->
+        <a href="https://rx63su-pf.myshopify.com/cart/47035540472096:1?channel=buy_button" target="_blank" onclick="activateMembershipOnCheckout()" class="btn btn-primary" style="margin-bottom: 1.5rem; width: 100%; max-width: 340px;">
           Subscribe & Pay $10.00 / Year ↗
-        </button>
+        </a>
 
         <div id='product-component-1786606684628' onclick="activateMembershipOnCheckout()"></div>
-        <script type="text/javascript">
-        /*<![CDATA[*/
-        (function () {
-          var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
-          if (window.ShopifyBuy) {
-            if (window.ShopifyBuy.UI) {
-              ShopifyBuyInit();
-            } else {
-              loadScript();
-            }
-          } else {
-            loadScript();
-          }
-          function loadScript() {
-            var script = document.createElement('script');
-            script.async = true;
-            script.src = scriptURL;
-            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
-            script.onload = ShopifyBuyInit;
-          }
-          function ShopifyBuyInit() {
-            var client = ShopifyBuy.buildClient({
-              domain: 'rx63su-pf.myshopify.com',
-              storefrontAccessToken: '186ec34e83f113c009011f7991e99dce',
-            });
-            ShopifyBuy.UI.onReady(client).then(function (ui) {
-              ui.createComponent('product', {
-                id: '15829045280928',
-                node: document.getElementById('product-component-1786606684628'),
-                moneyFormat: '%24%7B%7Bamount%7D%7D',
-                options: {
-          "product": {
-            "styles": {
-              "product": {
-                "@media (min-width: 601px)": {
-                  "max-width": "100%",
-                  "margin-left": "0",
-                  "margin-bottom": "50px"
-                },
-                "text-align": "left"
-              },
-              "title": { "font-size": "26px", "color": "#ffaa00" },
-              "button": {
-                "font-family": "Quantico, sans-serif",
-                "color": "#080605",
-                ":hover": { "color": "#ffffff", "background-color": "#ff4500" },
-                "background-color": "#ffaa00"
-              },
-              "price": { "font-size": "18px", "color": "#ffaa00" }
-            },
-            "layout": "horizontal",
-            "contents": { "img": false, "imgWithCarousel": true, "description": true },
-            "width": "100%",
-            "text": { "button": "Add to cart" },
-            "googleFonts": [ "Quantico" ]
-          },
-          "cart": {
-            "styles": {
-              "button": {
-                "font-family": "Quantico, sans-serif",
-                "color": "#ffffff",
-                "background-color": "#ff4500"
-              },
-              "title": { "color": "#ffaa00" },
-              "cart": { "background-color": "#110f0d" }
-            },
-            "text": { "button": "Checkout" }
-          }
-        },
-              });
-            });
-          }
-        })();
-        /*]]>*/
-        </script>
 
         <h4 style="margin-top: 1.5rem; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; color: var(--accent-gold);">ALL PREMIUM MEMBERS GET ACCESS TO:</h4>
         <ul style="margin-top: 0.8rem; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.8rem;">
@@ -765,11 +746,10 @@
             <input type="tel" id="signupPhone" class="form-control" placeholder="(555) 000-0000">
           </div>
           
-          <!-- SIGN UP FOR UPDATES / SHOPIFY CHECKBOX -->
           <div class="form-group" style="display: flex; align-items: flex-start; gap: 10px; margin-top: 1rem;">
             <input type="checkbox" id="signupShopifyUpdates" style="width: 18px; height: 18px; margin-top: 2px; accent-color: var(--accent-gold);">
             <label for="signupShopifyUpdates" style="text-transform: none; font-size: 0.85rem; color: var(--text-bright); cursor: pointer; line-height: 1.4;">
-              Sign up for updates & automatically create / connect your Shop account for fast store checkout.
+              Sign up for updates & automatically connect your Shop account for fast store checkout.
             </label>
           </div>
 
@@ -803,7 +783,7 @@
     </div>
   </div>
 
-  <!-- INSTANT NOTIFICATION TOAST FOR POSTS -->
+  <!-- INSTANT NOTIFICATION TOAST -->
   <div id="notificationToast" class="notification-toast">
     <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
       <strong style="color: var(--accent-gold); font-size: 0.95rem;">🔥 NEW POST FROM GRASON!</strong>
@@ -828,6 +808,7 @@
     `;
 
     window.addEventListener('DOMContentLoaded', () => {
+      // Initialize default artist account if not present
       if (!localStorage.getItem('gp_user_' + ADMIN_EMAIL)) {
         const adminAccount = {
           name: "Grason Powell",
@@ -847,7 +828,6 @@
         renderAccountState();
       }
 
-      // Check cross-tab broadcast notifications
       window.addEventListener('storage', (e) => {
         if (e.key === 'gp_latest_post_notify') {
           const notif = JSON.parse(e.newValue);
@@ -927,6 +907,40 @@
       }
     }
 
+    /* ARTIST PROFILE PHOTO HANDLER */
+    function handleArtistAvatarUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        const photoData = evt.target.result;
+
+        // Save artist photo globally
+        localStorage.setItem('gp_artist_avatar', photoData);
+
+        // Update active user profile if currently logged in as admin
+        if (currentUser && (currentUser.isArtist || currentUser.email === ADMIN_EMAIL)) {
+          currentUser.avatar = photoData;
+          localStorage.setItem('gp_user_' + currentUser.email, JSON.stringify(currentUser));
+          localStorage.setItem('gp_active_user', JSON.stringify(currentUser));
+        }
+
+        renderAccountState();
+        alert('Artist Profile Picture updated successfully!');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function getArtistAvatarSrc() {
+      const storedArtistAvatar = localStorage.getItem('gp_artist_avatar');
+      if (storedArtistAvatar) return storedArtistAvatar;
+      if (currentUser && (currentUser.isArtist || currentUser.email === ADMIN_EMAIL) && currentUser.avatar) {
+        return currentUser.avatar;
+      }
+      return null;
+    }
+
     function publishArtistMediaPost(e) {
       e.preventDefault();
       const caption = document.getElementById('postCaptionInput').value;
@@ -960,9 +974,12 @@
       const postCard = document.createElement('div');
       postCard.className = 'post-card';
 
+      const avatarSrc = getArtistAvatarSrc();
+      const avatarHtml = avatarSrc ? `<img src="${avatarSrc}" alt="Grason Powell">` : `GP`;
+
       postCard.innerHTML = `
         <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 0.8rem;">
-          <div class="avatar-circle">GP</div>
+          <div class="avatar-circle">${avatarHtml}</div>
           <div>
             <strong style="color: var(--accent-gold); font-size: 1.1rem;">
               Grason Powell ${ARTIST_BADGE_HTML}
@@ -978,12 +995,11 @@
       document.getElementById('postCaptionInput').value = '';
       document.getElementById('mediaFileInput').value = '';
 
-      // Trigger instant notifications across open sessions
       const notifData = { caption: caption, time: Date.now() };
       localStorage.setItem('gp_latest_post_notify', JSON.stringify(notifData));
       triggerNotificationBanner(caption);
 
-      alert('Post published live! Fan notification dispatched.');
+      alert('Post published live! Fan alert sent.');
       switchTab('postsView');
     }
 
@@ -1024,6 +1040,30 @@
       document.getElementById('pollResult').innerText = `Thanks for voting! You selected: "${btn.innerText}". Grason has received your vote!`;
     }
 
+    function handleFanSurvey(e) {
+      e.preventDefault();
+      const favSong = document.getElementById('surveyFavSong').value;
+      const discovery = document.getElementById('surveyDiscovery').value;
+      const city = document.getElementById('surveyCity').value;
+      const merch = document.getElementById('surveyMerch').value;
+      const notes = document.getElementById('surveyNotes').value;
+
+      const surveySubmission = {
+        user: currentUser ? currentUser.name : "Anonymous Fan",
+        email: currentUser ? currentUser.email : "Not logged in",
+        favSong, discovery, city, merch, notes,
+        date: new Date().toLocaleDateString()
+      };
+
+      let existingSurveys = JSON.parse(localStorage.getItem('gp_fan_surveys') || '[]');
+      existingSurveys.push(surveySubmission);
+      localStorage.setItem('gp_fan_surveys', JSON.stringify(existingSurveys));
+
+      alert("Thank you for completing the fan survey! Grason appreciates your feedback!");
+      e.target.reset();
+      switchTab('homeView');
+    }
+
     function handleSignup(e) {
       e.preventDefault();
       const email = document.getElementById('signupEmail').value.toLowerCase();
@@ -1038,7 +1078,7 @@
         password: document.getElementById('signupPassword').value,
         phone: phone || '',
         wantsUpdates: wantsShopifyUpdates,
-        avatar: null,
+        avatar: isArtistAccount ? getArtistAvatarSrc() : null,
         isPremium: isArtistAccount ? true : false,
         isArtist: isArtistAccount,
         initials: "GP"
@@ -1052,7 +1092,7 @@
       renderAccountState();
 
       if (wantsShopifyUpdates) {
-        alert('Signing you up for Shop & site updates! Opening Shop verification...');
+        alert('Signing you up for Shop & site updates! Opening Shop account checkout flow...');
         window.open(SHOPIFY_AUTH_URL, '_blank');
       }
     }
@@ -1072,6 +1112,7 @@
         user.isArtist = true;
         user.isPremium = true;
         user.name = "Grason Powell";
+        user.avatar = getArtistAvatarSrc();
       }
 
       localStorage.setItem('gp_active_user', JSON.stringify(user));
@@ -1085,8 +1126,14 @@
       if (!currentUser) return;
       const navContainer = document.getElementById('authNavContainer');
 
+      const artistAvatarSrc = getArtistAvatarSrc();
+
       if (currentUser.isArtist || currentUser.email === ADMIN_EMAIL) {
         document.getElementById('artistNavTab').style.display = 'block';
+        if (artistAvatarSrc) {
+          document.getElementById('artistPanelAvatarPreview').innerHTML = `<img src="${artistAvatarSrc}" alt="Artist Avatar">`;
+          document.getElementById('feedDefaultArtistAvatar').innerHTML = `<img src="${artistAvatarSrc}" alt="Artist Avatar">`;
+        }
       } else {
         document.getElementById('artistNavTab').style.display = 'none';
       }
@@ -1104,14 +1151,18 @@
       }
 
       let badgeHtml = currentUser.isArtist ? ARTIST_BADGE_HTML : '';
+      let userAvatarInner = currentUser.avatar 
+        ? `<img src="${currentUser.avatar}" alt="Avatar">` 
+        : (currentUser.isArtist && artistAvatarSrc ? `<img src="${artistAvatarSrc}" alt="Artist Avatar">` : `GP`);
 
       navContainer.innerHTML = `
         <button class="nav-avatar-btn" onclick="switchTab('accountView')">
-          <div class="avatar-circle">GP</div>
+          <div class="avatar-circle">${userAvatarInner}</div>
           <span>${currentUser.name} ${badgeHtml}</span>
         </button>
       `;
 
+      document.getElementById('profileAvatarDisplay').innerHTML = userAvatarInner;
       document.getElementById('profileName').value = currentUser.name;
       document.getElementById('profileEmail').value = currentUser.email;
 
@@ -1133,10 +1184,17 @@
       const content = document.getElementById('postContent').value;
       const postsList = document.getElementById('postsList');
 
+      let postAvatar = currentUser.avatar 
+        ? `<img src="${currentUser.avatar}" alt="Avatar">` 
+        : (currentUser.isArtist && getArtistAvatarSrc() ? `<img src="${getArtistAvatarSrc()}" alt="Artist Avatar">` : `GP`);
+
       const newPost = document.createElement('div');
       newPost.style.cssText = "background: rgba(8, 6, 5, 0.7); border: 1px solid var(--border-glow); padding: 1.2rem; border-radius: 8px; margin-bottom: 1rem;";
       newPost.innerHTML = `
-        <strong style="color: var(--accent-gold);">${currentUser.name} ${currentUser.isArtist ? '(👑 Artist)' : '(VIP Pass Member)'}</strong>
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 0.5rem;">
+          <div class="avatar-circle" style="width: 28px; height: 28px; font-size: 0.75rem;">${postAvatar}</div>
+          <strong style="color: var(--accent-gold);">${currentUser.name} ${currentUser.isArtist ? '(👑 Artist)' : '(VIP Pass Member)'}</strong>
+        </div>
         <p style="margin-top: 0.3rem;">${content}</p>
       `;
 
@@ -1165,6 +1223,12 @@
       const reader = new FileReader();
       reader.onload = function(evt) {
         currentUser.avatar = evt.target.result;
+        
+        // If artist account is updating from account view, sync artist avatar
+        if (currentUser.isArtist || currentUser.email === ADMIN_EMAIL) {
+          localStorage.setItem('gp_artist_avatar', evt.target.result);
+        }
+
         localStorage.setItem('gp_user_' + currentUser.email, JSON.stringify(currentUser));
         localStorage.setItem('gp_active_user', JSON.stringify(currentUser));
         renderAccountState();
