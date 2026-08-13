@@ -216,26 +216,13 @@
       backdrop-filter: blur(12px);
     }
 
-    /* --- AI ASSISTANT BOX --- */
-    .ai-welcome-box {
-      background: linear-gradient(135deg, rgba(255, 153, 0, 0.15), rgba(255, 69, 0, 0.05));
+    /* --- WELCOME MESSAGE BOX --- */
+    .welcome-card {
+      background: linear-gradient(135deg, rgba(255, 153, 0, 0.12), rgba(255, 69, 0, 0.05));
       border: 1px solid var(--accent-gold);
       border-radius: 12px;
-      padding: 1.8rem;
+      padding: 2.2rem;
       position: relative;
-    }
-
-    .ai-badge {
-      display: inline-block;
-      background: var(--accent-ember);
-      color: #fff;
-      font-size: 0.7rem;
-      font-weight: 800;
-      padding: 2px 8px;
-      border-radius: 10px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-bottom: 0.8rem;
     }
 
     .btn {
@@ -273,58 +260,28 @@
       background: rgba(255, 153, 0, 0.1);
     }
 
-    /* --- MERCH SEARCH & STOREFRONT --- */
-    .merch-search-bar {
-      width: 100%;
-      padding: 1rem 1.5rem;
-      border-radius: 30px;
-      border: 1px solid var(--border-glow);
-      background: rgba(8, 6, 5, 0.8);
-      color: var(--text-bright);
-      font-size: 1rem;
-      margin-bottom: 2rem;
-    }
-
-    .merch-search-bar:focus {
-      outline: none;
-      border-color: var(--accent-gold);
-      box-shadow: 0 0 15px rgba(255, 153, 0, 0.3);
-    }
-
-    .merch-grid {
+    /* --- PREMIUM MEMBERSHIP LIST --- */
+    .premium-perks-list {
+      list-style: none;
+      margin: 1.5rem 0;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1rem;
     }
 
-    .merch-item {
-      background: rgba(8, 6, 5, 0.85);
+    .premium-perks-list li {
+      background: rgba(8, 6, 5, 0.7);
       border: 1px solid var(--border-glow);
-      border-radius: 12px;
-      padding: 1.8rem;
-      text-align: center;
-      transition: transform 0.3s, border-color 0.3s;
+      padding: 1rem;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 0.9rem;
     }
 
-    .merch-item:hover {
-      transform: translateY(-5px);
-      border-color: var(--accent-gold);
-    }
-
-    .merch-icon { font-size: 3.5rem; margin-bottom: 1rem; }
-
-    .merch-title {
-      font-family: var(--font-display);
-      font-size: 1.3rem;
-      color: var(--text-bright);
-      margin-bottom: 0.5rem;
-    }
-
-    .merch-price {
-      color: var(--accent-gold);
-      font-weight: 700;
-      font-size: 1.1rem;
-      margin-bottom: 1.2rem;
+    .premium-perks-list li::before {
+      content: "🔥";
     }
 
     /* --- FORM ELEMENTS --- */
@@ -404,15 +361,14 @@
       </div>
     </div>
 
-    <!-- DYNAMIC AI WELCOME & UPDATES BOX -->
+    <!-- WARM PERSONALIZED FAN PARAGRAPH -->
     <div class="content-card">
-      <div class="ai-welcome-box">
-        <span class="ai-badge">🤖 AI Campfire Guide</span>
-        <h3 id="aiWelcomeMessage" style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 0.8rem;">
-          Welcome to the Campfire!
+      <div class="welcome-card">
+        <h3 id="welcomeHeadline" style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.8rem; margin-bottom: 1rem;">
+          Take a seat by the fire, friend.
         </h3>
-        <p id="aiUpdatesText" style="color: var(--text-bright); font-size: 1.05rem; line-height: 1.7;">
-          <strong>What's New with Grason Powell:</strong> Studio sessions for Grason's debut single are officially under way! Explore the official merch, leave a lyric idea directly for Grason, or check for tour announcements.
+        <p id="welcomeParagraph" style="color: var(--text-bright); font-size: 1.05rem; line-height: 1.8;">
+          Welcome to the official home of Grason Powell country music. Whether you've been listening since the very beginning or you're pulling up a chair for the first time, this place was built for you. Here by the fire, we keep things raw, real, and authentic—bringing you acoustic sessions, studio news, tour dates, and official merchandise straight from the source. Grab a drink, make yourself at home, submit your song ideas, and be a part of the journey as new music comes to life.
         </p>
       </div>
     </div>
@@ -449,61 +405,80 @@
     </div>
   </div>
 
-  <!-- MERCH STORE VIEW -->
+  <!-- MERCH STORE VIEW (SHOPIFY BUY BUTTON SHOWS ALL MERCH) -->
   <div class="view-container" id="merchView">
     <div class="content-card">
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 1.5rem;">
         <h2 class="burn-title" style="font-size: 2.2rem;">Official Merch Store</h2>
-        <a href="https://rx63su-pf.myshopify.com" target="_blank" class="btn btn-outline" style="font-size: 0.75rem;">Open Full Store ↗</a>
+        <a href="https://rx63su-pf.myshopify.com" target="_blank" class="btn btn-outline" style="font-size: 0.75rem;">Open Full Shopify Site ↗</a>
       </div>
 
-      <!-- SEARCH BAR -->
-      <input type="text" id="merchSearchInput" class="merch-search-bar" placeholder="🔍 Search merchandise (e.g. Cap, Tee, Hoodie, Vinyl)..." onkeyup="filterMerch()">
-
-      <!-- MERCH PRODUCT GRID -->
-      <div class="merch-grid" id="merchGrid">
-        <div class="merch-item" data-keywords="cap hat logo black">
-          <div class="merch-icon">🧢</div>
-          <div class="merch-title">Grason Powell Cap</div>
-          <div class="merch-price">$28.00</div>
-          <a href="https://rx63su-pf.myshopify.com" target="_blank" class="btn btn-primary">Buy Now</a>
-        </div>
-
-        <div class="merch-item" data-keywords="tee t-shirt shirt campfire logo black">
-          <div class="merch-icon">👕</div>
-          <div class="merch-title">Campfire Logo Tee</div>
-          <div class="merch-price">$32.00</div>
-          <a href="https://rx63su-pf.myshopify.com" target="_blank" class="btn btn-primary">Buy Now</a>
-        </div>
-
-        <div class="merch-item" data-keywords="hoodie jacket acoustic sweater brown black">
-          <div class="merch-icon">🧥</div>
-          <div class="merch-title">Acoustic Sessions Hoodie</div>
-          <div class="merch-price">$55.00</div>
-          <a href="https://rx63su-pf.myshopify.com" target="_blank" class="btn btn-primary">Buy Now</a>
-        </div>
-
-        <div class="merch-item" data-keywords="vinyl record album music vinyl lp debut">
-          <div class="merch-icon">💿</div>
-          <div class="merch-title">Autographed Vinyl LP</div>
-          <div class="merch-price">$40.00</div>
-          <a href="https://rx63su-pf.myshopify.com" target="_blank" class="btn btn-primary">Buy Now</a>
-        </div>
-
-        <div class="merch-item" data-keywords="poster art photo campfire poster signed">
-          <div class="merch-icon">🖼️</div>
-          <div class="merch-title">Campfire Sessions Tour Poster</div>
-          <div class="merch-price">$20.00</div>
-          <a href="https://rx63su-pf.myshopify.com" target="_blank" class="btn btn-primary">Buy Now</a>
-        </div>
-
-        <div class="merch-item" data-keywords="beanie hat winter warm gold black">
-          <div class="merch-icon">🧶</div>
-          <div class="merch-title">Ember Knit Beanie</div>
-          <div class="merch-price">$25.00</div>
-          <a href="https://rx63su-pf.myshopify.com" target="_blank" class="btn btn-primary">Buy Now</a>
-        </div>
-      </div>
+      <!-- SHOPIFY BUY BUTTON EMBED FOR ALL MERCH -->
+      <div id='collection-component-1786603249726'></div>
+      <script type="text/javascript">
+      /*<![CDATA[*/
+      (function () {
+        var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
+        if (window.ShopifyBuy) {
+          if (window.ShopifyBuy.UI) {
+            ShopifyBuyInit();
+          } else {
+            loadScript();
+          }
+        } else {
+          loadScript();
+        }
+        function loadScript() {
+          var script = document.createElement('script');
+          script.async = true;
+          script.src = scriptURL;
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
+          script.onload = ShopifyBuyInit;
+        }
+        function ShopifyBuyInit() {
+          var client = ShopifyBuy.buildClient({
+            domain: 'rx63su-pf.myshopify.com',
+            storefrontAccessToken: '186ec34e83f113c009011f7991e99dce',
+          });
+          ShopifyBuy.UI.onReady(client).then(function (ui) {
+            ui.createComponent('collection', {
+              id: '685602373792',
+              node: document.getElementById('collection-component-1786603249726'),
+              moneyFormat: '%24%7B%7Bamount%7D%7D',
+              options: {
+                "product": {
+                  "styles": {
+                    "product": {
+                      "@media (min-width: 601px)": {
+                        "max-width": "calc(25% - 20px)",
+                        "margin-left": "20px",
+                        "margin-bottom": "50px",
+                        "width": "calc(25% - 20px)"
+                      }
+                    },
+                    "title": { "color": "#ffaa00" },
+                    "price": { "color": "#ffaa00" },
+                    "button": {
+                      "color": "#080605",
+                      "background-color": "#ffaa00",
+                      ":hover": { "background-color": "#ff4500", "color": "#ffffff" }
+                    }
+                  },
+                  "text": { "button": "Add to cart" }
+                },
+                "cart": {
+                  "styles": {
+                    "button": { "background-color": "#ff4500", "color": "#ffffff" },
+                    "cart": { "background-color": "#110f0d" }
+                  }
+                }
+              }
+            });
+          });
+        }
+      })();
+      /*]]>*/
+      </script>
 
     </div>
   </div>
@@ -529,17 +504,46 @@
     </div>
   </div>
 
-  <!-- FAN PROFILE VIEW -->
+  <!-- FAN PROFILE & PREMIUM MEMBERSHIP VIEW -->
   <div class="view-container" id="accountView">
-    <div class="content-card" style="max-width: 700px;">
+    <div class="content-card" style="max-width: 850px;">
       <h2 class="burn-title" style="font-size: 2.2rem;">Your Campfire Pass</h2>
+      
       <div style="display: flex; gap: 2rem; align-items: center; margin-bottom: 2rem; flex-wrap: wrap;">
         <div id="profileAvatarDisplay" class="avatar-circle" style="width: 80px; height: 80px; font-size: 2rem;">GP</div>
         <div>
-          <label for="avatarInput" class="btn btn-outline" style="font-size: 0.75rem; padding: 0.5rem 1rem;">📷 Upload Custom Photo</label>
-          <input type="file" id="avatarInput" accept="image/*" style="display: none;" onchange="handleAvatarUpload(event)">
+          <div id="memberBadge" style="display: inline-block; background: var(--accent-ember); color: #fff; padding: 2px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; margin-bottom: 0.5rem;">Free Member</div>
+          <div>
+            <label for="avatarInput" class="btn btn-outline" style="font-size: 0.75rem; padding: 0.4rem 0.8rem;">📷 Change Photo</label>
+            <input type="file" id="avatarInput" accept="image/*" style="display: none;" onchange="handleAvatarUpload(event)">
+          </div>
         </div>
       </div>
+
+      <!-- PREMIUM MEMBERSHIP PASS PURCHASER -->
+      <div style="background: rgba(255, 153, 0, 0.1); border: 1px solid var(--accent-gold); border-radius: 12px; padding: 2rem; margin-bottom: 2.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.6rem;">Upgrade to Premium Member Pass</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem;">Join the VIP inner circle for just <strong>$10/year</strong>.</p>
+          </div>
+          <button class="btn btn-primary" onclick="openPaymentModal()">Upgrade for $10/Year</button>
+        </div>
+
+        <h4 style="margin-top: 1.5rem; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; color: var(--accent-gold);">ALL PREMIUM MEMBERS GET ACCESS TO:</h4>
+        <ul class="premium-perks-list">
+          <li>Access To Exclusive In-Website Updates & Push Notifications</li>
+          <li>RSVP For Door/Set Times, Meet-Ups & Pop-Ups</li>
+          <li>Access To Free Message Board Section</li>
+          <li>Access To App Exclusive Merch Store</li>
+          <li>Access to Members-Only Exclusive Content</li>
+          <li>Exclusive Members-Only Message Boards</li>
+          <li>Access To Members-Only Merch</li>
+          <li>First Access To Tickets/VIP & Members-Only Presale</li>
+        </ul>
+      </div>
+
+      <!-- ACCOUNT DETAILS FORM -->
       <form onsubmit="saveProfileChanges(event)">
         <div class="form-group">
           <label>Full Name</label>
@@ -618,6 +622,37 @@
     </div>
   </div>
 
+  <!-- CREDIT CARD PAYMENT MODAL ($10/YEAR PREMIUM) -->
+  <div class="modal-overlay" id="paymentModal">
+    <div class="modal-card content-card" style="position: relative; max-width: 480px;">
+      <button class="close-modal" onclick="closePaymentModal()">&times;</button>
+      <h2 style="font-family: var(--font-display); text-align: center; color: var(--accent-gold); margin-bottom: 0.5rem;">Upgrade to Premium Pass</h2>
+      <p style="text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">$10.00 / Year • Billed Annually</p>
+      
+      <form onsubmit="processPayment(event)">
+        <div class="form-group">
+          <label>Cardholder Name</label>
+          <input type="text" class="form-control" required placeholder="John Doe">
+        </div>
+        <div class="form-group">
+          <label>Card Number</label>
+          <input type="text" class="form-control" required placeholder="4532 •••• •••• 8892" maxlength="19">
+        </div>
+        <div style="display: flex; gap: 1rem;">
+          <div class="form-group" style="flex: 1;">
+            <label>Expiry Date</label>
+            <input type="text" class="form-control" required placeholder="MM/YY" maxlength="5">
+          </div>
+          <div class="form-group" style="flex: 1;">
+            <label>CVC / CVV</label>
+            <input type="text" class="form-control" required placeholder="123" maxlength="4">
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Pay $10.00 & Activate Pass</button>
+      </form>
+    </div>
+  </div>
+
   <script>
     let currentUser = null;
 
@@ -627,8 +662,6 @@
       if (stored) {
         currentUser = JSON.parse(stored);
         renderAccountState();
-      } else {
-        updateAiWelcomeGuest();
       }
     });
 
@@ -638,23 +671,6 @@
       document.getElementById(viewId).classList.add('active');
     }
 
-    /* SEARCH MERCH FUNCTION */
-    function filterMerch() {
-      const query = document.getElementById('merchSearchInput').value.toLowerCase();
-      const items = document.querySelectorAll('.merch-item');
-
-      items.forEach(item => {
-        const keywords = item.getAttribute('data-keywords').toLowerCase();
-        const title = item.querySelector('.merch-title').innerText.toLowerCase();
-
-        if (keywords.includes(query) || title.includes(query)) {
-          item.style.display = 'block';
-        } else {
-          item.style.display = 'none';
-        }
-      });
-    }
-
     function openAuthModal(form) {
       switchAuthForm(form);
       document.getElementById('authModal').classList.add('active');
@@ -662,6 +678,29 @@
 
     function closeAuthModal() {
       document.getElementById('authModal').classList.remove('active');
+    }
+
+    function openPaymentModal() {
+      if (!currentUser) {
+        alert('Please sign up or log in first before purchasing a Premium Membership!');
+        openAuthModal('signup');
+        return;
+      }
+      document.getElementById('paymentModal').classList.add('active');
+    }
+
+    function closePaymentModal() {
+      document.getElementById('paymentModal').classList.remove('active');
+    }
+
+    function processPayment(e) {
+      e.preventDefault();
+      currentUser.isPremium = true;
+      localStorage.setItem('gp_user_' + currentUser.email, JSON.stringify(currentUser));
+      localStorage.setItem('gp_active_user', JSON.stringify(currentUser));
+      closePaymentModal();
+      renderAccountState();
+      alert('Congratulations, ' + currentUser.name + '! Your Premium Membership Pass is active for $10/year.');
     }
 
     function switchAuthForm(form) {
@@ -696,6 +735,7 @@
         email: email,
         password: document.getElementById('signupPassword').value,
         avatar: null,
+        isPremium: false,
         initials: getInitials(name)
       };
 
@@ -733,10 +773,6 @@
       renderAccountState();
     }
 
-    function updateAiWelcomeGuest() {
-      document.getElementById('aiWelcomeMessage').innerText = "Welcome to the Campfire, Friend!";
-    }
-
     function renderAccountState() {
       if (!currentUser) return;
       const navContainer = document.getElementById('authNavContainer');
@@ -750,10 +786,10 @@
         `;
       }
 
-      // PERSONALIZED AI WELCOME MESSAGE
-      document.getElementById('aiWelcomeMessage').innerText = `Welcome Back to the Fire, ${currentUser.name}! 🔥`;
-      document.getElementById('aiUpdatesText').innerHTML = `
-        <strong>Your Personal Campfire Experience:</strong> Hello ${currentUser.name}! You are currently signed in as a VIP Circle member. Grason is actively reading fan song requests—head over to the <em>Song Request</em> tab to leave your idea!
+      // PERSONALIZED FAN PARAGRAPH
+      document.getElementById('welcomeHeadline').innerText = `Welcome Back to the Fire, ${currentUser.name}! 🔥`;
+      document.getElementById('welcomeParagraph').innerHTML = `
+        It's great to see you back by the fire, ${currentUser.name}. As a registered member of The Circle, you have full access to exclusive behind-the-scenes updates, custom merch previews, and direct song requests. ${currentUser.isPremium ? '<strong>You are currently a Premium VIP Pass holder ($10/year) with full presale and message board access.</strong>' : 'Consider upgrading to a <strong>Premium Pass ($10/year)</strong> to unlock presales, RSVP meetups, and exclusive content!'}
       `;
 
       // RENDER USER AVATAR / INITIALS IN CORNER
@@ -771,6 +807,17 @@
       document.getElementById('profileName').value = currentUser.name;
       document.getElementById('profileEmail').value = currentUser.email;
       document.getElementById('profilePhone').value = currentUser.phone || '';
+
+      const badge = document.getElementById('memberBadge');
+      if (currentUser.isPremium) {
+        badge.innerText = '🔥 Premium Member ($10/Year)';
+        badge.style.background = 'var(--accent-gold)';
+        badge.style.color = '#000';
+      } else {
+        badge.innerText = 'Free Member';
+        badge.style.background = 'var(--accent-ember)';
+        badge.style.color = '#fff';
+      }
 
       const avatarDisplay = document.getElementById('profileAvatarDisplay');
       if (currentUser.avatar) {
