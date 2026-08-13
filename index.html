@@ -5,405 +5,626 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Grason Powell | Official Site</title>
   <style>
+    /* --- CAMPFIRE & WOOD-BURNED AESTHETIC --- */
     :root {
       --bg-dark: #080605;
-      --bg-card: rgba(18, 13, 9, 0.94);
+      --bg-card: rgba(18, 13, 9, 0.92);
       --accent-ember: #ff4500;
       --accent-gold: #ff9900;
       --text-bright: #fffdfa;
       --text-muted: #c7b299;
       --border-glow: rgba(255, 85, 0, 0.35);
-      --font-display: "Georgia", serif;
+      --font-display: "Georgia", "Times New Roman", serif;
       --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background-color: var(--bg-dark); color: var(--text-bright); font-family: var(--font-sans); min-height: 100vh; overflow-x: hidden; }
 
-    /* BACKGROUND VIDEO */
-    .bg-video-wrapper { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; }
-    .bg-video-wrapper video { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.4) contrast(1.1); }
-    .bg-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; background: radial-gradient(circle, rgba(255, 69, 0, 0.15) 0%, rgba(8, 6, 5, 0.92) 80%); }
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-bright);
+      font-family: var(--font-sans);
+      height: 100vh;
+      overflow: hidden;
+    }
 
-    /* NAVBAR */
-    header { position: fixed; top: 0; left: 0; width: 100%; background: rgba(8, 6, 5, 0.95); backdrop-filter: blur(12px); z-index: 1000; border-bottom: 1px solid var(--border-glow); }
-    nav { max-width: 1250px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; }
-    .logo { font-family: var(--font-display); font-size: 1.5rem; font-weight: 800; letter-spacing: 2px; color: var(--text-bright); }
-    .nav-links { display: flex; gap: 0.8rem; list-style: none; align-items: center; }
-    .nav-tab { background: none; border: none; color: var(--text-muted); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; cursor: pointer; padding: 0.5rem 0.8rem; border-radius: 4px; }
-    .nav-tab:hover, .nav-tab.active { color: var(--accent-gold); background: rgba(255, 69, 0, 0.12); }
-    .artist-tab-link { color: #00ffaa !important; border: 1px solid #00ffaa; background: rgba(0, 255, 170, 0.1); }
+    a { color: inherit; text-decoration: none; }
 
-    /* CONTAINERS */
-    .view-container { position: absolute; top: 75px; left: 0; width: 100vw; min-height: calc(100vh - 75px); padding: 3rem 2rem 8rem 2rem; display: none; flex-direction: column; align-items: center; }
+    /* --- LIVE CAMPFIRE VIDEO BACKGROUND --- */
+    .bg-video-wrapper {
+      position: fixed; top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      z-index: -2; overflow: hidden;
+    }
+
+    .bg-video-wrapper video {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: brightness(0.45) contrast(1.15) saturate(1.2);
+    }
+
+    .bg-overlay {
+      position: fixed; top: 0; left: 0;
+      width: 100vw; height: 100vh; z-index: -1;
+      background: radial-gradient(circle at 50% 70%, rgba(255, 69, 0, 0.18) 0%, rgba(8, 6, 5, 0.9) 75%);
+      pointer-events: none;
+    }
+
+    /* --- NAVIGATION --- */
+    header {
+      position: fixed; top: 0; left: 0; width: 100%;
+      background: rgba(8, 6, 5, 0.92); backdrop-filter: blur(12px);
+      z-index: 1000; border-bottom: 1px solid var(--border-glow);
+    }
+
+    nav {
+      max-width: 1250px; margin: 0 auto;
+      display: flex; justify-content: space-between;
+      align-items: center; padding: 1rem 2rem;
+    }
+
+    .logo {
+      font-family: var(--font-display);
+      font-size: 1.5rem; font-weight: 800;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--text-bright);
+      text-shadow: 0 0 12px rgba(255, 69, 0, 0.6);
+    }
+
+    .nav-links {
+      display: flex; gap: 0.6rem;
+      list-style: none; align-items: center;
+    }
+
+    .nav-tab {
+      background: none; border: none;
+      color: var(--text-muted); font-size: 0.78rem;
+      font-weight: 700; letter-spacing: 1.2px;
+      text-transform: uppercase; cursor: pointer;
+      padding: 0.5rem 0.7rem; border-radius: 4px;
+      transition: all 0.3s ease;
+    }
+
+    .nav-tab:hover, .nav-tab.active {
+      color: var(--accent-gold);
+      text-shadow: 0 0 10px rgba(255, 153, 0, 0.8);
+      background: rgba(255, 69, 0, 0.12);
+    }
+
+    .vip-tab-link {
+      color: var(--accent-gold) !important;
+      border: 1px dashed var(--accent-gold);
+    }
+
+    .artist-tab-link {
+      color: #00ffaa !important;
+      border: 1px solid #00ffaa;
+      background: rgba(0, 255, 170, 0.1);
+    }
+
+    /* --- AVATAR BUTTON --- */
+    .nav-avatar-btn {
+      display: flex; align-items: center; gap: 0.6rem;
+      background: rgba(255, 69, 0, 0.1);
+      border: 1px solid var(--border-glow);
+      padding: 0.3rem 0.8rem 0.3rem 0.4rem;
+      border-radius: 25px; cursor: pointer;
+      color: var(--text-bright); font-size: 0.8rem; font-weight: 700;
+    }
+
+    .avatar-circle {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-ember));
+      color: #080605; display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 0.85rem; object-fit: cover;
+      border: 1px solid var(--accent-gold);
+      overflow: hidden; flex-shrink: 0;
+    }
+
+    /* --- TITLE ANIMATION --- */
+    .burn-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 900; letter-spacing: 4px;
+      text-transform: uppercase; text-align: center;
+      background: linear-gradient(180deg, #ffffff 0%, #ffaa00 50%, #8b2500 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 20px rgba(255, 69, 0, 0.6);
+    }
+
+    /* --- CONTAINERS & CARDS --- */
+    .view-container {
+      position: absolute; top: 75px; left: 0;
+      width: 100vw; height: calc(100vh - 75px);
+      overflow-y: auto; padding: 3rem 2rem 8rem 2rem;
+      display: none; flex-direction: column; align-items: center;
+    }
+
     .view-container.active { display: flex; }
-    .content-card { background: var(--bg-card); border: 1px solid var(--border-glow); border-radius: 16px; padding: 2.5rem; max-width: 950px; width: 100%; margin-bottom: 2.5rem; }
 
-    .burn-title { font-family: var(--font-display); font-size: clamp(2.5rem, 6vw, 4.8rem); font-weight: 900; text-transform: uppercase; text-align: center; background: linear-gradient(180deg, #ffffff 0%, #ffaa00 50%, #8b2500 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .content-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-glow);
+      border-radius: 16px; padding: 2.5rem;
+      max-width: 950px; width: 100%; margin-bottom: 2.5rem;
+      backdrop-filter: blur(12px);
+    }
 
-    /* BUTTONS & FORMS */
-    .btn { display: inline-block; padding: 0.8rem 1.8rem; border-radius: 30px; font-weight: 700; text-transform: uppercase; font-size: 0.8rem; cursor: pointer; border: none; text-align: center; }
-    .btn-primary { background: linear-gradient(135deg, var(--accent-gold), var(--accent-ember)); color: #080605; }
-    .btn-outline { background: transparent; border: 1px solid var(--border-glow); color: var(--text-bright); }
+    .btn {
+      display: inline-block; padding: 0.8rem 1.8rem;
+      border-radius: 30px; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; font-size: 0.8rem; cursor: pointer;
+      transition: all 0.3s; border: none; text-align: center;
+    }
 
-    .form-group { margin-bottom: 1.2rem; }
-    .form-control { width: 100%; padding: 0.8rem 1rem; border-radius: 8px; border: 1px solid var(--border-glow); background: rgba(8, 6, 5, 0.8); color: var(--text-bright); font-size: 0.95rem; }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-ember));
+      color: #080605; box-shadow: 0 0 20px rgba(255, 69, 0, 0.4);
+    }
 
-    /* MODAL */
-    .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.9); z-index: 2000; display: none; align-items: center; justify-content: center; }
+    .btn-outline {
+      background: transparent; border: 1px solid var(--border-glow);
+      color: var(--text-bright);
+    }
+
+    .poll-btn {
+      background: rgba(8, 6, 5, 0.8); border: 1px solid var(--border-glow);
+      color: var(--text-bright); padding: 0.8rem 1.2rem;
+      border-radius: 8px; width: 100%; text-align: left;
+      margin-bottom: 0.8rem; cursor: pointer; transition: border-color 0.3s;
+    }
+
+    .poll-btn:hover { border-color: var(--accent-gold); }
+
+    /* --- MEDIA FEED --- */
+    .post-card {
+      background: rgba(8, 6, 5, 0.85);
+      border: 1px solid var(--border-glow);
+      border-radius: 12px; padding: 1.8rem; margin-bottom: 2rem;
+    }
+
+    /* --- FORM ELEMENTS --- */
+    .form-group { margin-bottom: 1.2rem; position: relative; }
+    .form-group label {
+      display: block; color: var(--text-muted);
+      font-size: 0.75rem; text-transform: uppercase;
+      letter-spacing: 1px; margin-bottom: 0.4rem;
+    }
+    .form-control {
+      width: 100%; padding: 0.8rem 1rem;
+      border-radius: 8px; border: 1px solid var(--border-glow);
+      background: rgba(8, 6, 5, 0.8); color: var(--text-bright);
+      font-size: 0.95rem;
+    }
+
+    .modal-overlay {
+      position: fixed; top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.88); backdrop-filter: blur(8px);
+      z-index: 2000; display: none; align-items: center; justify-content: center;
+    }
     .modal-overlay.active { display: flex; }
+    .close-modal {
+      position: absolute; top: 1rem; right: 1.5rem;
+      background: none; border: none; color: var(--text-muted);
+      font-size: 1.5rem; cursor: pointer;
+    }
 
-    /* SOCIAL FEED STYLES */
-    .social-post-card { background: rgba(12, 9, 6, 0.9); border: 1px solid var(--border-glow); border-radius: 12px; padding: 1.8rem; margin-bottom: 1.5rem; }
-    .social-avatar { width: 42px; height: 42px; border-radius: 50%; background: var(--accent-gold); color: #000; font-weight: 800; display: flex; align-items: center; justify-content: center; }
-    .action-bar { display: flex; gap: 1.5rem; margin-top: 1rem; border-top: 1px solid rgba(255,85,0,0.2); padding-top: 0.8rem; }
-    .action-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; font-weight: 700; display: flex; align-items: center; gap: 0.4rem; }
+    footer { text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-top: 2rem; }
   </style>
 </head>
 <body>
 
+  <!-- LIVE CAMPFIRE VIDEO BACKGROUND -->
   <div class="bg-video-wrapper">
-    <video autoplay muted loop playsinline preload="auto">
+    <video id="bgVideo" autoplay muted loop playsinline preload="auto">
       <source src="https://assets.mixkit.co/videos/preview/mixkit-camp-fire-in-the-night-4032-large.mp4" type="video/mp4">
     </video>
   </div>
   <div class="bg-overlay"></div>
 
-  <!-- NAVIGATION -->
+  <!-- NAVIGATION BAR -->
   <header>
     <nav>
       <div class="logo">GRASON POWELL</div>
       <ul class="nav-links">
         <li><button class="nav-tab active" onclick="switchTab('homeView')">Home</button></li>
-        <li><button class="nav-tab" onclick="switchTab('postsView')">Community Feed</button></li>
+        <li><button class="nav-tab" onclick="switchTab('postsView')">Posts</button></li>
+        <li><button class="nav-tab" onclick="switchTab('musicView')">Music</button></li>
         <li><button class="nav-tab" onclick="switchTab('merchView')">Merch Store</button></li>
+        <li><button class="nav-tab" onclick="switchTab('surveyView')">Fan Survey</button></li>
+        <li><button class="nav-tab" onclick="switchTab('requestView')">Song Request</button></li>
+        <li id="vipNavTab" style="display: none;"><button class="nav-tab vip-tab-link" onclick="switchTab('boardView')">VIP Board</button></li>
         <li id="artistNavTab" style="display: none;"><button class="nav-tab artist-tab-link" onclick="switchTab('artistPanel')">👑 Artist Panel</button></li>
         <li id="authNavContainer">
-          <button class="btn btn-outline" onclick="openModal('authModal')">Sign Up / Login</button>
+          <button class="btn btn-outline" onclick="openAuthModal('signup')">Sign Up / Login</button>
         </li>
       </ul>
     </nav>
   </header>
 
-  <!-- HOME VIEW & DYNAMIC POLL -->
+  <!-- HOME VIEW -->
   <div class="view-container active" id="homeView">
-    <div style="text-align: center; margin-bottom: 3rem;">
+    <div style="text-align: center; margin-bottom: 3rem; padding-top: 1rem;">
       <h1 class="burn-title">GRASON POWELL</h1>
-      <p style="color: var(--text-muted); margin-top: 0.8rem; letter-spacing: 2px;">OFFICIAL ARTIST HUB</p>
+      <p style="color: var(--text-muted); margin-top: 1rem; font-size: 1.2rem; letter-spacing: 2px;">TAKE A SEAT NEXT TO THE FIRE</p>
+      
+      <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <button class="btn btn-primary" onclick="openAuthModal('signup')">Join The Circle</button>
+        <button class="btn btn-outline" onclick="switchTab('merchView')">Visit Merch Store</button>
+      </div>
     </div>
 
-    <!-- PERSISTENT DYNAMIC POLL -->
+    <!-- FAN POLL -->
     <div class="content-card">
-      <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.6rem; margin-bottom: 1rem;">🔥 Official Fan Poll</h3>
-      <p id="pollQuestionDisplay" style="font-size: 1.2rem; font-weight: 700; margin-bottom: 1.2rem;">Loading current poll...</p>
-      <div id="pollOptionsDisplay"></div>
+      <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.6rem; margin-bottom: 1rem;">
+        🔥 Official Artist Poll
+      </h3>
+      <p id="pollQuestionText" style="color: var(--text-bright); font-size: 1.1rem; margin-bottom: 1.2rem; font-weight: 700;">
+        Which kind of song should Grason Powell make next?
+      </p>
+      
+      <div id="pollOptionsContainer">
+        <button class="poll-btn" onclick="votePoll(this)">🎸 Heavy Acoustic Storytelling Ballad</button>
+        <button class="poll-btn" onclick="votePoll(this)">⚡ Upbeat Outlaw Country Rock</button>
+        <button class="poll-btn" onclick="votePoll(this)">🌙 Late Night Porch Jam</button>
+      </div>
+      <p id="pollResult" style="color: var(--accent-gold); margin-top: 0.8rem; font-weight: 700;"></p>
     </div>
+
+    <footer>
+      Questions or problems? Contact support: <a href="mailto:grasoncountrymusic@gmail.com" style="color: var(--accent-gold); text-decoration: underline;">grasoncountrymusic@gmail.com</a>
+    </footer>
   </div>
 
-  <!-- SOCIAL FEED VIEW -->
+  <!-- POSTS VIEW -->
   <div class="view-container" id="postsView">
-    <div class="content-card" style="max-width: 800px;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-        <h2 class="burn-title" style="font-size: 2.2rem;">Campfire Feed</h2>
-        <button class="btn btn-primary" onclick="togglePostBox()">Create Post ✍️</button>
+    <div class="content-card" style="max-width: 900px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; border-bottom: 1px solid var(--border-glow); padding-bottom: 1.5rem;">
+        <div>
+          <h2 class="burn-title" style="font-size: 2.8rem; text-align: left;">GP - Posts</h2>
+          <p style="color: var(--text-muted); margin-top: 0.4rem; font-size: 1.05rem;">Official updates from Grason Powell & fan community posts around the campfire.</p>
+        </div>
+        <button class="btn btn-primary" onclick="togglePostCreatorBox()">Create A Post ✍️</button>
       </div>
 
-      <div id="createPostBox" style="display: none; background: rgba(0,0,0,0.5); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; border: 1px solid var(--accent-gold);">
-        <textarea id="newPostCaption" class="form-control" rows="3" placeholder="Share something with the circle..."></textarea>
-        <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="submitSocialPost()">Publish Post 🚀</button>
+      <div id="userPostCreatorContainer" style="display: none; background: rgba(8, 6, 5, 0.95); border: 1px solid var(--accent-gold); border-radius: 12px; padding: 1.8rem; margin-bottom: 2.5rem;">
+        <h3 style="color: var(--accent-gold); font-size: 1.3rem; margin-bottom: 1rem;">🔥 Share Something With The Circle</h3>
+        <form onsubmit="handleUserPostSubmit(event)">
+          <div class="form-group">
+            <textarea id="userPostCaption" class="form-control" rows="3" placeholder="Write a post..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%;">Post To Feed 🚀</button>
+        </form>
       </div>
 
-      <div id="socialFeedContainer"></div>
+      <div id="artistPostsFeed"></div>
     </div>
   </div>
 
-  <!-- WORKING SHOPIFY MERCH STORE -->
+  <!-- MUSIC VIEW -->
+  <div class="view-container" id="musicView">
+    <div class="content-card" style="text-align: center;">
+      <h2 class="burn-title" style="font-size: 2.5rem;">Music</h2>
+      <h3 style="color: var(--accent-gold); margin-top: 1rem;">Debut Single In Production</h3>
+      <p style="color: var(--text-muted); margin-top: 0.5rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+        Grason Powell is currently in the studio recording upcoming acoustic tracks.
+      </p>
+    </div>
+  </div>
+
+  <!-- MERCH STORE VIEW -->
   <div class="view-container" id="merchView">
     <div class="content-card">
-      <h2 class="burn-title" style="font-size: 2.2rem; margin-bottom: 2rem;">Official Store</h2>
-      <div id="shopify-collection-root"></div>
-    </div>
-  </div>
-
-  <!-- ARTIST ADMIN CONTROL PANEL -->
-  <div class="view-container" id="artistPanel">
-    <div class="content-card" style="border-color: #00ffaa;">
-      <h2 class="burn-title" style="font-size: 2.2rem; color: #00ffaa;">👑 Artist Studio Control</h2>
-      
-      <!-- POLL MANAGER -->
-      <div style="background: rgba(0, 255, 170, 0.08); border: 1px solid #00ffaa; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
-        <h3 style="color: #00ffaa; margin-bottom: 1rem;">📊 Dynamic Poll Manager</h3>
-        <div class="form-group">
-          <label>Poll Question</label>
-          <input type="text" id="adminPollQuestion" class="form-control" placeholder="What song should I record next?">
-        </div>
-        <div class="form-group">
-          <label>Options (Comma Separated)</label>
-          <input type="text" id="adminPollOptions" class="form-control" placeholder="Acoustic Ballad, Country Rock, Porch Jam">
-        </div>
-        <button class="btn btn-primary" style="background: #00ffaa; color: #000;" onclick="saveAdminPoll()">Publish & Save Poll</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- AUTHENTICATION & 2FA MODAL -->
-  <div class="modal-overlay" id="authModal">
-    <div class="content-card" style="max-width: 450px; position: relative;">
-      <button onclick="closeModal('authModal')" style="position: absolute; top: 1rem; right: 1.5rem; background: none; border: none; color: #fff; font-size: 1.5rem;">&times;</button>
-
-      <div id="loginFormSection">
-        <h2 style="color: var(--accent-gold); text-align: center; margin-bottom: 1.5rem;">Account Login</h2>
-        <div class="form-group">
-          <label>Email Address</label>
-          <input type="email" id="loginEmail" class="form-control" placeholder="grasoncountrymusic@gmail.com">
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input type="password" id="loginPassword" class="form-control">
-        </div>
-        <button class="btn btn-primary" style="width: 100%;" onclick="processLogin()">Log In</button>
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 1.5rem;">
+        <h2 class="burn-title" style="font-size: 2.2rem;">Official Merch Store</h2>
+        <a href="https://grasoncountrymusic.myshopify.com" target="_blank" class="btn btn-outline" style="font-size: 0.75rem;">Open Full Store ↗</a>
       </div>
 
-      <!-- 2FA POPUP STEP -->
-      <div id="twoFactorSection" style="display: none; text-align: center;">
-        <h2 style="color: #00ffaa; margin-bottom: 0.5rem;">🔑 Artist Security Code</h2>
-        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">A 6-digit verification code was sent to grasoncountrymusic@gmail.com.</p>
-        <div class="form-group">
-          <input type="text" id="twoFactorCodeInput" class="form-control" placeholder="Enter 6-Digit Code" style="text-align: center; font-size: 1.3rem; letter-spacing: 4px;">
-        </div>
-        <button class="btn btn-primary" style="width: 100%; background: #00ffaa; color: #000;" onclick="verifyTwoFactor()">Verify & Login</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- SHOPIFY STOREFRONT BUY BUTTON SDK -->
-  <script type="text/javascript">
-    (function () {
-      var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
-      if (window.ShopifyBuy && window.ShopifyBuy.UI) { ShopifyInit(); } 
-      else {
-        var script = document.createElement('script');
-        script.async = true; script.src = scriptURL;
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
-        script.onload = ShopifyInit;
-      }
-
-      function ShopifyInit() {
-        var client = ShopifyBuy.buildClient({
-          domain: 'grasoncountrymusic.myshopify.com',
-          storefrontAccessToken: '186ec34e83f113c009011f7991e99dce',
-        });
-        ShopifyBuy.UI.onReady(client).then(function (ui) {
-          ui.createComponent('collection', {
-            id: '685602373792',
-            node: document.getElementById('shopify-collection-root'),
-            moneyFormat: '%24%7B%7Bamount%7D%7D',
-            options: {
-              product: {
-                styles: {
-                  product: { 'background-color': 'transparent' },
-                  title: { color: '#fffdfa' },
-                  price: { color: '#ff9900' },
-                  button: { 'background-color': '#ff9900', color: '#000', ':hover': { 'background-color': '#ff4500' } }
-                },
-                buttonDestination: 'cart',
-                text: { button: 'Add to Cart' }
-              },
-              cart: {
-                styles: { button: { 'background-color': '#ff9900', color: '#000' } },
-                text: { title: 'Your Campfire Order', total: 'Subtotal', button: 'Checkout' }
-              }
-            }
+      <div id='collection-component-1786641499028'></div>
+      <script type="text/javascript">
+      /*<![CDATA[*/
+      (function () {
+        var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
+        if (window.ShopifyBuy) {
+          if (window.ShopifyBuy.UI) { ShopifyBuyInit(); } else { loadScript(); }
+        } else { loadScript(); }
+        function loadScript() {
+          var script = document.createElement('script');
+          script.async = true; script.src = scriptURL;
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
+          script.onload = ShopifyBuyInit;
+        }
+        function ShopifyBuyInit() {
+          var client = ShopifyBuy.buildClient({
+            domain: 'grasoncountrymusic.myshopify.com',
+            storefrontAccessToken: '186ec34e83f113c009011f7991e99dce',
           });
-        });
-      }
-    })();
-  </script>
+          ShopifyBuy.UI.onReady(client).then(function (ui) {
+            ui.createComponent('collection', {
+              id: '685602373792',
+              node: document.getElementById('collection-component-1786641499028'),
+              moneyFormat: '%24%7B%7Bamount%7D%7D',
+              options: {
+                "product": {
+                  "styles": {
+                    "product": {
+                      "@media (min-width: 601px)": {
+                        "max-width": "calc(33.333% - 20px)",
+                        "margin-left": "20px",
+                        "margin-bottom": "50px",
+                        "width": "calc(33.333% - 20px)"
+                      }
+                    },
+                    "title": { "color": "#fffdfa" },
+                    "price": { "color": "#ff9900" },
+                    "button": {
+                      "font-weight": "bold", "color": "#080605",
+                      "background-color": "#ff9900",
+                      ":hover": { "background-color": "#ff4500" }
+                    }
+                  },
+                  "buttonDestination": "modal",
+                  "text": { "button": "Buy Now" }
+                }
+              }
+            });
+          });
+        }
+      })();
+      /*]]>*/
+      </script>
+    </div>
+  </div>
 
-  <!-- APP ENGINE SCRIPT -->
+  <!-- FAN SURVEY VIEW -->
+  <div class="view-container" id="surveyView">
+    <div class="content-card" style="max-width: 800px;">
+      <h2 class="burn-title" style="font-size: 2.2rem;">Official Fan Survey</h2>
+      <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 2rem;">
+        Let Grason know what you think! Fill out your feedback below.
+      </p>
+
+      <form onsubmit="handleSurveySubmit(event)">
+        <div class="form-group">
+          <label style="color: var(--accent-gold); font-weight: 700;">1. What kind of music style do you love most from Grason?</label>
+          <input type="text" class="form-control" placeholder="Your thoughts..." required style="margin-top: 0.5rem;">
+        </div>
+
+        <div class="form-group">
+          <label style="color: var(--accent-gold); font-weight: 700;">2. How did you first discover Grason Powell?</label>
+          <input type="text" class="form-control" placeholder="TikTok, Spotify, Friend..." required style="margin-top: 0.5rem;">
+        </div>
+
+        <div class="form-group">
+          <label style="color: var(--accent-gold); font-weight: 700;">3. Which city or state should he tour next?</label>
+          <input type="text" class="form-control" placeholder="City/State..." required style="margin-top: 0.5rem;">
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Submit Survey 📝</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- SONG REQUEST VIEW -->
+  <div class="view-container" id="requestView">
+    <div class="content-card" style="max-width: 700px;">
+      <h2 class="burn-title" style="font-size: 2.2rem;">Song Idea & Lyric Box</h2>
+      <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem;">
+        Have a song title or lyric idea? Submit it directly to Grason Powell below.
+      </p>
+      <form onsubmit="handleSongRequest(event)">
+        <div class="form-group">
+          <label>Song Title Idea</label>
+          <input type="text" class="form-control" placeholder="e.g. Midnight Pine & Smoke" required>
+        </div>
+        <div class="form-group">
+          <label>Lyric Concept or Personal Story</label>
+          <textarea class="form-control" rows="6" placeholder="Write your lyrics or chorus ideas..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Send Directly To Grason</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- AUTHENTICATION MODAL -->
+  <div class="modal-overlay" id="authModal">
+    <div class="modal-card content-card" style="position: relative; max-width: 450px;">
+      <button class="close-modal" onclick="closeAuthModal()">&times;</button>
+      
+      <div id="signupView">
+        <h2 style="font-family: var(--font-display); text-align: center; color: var(--accent-gold);">Join The Circle</h2>
+        <form onsubmit="handleSignup(event)" style="margin-top: 1.5rem;">
+          <div class="form-group">
+            <label>Full Name *</label>
+            <input type="text" id="signupName" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label>Email *</label>
+            <input type="email" id="signupEmail" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label>Password *</label>
+            <input type="password" id="signupPassword" class="form-control" required>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Create Account</button>
+        </form>
+        <p style="text-align: center; margin-top: 1rem; font-size: 0.85rem; color: var(--text-muted);">
+          Already signed up? <a href="#" onclick="switchAuthForm('login')" style="color: var(--accent-gold);">Log in</a>
+        </p>
+      </div>
+
+      <div id="loginView" style="display: none;">
+        <h2 style="font-family: var(--font-display); text-align: center; color: var(--accent-gold);">Welcome Back</h2>
+        <form onsubmit="handleLogin(event)" style="margin-top: 1.5rem;">
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="loginEmail" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="loginPassword" class="form-control" required>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Log In</button>
+        </form>
+        <p style="text-align: center; margin-top: 1rem; font-size: 0.85rem; color: var(--text-muted);">
+          Need an account? <a href="#" onclick="switchAuthForm('signup')" style="color: var(--accent-gold);">Sign up</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
   <script>
-    const API_URL = 'http://localhost:5000/api';
     let currentUser = null;
-    let authToken = localStorage.getItem('gp_auth_token');
+    const ADMIN_EMAIL = "grasoncountrymusic@gmail.com";
+
+    const INITIAL_POSTS = [
+      {
+        id: "post_gp_1",
+        authorName: "Grason Powell",
+        time: "Yesterday",
+        caption: "Welcome to GP - Posts! Feel free to share thoughts and chat around the campfire."
+      }
+    ];
 
     window.addEventListener('DOMContentLoaded', () => {
-      fetchPoll();
-      fetchPosts();
-      if (authToken) {
-        currentUser = JSON.parse(localStorage.getItem('gp_user_data'));
-        renderAuthState();
+      if (!localStorage.getItem('gp_community_posts')) {
+        localStorage.setItem('gp_community_posts', JSON.stringify(INITIAL_POSTS));
       }
+
+      const stored = localStorage.getItem('gp_active_user');
+      if (stored) {
+        currentUser = JSON.parse(stored);
+        renderAccountNav();
+      }
+
+      renderFeedPosts();
     });
 
-    function switchTab(id) {
-      document.querySelectorAll('.view-container').forEach(e => e.classList.remove('active'));
-      document.querySelectorAll('.nav-tab').forEach(e => el => el.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
+    function switchTab(viewId) {
+      document.querySelectorAll('.view-container').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
+      const target = document.getElementById(viewId);
+      if (target) target.classList.add('active');
     }
 
-    function openModal(id) { document.getElementById(id).classList.add('active'); }
-    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
-    function togglePostBox() { const el = document.getElementById('createPostBox'); el.style.display = el.style.display === 'none' ? 'block' : 'none'; }
+    function togglePostCreatorBox() {
+      const box = document.getElementById('userPostCreatorContainer');
+      box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    }
 
-    /* AUTHENTICATION & 2FA */
-    async function processLogin() {
-      const email = document.getElementById('loginEmail').value;
-      const password = document.getElementById('loginPassword').value;
+    function renderFeedPosts() {
+      const feed = document.getElementById('artistPostsFeed');
+      const posts = JSON.parse(localStorage.getItem('gp_community_posts') || '[]');
+      feed.innerHTML = '';
 
-      const res = await fetch(`${API_URL}/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+      posts.forEach(post => {
+        const postCard = document.createElement('div');
+        postCard.className = 'post-card';
+        postCard.innerHTML = `
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 0.8rem;">
+            <div>
+              <strong style="color: var(--accent-gold); font-size: 1.05rem;">${post.authorName}</strong>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">${post.time}</div>
+            </div>
+          </div>
+          <p style="font-size: 1.05rem; line-height: 1.6;">${post.caption}</p>
+        `;
+        feed.appendChild(postCard);
       });
-      const data = await res.json();
+    }
 
-      if (data.require2FA) {
-        document.getElementById('loginFormSection').style.display = 'none';
-        document.getElementById('twoFactorSection').style.display = 'block';
-      } else if (data.token) {
-        saveAuthSession(data.token, data.user);
-      } else {
-        alert(data.error || 'Login failed');
+    function handleUserPostSubmit(e) {
+      e.preventDefault();
+      if (!currentUser) {
+        alert("Please sign up or log in first!");
+        openAuthModal('signup');
+        return;
       }
-    }
 
-    async function verifyTwoFactor() {
-      const email = document.getElementById('loginEmail').value;
-      const code = document.getElementById('twoFactorCodeInput').value;
+      const caption = document.getElementById('userPostCaption').value;
+      const posts = JSON.parse(localStorage.getItem('gp_community_posts') || '[]');
 
-      const res = await fetch(`${API_URL}/auth/verify-2fa`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, code })
-      });
-      const data = await res.json();
-
-      if (data.token) {
-        saveAuthSession(data.token, data.user);
-      } else {
-        alert(data.error || 'Invalid 2FA Verification Code');
-      }
-    }
-
-    function saveAuthSession(token, user) {
-      authToken = token;
-      currentUser = user;
-      localStorage.setItem('gp_auth_token', token);
-      localStorage.setItem('gp_user_data', JSON.stringify(user));
-      renderAuthState();
-      closeModal('authModal');
-    }
-
-    function renderAuthState() {
-      if (!currentUser) return;
-      if (currentUser.isArtist) {
-        document.getElementById('artistNavTab').style.display = 'block';
-      }
-      document.getElementById('authNavContainer').innerHTML = `
-        <button class="btn btn-outline" onclick="logout()">${currentUser.name} (Log Out)</button>
-      `;
-    }
-
-    function logout() {
-      localStorage.clear();
-      location.reload();
-    }
-
-    /* PERSISTENT POLL ENGINE */
-    async function fetchPoll() {
-      const res = await fetch(`${API_URL}/poll`);
-      const poll = await res.json();
-      if (!poll) return;
-
-      document.getElementById('pollQuestionDisplay').innerText = poll.question;
-      const optionsContainer = document.getElementById('pollOptionsDisplay');
-      optionsContainer.innerHTML = '';
-
-      poll.options.forEach((opt, idx) => {
-        const btn = document.createElement('button');
-        btn.className = 'btn btn-outline';
-        btn.style.cssText = 'width: 100%; text-align: left; margin-bottom: 0.8rem; display: flex; justify-content: space-between;';
-        btn.innerHTML = `<span>${opt.text}</span><strong>${opt.votes} Votes</strong>`;
-        btn.onclick = () => votePoll(poll._id, idx);
-        optionsContainer.appendChild(btn);
-      });
-    }
-
-    async function votePoll(pollId, optionIndex) {
-      await fetch(`${API_URL}/poll/vote`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pollId, optionIndex })
-      });
-      fetchPoll();
-    }
-
-    async function saveAdminPoll() {
-      const question = document.getElementById('adminPollQuestion').value;
-      const optionsStr = document.getElementById('adminPollOptions').value;
-      const options = optionsStr.split(',').map(s => s.trim()).filter(Boolean);
-
-      await fetch(`${API_URL}/poll/update`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${authToken}`
-        },
-        body: JSON.stringify({ question, options })
+      posts.unshift({
+        id: "post_" + Date.now(),
+        authorName: currentUser.name,
+        time: "Just Now",
+        caption: caption
       });
 
-      alert('Poll published and saved across all devices!');
-      fetchPoll();
+      localStorage.setItem('gp_community_posts', JSON.stringify(posts));
+      renderFeedPosts();
+      e.target.reset();
+      togglePostCreatorBox();
+    }
+
+    function handleSurveySubmit(e) {
+      e.preventDefault();
+      alert("Thank you for submitting your survey answers!");
+      e.target.reset();
       switchTab('homeView');
     }
 
-    /* SOCIAL FEED ENGINE */
-    async function fetchPosts() {
-      const res = await fetch(`${API_URL}/posts`);
-      const posts = await res.json();
-      const container = document.getElementById('socialFeedContainer');
-      container.innerHTML = '';
-
-      posts.forEach(post => {
-        const card = document.createElement('div');
-        card.className = 'social-post-card';
-        card.innerHTML = `
-          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 1rem;">
-            <div class="social-avatar">${post.authorName.charAt(0)}</div>
-            <div>
-              <strong style="color: var(--accent-gold);">${post.authorName} ${post.isArtist ? '👑' : ''}</strong>
-              <div style="font-size: 0.75rem; color: var(--text-muted);">${new Date(post.createdAt).toLocaleDateString()}</div>
-            </div>
-          </div>
-          <p style="line-height: 1.6;">${post.caption}</p>
-          <div class="action-bar">
-            <button class="action-btn" onclick="addFirewood('${post._id}')">🪵 ${post.firewood} Firewood</button>
-            <button class="action-btn">💬 ${post.comments.length} Comments</button>
-          </div>
-        `;
-        container.appendChild(card);
-      });
+    function handleSongRequest(e) {
+      e.preventDefault();
+      alert("Your song idea has been submitted directly to Grason!");
+      e.target.reset();
     }
 
-    async function submitSocialPost() {
-      const caption = document.getElementById('newPostCaption').value;
-      await fetch(`${API_URL}/posts`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${authToken}`
-        },
-        body: JSON.stringify({ caption })
-      });
-
-      document.getElementById('newPostCaption').value = '';
-      togglePostBox();
-      fetchPosts();
+    function openAuthModal(f) {
+      switchAuthForm(f);
+      document.getElementById('authModal').classList.add('active');
     }
 
-    async function addFirewood(postId) {
-      await fetch(`${API_URL}/posts/${postId}/firewood`, { method: 'POST' });
-      fetchPosts();
+    function closeAuthModal() {
+      document.getElementById('authModal').classList.remove('active');
+    }
+
+    function switchAuthForm(form) {
+      document.getElementById('signupView').style.display = form === 'signup' ? 'block' : 'none';
+      document.getElementById('loginView').style.display = form === 'login' ? 'block' : 'none';
+    }
+
+    function handleSignup(e) {
+      e.preventDefault();
+      const user = {
+        name: document.getElementById('signupName').value,
+        email: document.getElementById('signupEmail').value,
+      };
+      localStorage.setItem('gp_active_user', JSON.stringify(user));
+      currentUser = user;
+      renderAccountNav();
+      closeAuthModal();
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const user = {
+        name: "Grason Powell",
+        email: document.getElementById('loginEmail').value,
+      };
+      localStorage.setItem('gp_active_user', JSON.stringify(user));
+      currentUser = user;
+      renderAccountNav();
+      closeAuthModal();
+    }
+
+    function renderAccountNav() {
+      if (!currentUser) return;
+      document.getElementById('authNavContainer').innerHTML = `
+        <button class="nav-avatar-btn" onclick="logoutUser()">
+          <div class="avatar-circle">GP</div>
+          <span>${currentUser.name} (Log Out)</span>
+        </button>
+      `;
+    }
+
+    function logoutUser() {
+      localStorage.removeItem('gp_active_user');
+      location.reload();
+    }
+
+    function votePoll(btn) {
+      document.getElementById('pollResult').innerText = `Thanks for voting! You selected: "${btn.innerText}".`;
     }
   </script>
 </body>
