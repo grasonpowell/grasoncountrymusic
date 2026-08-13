@@ -209,7 +209,7 @@
 
     .poll-btn:hover { border-color: var(--accent-gold); }
 
-    /* --- COMMUNITY MEDIA FEED --- */
+    /* --- MEDIA FEED --- */
     .post-card {
       background: rgba(8, 6, 5, 0.85);
       border: 1px solid var(--border-glow);
@@ -356,7 +356,7 @@
   </div>
   <div class="bg-overlay"></div>
 
-  <!-- 4-SECOND SETUP LOADING SCREEN OVERLAY -->
+  <!-- 4-SECOND SETUP LOADING OVERLAY -->
   <div id="setupLoadingOverlay" class="loading-overlay">
     <div class="flame-spinner"></div>
     <h2 style="font-family: var(--font-display); color: var(--accent-gold); font-size: 2rem; margin-bottom: 0.5rem;">
@@ -479,7 +479,7 @@
     </div>
   </div>
 
-  <!-- MERCH STORE VIEW (EXACT EMBED) -->
+  <!-- MERCH STORE VIEW (EXACT EMBED 1786641499028) -->
   <div class="view-container" id="merchView">
     <div class="content-card">
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 1.5rem;">
@@ -487,7 +487,6 @@
         <a href="https://rx63su-pf.myshopify.com" target="_blank" class="btn btn-outline" style="font-size: 0.75rem;">Open Full Shopify Store ↗</a>
       </div>
 
-      <!-- EXACT MERCH EMBED CODE -->
       <div id='collection-component-1786641499028'></div>
       <script type="text/javascript">
       /*<![CDATA[*/
@@ -968,12 +967,11 @@
         </div>
       </div>
 
-      <!-- UPGRADE CONTAINER WITH EXACT MEMBERSHIP EMBED -->
+      <!-- UPGRADE CONTAINER WITH EXACT MEMBERSHIP EMBED 1786641542683 -->
       <div id="upgradeContainer" style="background: rgba(255, 153, 0, 0.1); border: 1px solid var(--accent-gold); border-radius: 12px; padding: 2rem; margin-bottom: 2.5rem;">
         <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.6rem; margin-bottom: 0.5rem;">Upgrade to Premium Member Pass</h3>
         <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">Join the VIP inner circle for <strong>$10/year</strong> via secure Shopify checkout below.</p>
 
-        <!-- EXACT MEMBERSHIP EMBED CODE -->
         <div id='product-component-1786641542683' onclick="activateMembershipOnCheckout()"></div>
         <script type="text/javascript">
         /*<![CDATA[*/
@@ -1409,7 +1407,7 @@
   <script>
     let currentUser = null;
     const ADMIN_EMAIL = "grasoncountrymusic@gmail.com";
-    const SHOPIFY_AUTH_URL = "https://shopify.com/authentication/104591851680/login?analytics_trace_id=6e33060d-33c6-4b3e-9a05-c7108ed1ad09&client_id=cb81980b-885f-41b1-bd28-d2a99ac2089a&locale=en-US&redirect_uri=%2Fauthentication%2F104591851680%2Foauth%2Fauthorize%3Fanalytics_trace_id%3D6e33060d-33c6-4b3e-9a05-c7108ed1ad09%26buyer_flags%3DeyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJyeDYzc3UtcGYubXlzaG9waWZ5LmNvbSIsImZsYWdzIjpbXSwiZXhwIjoxNzg3MjEzOTYwLCJuYmYiOjE3ODY2MDkxNjB9.OLEwmi63emd7HUnVn7HsAMVa0nAJS_3xAjqMS8wIUJM%26client_id%3Dcb81980b-885f-41b1-bd28-d2a99ac2089a%26locale%3Den-US%26nonce%3D53bdf5e8-dc5b-4dd7-8175-37d752fb4cd7%26redirect_uri%3Dhttps%253A%252F%252Fshopify.com%252F104591851680%252Faccount%252Fcallback%26region_country%3DUS%26response_type%3Dcode%26scope%3Dopenid%2Bemail%2Bcustomer-account-api%253Afull%26state%3DhWNFbIeOMuoLqLHpAzIsDRhp&region_country=US";
+    const SHOPIFY_AUTH_URL = "https://shopify.com/authentication/104591851680/login?analytics_trace_id=6e33060d-33c6-4b3e-9a05-c7108ed1ad09&client_id=cb81980b-885f-41b1-bd28-d2a99ac2089a&locale=en-US&redirect_uri=%2Fauthentication%2F104591851680%2Foauth%2Fauthorize%3Fanalytics_trace_id%3D6e33060d-33c6-4b3e-9a05-c7108ed1ad09%26buyer_flags%3DeyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJyeDYzc3UtcGYubXlzaG9waWZ5LmNvbSIsImZsYWdzIjpbXSwiZXhwIjoxNzg3MjEzOTYwLCJuYmYiOjE3ODY2MDkxNxB9.OLEwmi63emd7HUnVn7HsAMVa0nAJS_3xAjqMS8wIUJM%26client_id%3Dcb81980b-885f-41b1-bd28-d2a99ac2089a%26locale%3Den-US%26nonce%3D53bdf5e8-dc5b-4dd7-8175-37d752fb4cd7%26redirect_uri%3Dhttps%253A%252F%252Fshopify.com%252F104591851680%252Faccount%252Fcallback%26region_country%3DUS%26response_type%3Dcode%26scope%3Dopenid%2Bemail%2Bcustomer-account-api%253Afull%26state%3DhWNFbIeOMuoLqLHpAzIsDRhp&region_country=US";
 
     const ARTIST_BADGE_HTML = `
       <span class="artist-verified-badge" title="Official Artist Badge">
@@ -1420,7 +1418,6 @@
       </span>
     `;
 
-    // DEFAULT INITIAL POSTS
     const INITIAL_POSTS = [
       {
         id: "post_default_1",
