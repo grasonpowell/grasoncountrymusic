@@ -289,7 +289,22 @@
       content: "🔥";
     }
 
-    /* --- MESSAGE BOARD --- */
+    /* --- INTERACTIVE POLL & WALL --- */
+    .poll-btn {
+      background: rgba(8, 6, 5, 0.8);
+      border: 1px solid var(--border-glow);
+      color: var(--text-bright);
+      padding: 0.8rem 1.2rem;
+      border-radius: 8px;
+      width: 100%;
+      text-align: left;
+      margin-bottom: 0.8rem;
+      cursor: pointer;
+      transition: border-color 0.3s;
+    }
+
+    .poll-btn:hover { border-color: var(--accent-gold); }
+
     .post-item {
       background: rgba(8, 6, 5, 0.7);
       border: 1px solid var(--border-glow);
@@ -388,21 +403,24 @@
       </div>
     </div>
 
-    <!-- PREMIUM UNLOCKED CONTENT BANNER (HIDDEN FOR GUESTS) -->
-    <div class="content-card" id="premiumHomeContent" style="display: none; border-color: var(--accent-gold);">
-      <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.8rem; margin-bottom: 1rem;">
-        🔥 VIP Member Exclusive Feed
-      </h3>
-      <p style="color: var(--text-bright); font-size: 1.05rem; line-height: 1.8;">
-        <strong>Presale Access Code:</strong> Use code <code style="background:var(--accent-ember); padding:2px 6px; border-radius:4px; color:#fff;">CAMPFIRE2026</code> for early tour ticket access.<br>
-        <strong>Exclusive Update:</strong> Behind-the-scenes acoustic clips are now unlocked in your profile area.
-      </p>
+    <!-- INTERACTIVE CAMPFIRE POLL -->
+    <div class="content-card">
+      <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.6rem; margin-bottom: 1rem;">🔥 Campfire Fan Poll</h3>
+      <p style="color: var(--text-muted); margin-bottom: 1rem;">What type of song should Grason Powell release first?</p>
+      <button class="poll-btn" onclick="votePoll('Heavy Acoustic Ballad')">🎸 Heavy Acoustic Storytelling Ballad</button>
+      <button class="poll-btn" onclick="votePoll('Upbeat Country Rock')">⚡ Upbeat Outlaw Country Rock</button>
+      <button class="poll-btn" onclick="votePoll('Late Night Porch Session')">🌙 Late Night Porch Jam</button>
+      <p id="pollResult" style="color: var(--accent-gold); margin-top: 0.5rem; font-weight: 700;"></p>
     </div>
 
-    <div class="content-card">
-      <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.8rem; margin-bottom: 1rem;">Direct Line To The Music</h3>
-      <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.8;">
-        Have a lyric idea or personal story you want turned into a country song? Use the <strong>Song Request</strong> tab above to submit your ideas directly to Grason Powell.
+    <!-- PREMIUM UNLOCKED CONTENT BANNER -->
+    <div class="content-card" id="premiumHomeContent" style="display: none; border-color: var(--accent-gold);">
+      <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.8rem; margin-bottom: 1rem;">
+        🔥 VIP Member Presales & Feed
+      </h3>
+      <p style="color: var(--text-bright); font-size: 1.05rem; line-height: 1.8;">
+        <strong>Tour Presale Code:</strong> Use code <code style="background:var(--accent-ember); padding:2px 6px; border-radius:4px; color:#fff;">CAMPFIRE2026</code> for early ticket reservations.<br>
+        <strong>VIP Meetup:</strong> Head to the <em>VIP Board</em> tab to RSVP for pop-up show set times.
       </p>
     </div>
 
@@ -431,7 +449,7 @@
     </div>
   </div>
 
-  <!-- MERCH STORE VIEW (EXACT SHOPIFY BUY BUTTON INTEGRATED) -->
+  <!-- MERCH STORE VIEW -->
   <div class="view-container" id="merchView">
     <div class="content-card">
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 1.5rem;">
@@ -439,7 +457,7 @@
         <a href="https://rx63su-pf.myshopify.com" target="_blank" class="btn btn-outline" style="font-size: 0.75rem;">Open Full Shopify Site ↗</a>
       </div>
 
-      <!-- EXACT PROVIDED SHOPIFY BUY BUTTON CODE -->
+      <!-- SHOPIFY MERCH COLLECTION EMBED -->
       <div id='collection-component-1786603249726'></div>
       <script type="text/javascript">
       /*<![CDATA[*/
@@ -480,76 +498,10 @@
                 "margin-left": "20px",
                 "margin-bottom": "50px",
                 "width": "calc(25% - 20px)"
-              },
-              "img": {
-                "height": "calc(100% - 15px)",
-                "position": "absolute",
-                "left": "0",
-                "right": "0",
-                "top": "0"
-              },
-              "imgWrapper": {
-                "padding-top": "calc(75% + 15px)",
-                "position": "relative",
-                "height": "0"
               }
             },
-            "title": {
-              "color": "#ffaa00"
-            },
-            "button": {
-              "font-family": "Quantico, sans-serif",
-              "color": "#080605",
-              ":hover": {
-                "color": "#ffffff",
-                "background-color": "#ff4500"
-              },
-              "background-color": "#ffaa00",
-              ":focus": {
-                "background-color": "#ffaa00"
-              }
-            },
-            "price": {
-              "color": "#ffaa00"
-            },
-            "compareAt": {
-              "color": "#ffaa00"
-            },
-            "unitPrice": {
-              "color": "#ffaa00"
-            }
-          },
-          "text": {
-            "button": "Add to cart"
-          },
-          "googleFonts": [
-            "Quantico"
-          ]
-        },
-        "productSet": {
-          "styles": {
-            "products": {
-              "@media (min-width: 601px)": {
-                "margin-left": "-20px"
-              }
-            }
-          }
-        },
-        "modalProduct": {
-          "contents": {
-            "img": false,
-            "imgWithCarousel": true,
-            "button": false,
-            "buttonWithQuantity": true
-          },
-          "styles": {
-            "product": {
-              "@media (min-width: 601px)": {
-                "max-width": "100%",
-                "margin-left": "0px",
-                "margin-bottom": "0px"
-              }
-            },
+            "title": { "color": "#ffaa00" },
+            "price": { "color": "#ffaa00" },
             "button": {
               "font-family": "Quantico, sans-serif",
               "color": "#080605",
@@ -558,54 +510,21 @@
                 "background-color": "#ff4500"
               },
               "background-color": "#ffaa00"
-            },
-            "title": {
-              "font-family": "Helvetica Neue, sans-serif",
-              "font-weight": "bold",
-              "font-size": "26px",
-              "color": "#ffaa00"
-            },
-            "price": {
-              "font-family": "Helvetica Neue, sans-serif",
-              "font-weight": "normal",
-              "font-size": "18px",
-              "color": "#ffaa00"
             }
           },
-          "googleFonts": [
-            "Quantico"
-          ],
-          "text": {
-            "button": "Add to cart"
-          }
+          "text": { "button": "Add to cart" }
         },
         "cart": {
           "styles": {
             "button": {
               "font-family": "Quantico, sans-serif",
               "color": "#ffffff",
-              ":hover": {
-                "background-color": "#ffaa00",
-                "color": "#000000"
-              },
               "background-color": "#ff4500"
             },
             "title": { "color": "#ffaa00" },
-            "header": { "color": "#ffaa00" },
-            "lineItems": { "color": "#ffaa00" },
-            "subtotalText": { "color": "#ffaa00" },
-            "subtotal": { "color": "#ffaa00" },
-            "cart": { "background-color": "#110f0d" },
-            "footer": { "background-color": "#110f0d" }
+            "cart": { "background-color": "#110f0d" }
           },
-          "text": {
-            "total": "Subtotal",
-            "button": "Checkout"
-          },
-          "popup": false,
-          "googleFonts": [
-            "Quantico"
-          ]
+          "text": { "button": "Checkout" }
         }
       },
             });
@@ -639,12 +558,12 @@
     </div>
   </div>
 
-  <!-- EXCLUSIVE VIP MESSAGE BOARD (PREMIUM ONLY) -->
+  <!-- VIP MESSAGE BOARD VIEW -->
   <div class="view-container" id="boardView">
     <div class="content-card" style="max-width: 800px;">
       <h2 class="burn-title" style="font-size: 2.2rem;">Exclusive VIP Message Board</h2>
       <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem;">
-        Welcome to the members-only campfire message board. Share thoughts, meet-up plans, and lyric feedback with other Premium members.
+        Welcome to the members-only campfire board. Post thoughts, meet-up plans, and lyrics with other Premium members.
       </p>
 
       <form onsubmit="addBoardPost(event)" style="margin-bottom: 2rem;">
@@ -679,15 +598,111 @@
         </div>
       </div>
 
-      <!-- PREMIUM MEMBERSHIP PASS PURCHASER CONTAINER -->
+      <!-- PREMIUM MEMBERSHIP BUY BUTTON CONTAINER ($10/YEAR VIA SHOPIFY) -->
       <div id="upgradeContainer" style="background: rgba(255, 153, 0, 0.1); border: 1px solid var(--accent-gold); border-radius: 12px; padding: 2rem; margin-bottom: 2.5rem;">
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
-          <div>
-            <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.6rem;">Upgrade to Premium Member Pass</h3>
-            <p style="color: var(--text-muted); font-size: 0.95rem;">Join the VIP inner circle for just <strong>$10/year</strong>.</p>
-          </div>
-          <button class="btn btn-primary" onclick="openPaymentModal()">Upgrade for $10/Year</button>
-        </div>
+        <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.6rem; margin-bottom: 0.5rem;">Upgrade to Premium Member Pass</h3>
+        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">Join the VIP inner circle for <strong>$10/year</strong> via secure Shopify checkout below.</p>
+
+        <!-- EXACT SHOPIFY MEMBERSHIP PRODUCT BUY BUTTON CODE -->
+        <div id='product-component-1786606684628' onclick="activateMembershipOnCheckout()"></div>
+        <script type="text/javascript">
+        /*<![CDATA[*/
+        (function () {
+          var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
+          if (window.ShopifyBuy) {
+            if (window.ShopifyBuy.UI) {
+              ShopifyBuyInit();
+            } else {
+              loadScript();
+            }
+          } else {
+            loadScript();
+          }
+          function loadScript() {
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = scriptURL;
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
+            script.onload = ShopifyBuyInit;
+          }
+          function ShopifyBuyInit() {
+            var client = ShopifyBuy.buildClient({
+              domain: 'rx63su-pf.myshopify.com',
+              storefrontAccessToken: '186ec34e83f113c009011f7991e99dce',
+            });
+            ShopifyBuy.UI.onReady(client).then(function (ui) {
+              ui.createComponent('product', {
+                id: '15829045280928',
+                node: document.getElementById('product-component-1786606684628'),
+                moneyFormat: '%24%7B%7Bamount%7D%7D',
+                options: {
+          "product": {
+            "styles": {
+              "product": {
+                "@media (min-width: 601px)": {
+                  "max-width": "100%",
+                  "margin-left": "0",
+                  "margin-bottom": "50px"
+                },
+                "text-align": "left"
+              },
+              "title": { "font-size": "24px", "color": "#ffaa00" },
+              "button": {
+                "font-family": "Quantico, sans-serif",
+                "color": "#080605",
+                ":hover": { "color": "#ffffff", "background-color": "#ff4500" },
+                "background-color": "#ffaa00"
+              },
+              "price": { "font-size": "18px", "color": "#ffaa00" },
+              "compareAt": { "font-size": "15px", "color": "#ffaa00" },
+              "unitPrice": { "font-size": "15px", "color": "#ffaa00" }
+            },
+            "layout": "horizontal",
+            "contents": {
+              "img": false,
+              "imgWithCarousel": true,
+              "description": true
+            },
+            "width": "100%",
+            "text": { "button": "Add to cart" },
+            "googleFonts": [ "Quantico" ]
+          },
+          "modalProduct": {
+            "contents": { "img": false, "imgWithCarousel": true, "button": false, "buttonWithQuantity": true },
+            "styles": {
+              "button": {
+                "font-family": "Quantico, sans-serif",
+                "color": "#080605",
+                ":hover": { "color": "#ffffff", "background-color": "#ff4500" },
+                "background-color": "#ffaa00"
+              },
+              "title": { "font-family": "Helvetica Neue, sans-serif", "font-weight": "bold", "font-size": "26px", "color": "#ffaa00" },
+              "price": { "font-family": "Helvetica Neue, sans-serif", "font-weight": "normal", "font-size": "18px", "color": "#ffaa00" }
+            },
+            "text": { "button": "Add to cart" }
+          },
+          "cart": {
+            "styles": {
+              "button": {
+                "font-family": "Quantico, sans-serif",
+                "color": "#ffffff",
+                ":hover": { "background-color": "#ffaa00", "color": "#000000" },
+                "background-color": "#ff4500"
+              },
+              "title": { "color": "#ffaa00" },
+              "cart": { "background-color": "#110f0d" },
+              "footer": { "background-color": "#110f0d" }
+            },
+            "text": { "total": "Subtotal", "button": "Checkout" },
+            "popup": false
+          }
+        },
+              });
+            });
+          }
+        })();
+        /*]]>*/
+        </script>
 
         <h4 style="margin-top: 1.5rem; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; color: var(--accent-gold);">ALL PREMIUM MEMBERS GET ACCESS TO:</h4>
         <ul class="premium-perks-list">
@@ -702,7 +717,7 @@
         </ul>
       </div>
 
-      <!-- ACTIVE PREMIUM STATUS DISPLAY (SHOWN WHEN USER IS PREMIUM) -->
+      <!-- ACTIVE PREMIUM STATUS DISPLAY -->
       <div id="activePremiumContainer" style="display: none; background: linear-gradient(135deg, rgba(255, 153, 0, 0.2), rgba(255, 69, 0, 0.1)); border: 1px solid var(--accent-gold); border-radius: 12px; padding: 2rem; margin-bottom: 2.5rem;">
         <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.6rem;">🔥 You are an Active Premium VIP Member!</h3>
         <p style="color: var(--text-bright); margin-top: 0.5rem;">Your $10/year Pass is active. All website features, presales, and message boards are completely unlocked for you.</p>
@@ -787,37 +802,6 @@
     </div>
   </div>
 
-  <!-- CREDIT CARD PAYMENT MODAL ($10/YEAR PREMIUM) -->
-  <div class="modal-overlay" id="paymentModal">
-    <div class="modal-card content-card" style="position: relative; max-width: 480px;">
-      <button class="close-modal" onclick="closePaymentModal()">&times;</button>
-      <h2 style="font-family: var(--font-display); text-align: center; color: var(--accent-gold); margin-bottom: 0.5rem;">Upgrade to Premium Pass</h2>
-      <p style="text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">$10.00 / Year • Billed Annually</p>
-      
-      <form onsubmit="processPayment(event)">
-        <div class="form-group">
-          <label>Cardholder Name</label>
-          <input type="text" class="form-control" required placeholder="John Doe">
-        </div>
-        <div class="form-group">
-          <label>Card Number</label>
-          <input type="text" class="form-control" required placeholder="4532 •••• •••• 8892" maxlength="19">
-        </div>
-        <div style="display: flex; gap: 1rem;">
-          <div class="form-group" style="flex: 1;">
-            <label>Expiry Date</label>
-            <input type="text" class="form-control" required placeholder="MM/YY" maxlength="5">
-          </div>
-          <div class="form-group" style="flex: 1;">
-            <label>CVC / CVV</label>
-            <input type="text" class="form-control" required placeholder="123" maxlength="4">
-          </div>
-        </div>
-        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Pay $10.00 & Activate Pass</button>
-      </form>
-    </div>
-  </div>
-
   <script>
     let currentUser = null;
 
@@ -847,29 +831,17 @@
       document.getElementById('authModal').classList.remove('active');
     }
 
-    function openPaymentModal() {
+    // ACTIVATES MEMBERSHIP STATE WHEN USER INTERACTS WITH SHOPIFY BUY BUTTON
+    function activateMembershipOnCheckout() {
       if (!currentUser) {
-        alert('Please sign up or log in first before purchasing a Premium Membership!');
+        alert('Please sign up or log in first before purchasing!');
         openAuthModal('signup');
         return;
       }
-      document.getElementById('paymentModal').classList.add('active');
-    }
-
-    function closePaymentModal() {
-      document.getElementById('paymentModal').classList.remove('active');
-    }
-
-    // PROCESS PAYMENT & CHARGE CARD
-    function processPayment(e) {
-      e.preventDefault();
       currentUser.isPremium = true;
       localStorage.setItem('gp_user_' + currentUser.email, JSON.stringify(currentUser));
       localStorage.setItem('gp_active_user', JSON.stringify(currentUser));
-      
-      closePaymentModal();
       renderAccountState();
-      alert('Card successfully charged $10.00! Your Premium Membership Pass is now active and the website features have been updated.');
     }
 
     function switchAuthForm(form) {
@@ -945,7 +917,6 @@
       if (!currentUser) return;
       const navContainer = document.getElementById('authNavContainer');
 
-      // REPLACE SIGN UP BUTTONS WITH LOGGED IN HERO ACTIONS
       const homeCta = document.getElementById('homeHeroCta');
       if (homeCta) {
         homeCta.innerHTML = `
@@ -954,13 +925,11 @@
         `;
       }
 
-      // PERSONALIZED FAN PARAGRAPH & PREMIUM UPDATES
       document.getElementById('welcomeHeadline').innerText = `Welcome Back to the Fire, ${currentUser.name}! 🔥`;
       document.getElementById('welcomeParagraph').innerHTML = `
         It's great to see you back by the fire, ${currentUser.name}. As a registered member of The Circle, you have full access to exclusive behind-the-scenes updates, custom merch previews, and direct song requests. ${currentUser.isPremium ? '<strong>Your Premium VIP Pass ($10/year) is active! You have full access to presale codes, exclusive message boards, and VIP updates below.</strong>' : 'Consider upgrading to a <strong>Premium Pass ($10/year)</strong> to unlock presales, RSVP meetups, and exclusive message boards!'}
       `;
 
-      // DYNAMICALLY UPDATE WEBSITE UI IF PREMIUM
       if (currentUser.isPremium) {
         document.getElementById('vipNavTab').style.display = 'block';
         document.getElementById('premiumHomeContent').style.display = 'block';
@@ -968,7 +937,6 @@
         document.getElementById('activePremiumContainer').style.display = 'block';
       }
 
-      // RENDER USER AVATAR / INITIALS IN CORNER
       let avatarHtml = currentUser.avatar 
         ? `<img src="${currentUser.avatar}" class="avatar-circle" alt="Avatar">`
         : `<div class="avatar-circle">${currentUser.initials || getInitials(currentUser.name)}</div>`;
@@ -1038,6 +1006,10 @@
       alert('Your song idea has been submitted directly to Grason Powell! Thank you for sharing.');
       document.getElementById('songTitle').value = '';
       document.getElementById('songLyrics').value = '';
+    }
+
+    function votePoll(choice) {
+      document.getElementById('pollResult').innerText = `Thanks for voting! You selected: "${choice}". Grason has received your vote!`;
     }
 
     function addBoardPost(e) {
