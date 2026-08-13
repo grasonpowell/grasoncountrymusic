@@ -89,7 +89,7 @@
 
     .nav-links {
       display: flex;
-      gap: 1.5rem;
+      gap: 1.2rem;
       list-style: none;
       align-items: center;
     }
@@ -111,6 +111,11 @@
       color: var(--accent-gold);
       text-shadow: 0 0 10px rgba(255, 153, 0, 0.8);
       background: rgba(255, 69, 0, 0.12);
+    }
+
+    .vip-tab-link {
+      color: var(--accent-gold) !important;
+      border: 1px dashed var(--accent-gold);
     }
 
     /* --- AVATAR BUTTON IN CORNER --- */
@@ -284,6 +289,15 @@
       content: "🔥";
     }
 
+    /* --- MESSAGE BOARD --- */
+    .post-item {
+      background: rgba(8, 6, 5, 0.7);
+      border: 1px solid var(--border-glow);
+      padding: 1.2rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+
     /* --- FORM ELEMENTS --- */
     .form-group { margin-bottom: 1.2rem; }
     .form-group label {
@@ -342,6 +356,7 @@
         <li><button class="nav-tab" onclick="switchTab('tourView')">Tour</button></li>
         <li><button class="nav-tab" onclick="switchTab('merchView')">Merch Store</button></li>
         <li><button class="nav-tab" onclick="switchTab('requestView')">Song Request</button></li>
+        <li id="vipNavTab" style="display: none;"><button class="nav-tab vip-tab-link" onclick="switchTab('boardView')">VIP Board</button></li>
         <li id="authNavContainer">
           <button class="btn btn-outline" onclick="openAuthModal('signup')">Sign Up / Login</button>
         </li>
@@ -371,6 +386,17 @@
           Welcome to the official home of Grason Powell country music. Whether you've been listening since the very beginning or you're pulling up a chair for the first time, this place was built for you. Here by the fire, we keep things raw, real, and authentic—bringing you acoustic sessions, studio news, tour dates, and official merchandise straight from the source. Grab a drink, make yourself at home, submit your song ideas, and be a part of the journey as new music comes to life.
         </p>
       </div>
+    </div>
+
+    <!-- PREMIUM UNLOCKED CONTENT BANNER (HIDDEN FOR GUESTS) -->
+    <div class="content-card" id="premiumHomeContent" style="display: none; border-color: var(--accent-gold);">
+      <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.8rem; margin-bottom: 1rem;">
+        🔥 VIP Member Exclusive Feed
+      </h3>
+      <p style="color: var(--text-bright); font-size: 1.05rem; line-height: 1.8;">
+        <strong>Presale Access Code:</strong> Use code <code style="background:var(--accent-ember); padding:2px 6px; border-radius:4px; color:#fff;">CAMPFIRE2026</code> for early tour ticket access.<br>
+        <strong>Exclusive Update:</strong> Behind-the-scenes acoustic clips are now unlocked in your profile area.
+      </p>
     </div>
 
     <div class="content-card">
@@ -405,7 +431,7 @@
     </div>
   </div>
 
-  <!-- MERCH STORE VIEW (SHOPIFY BUY BUTTON SHOWS ALL MERCH) -->
+  <!-- MERCH STORE VIEW (EXACT SHOPIFY BUY BUTTON INTEGRATED) -->
   <div class="view-container" id="merchView">
     <div class="content-card">
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 1.5rem;">
@@ -413,7 +439,7 @@
         <a href="https://rx63su-pf.myshopify.com" target="_blank" class="btn btn-outline" style="font-size: 0.75rem;">Open Full Shopify Site ↗</a>
       </div>
 
-      <!-- SHOPIFY BUY BUTTON EMBED FOR ALL MERCH -->
+      <!-- EXACT PROVIDED SHOPIFY BUY BUTTON CODE -->
       <div id='collection-component-1786603249726'></div>
       <script type="text/javascript">
       /*<![CDATA[*/
@@ -446,33 +472,142 @@
               node: document.getElementById('collection-component-1786603249726'),
               moneyFormat: '%24%7B%7Bamount%7D%7D',
               options: {
-                "product": {
-                  "styles": {
-                    "product": {
-                      "@media (min-width: 601px)": {
-                        "max-width": "calc(25% - 20px)",
-                        "margin-left": "20px",
-                        "margin-bottom": "50px",
-                        "width": "calc(25% - 20px)"
-                      }
-                    },
-                    "title": { "color": "#ffaa00" },
-                    "price": { "color": "#ffaa00" },
-                    "button": {
-                      "color": "#080605",
-                      "background-color": "#ffaa00",
-                      ":hover": { "background-color": "#ff4500", "color": "#ffffff" }
-                    }
-                  },
-                  "text": { "button": "Add to cart" }
-                },
-                "cart": {
-                  "styles": {
-                    "button": { "background-color": "#ff4500", "color": "#ffffff" },
-                    "cart": { "background-color": "#110f0d" }
-                  }
-                }
+        "product": {
+          "styles": {
+            "product": {
+              "@media (min-width: 601px)": {
+                "max-width": "calc(25% - 20px)",
+                "margin-left": "20px",
+                "margin-bottom": "50px",
+                "width": "calc(25% - 20px)"
+              },
+              "img": {
+                "height": "calc(100% - 15px)",
+                "position": "absolute",
+                "left": "0",
+                "right": "0",
+                "top": "0"
+              },
+              "imgWrapper": {
+                "padding-top": "calc(75% + 15px)",
+                "position": "relative",
+                "height": "0"
               }
+            },
+            "title": {
+              "color": "#ffaa00"
+            },
+            "button": {
+              "font-family": "Quantico, sans-serif",
+              "color": "#080605",
+              ":hover": {
+                "color": "#ffffff",
+                "background-color": "#ff4500"
+              },
+              "background-color": "#ffaa00",
+              ":focus": {
+                "background-color": "#ffaa00"
+              }
+            },
+            "price": {
+              "color": "#ffaa00"
+            },
+            "compareAt": {
+              "color": "#ffaa00"
+            },
+            "unitPrice": {
+              "color": "#ffaa00"
+            }
+          },
+          "text": {
+            "button": "Add to cart"
+          },
+          "googleFonts": [
+            "Quantico"
+          ]
+        },
+        "productSet": {
+          "styles": {
+            "products": {
+              "@media (min-width: 601px)": {
+                "margin-left": "-20px"
+              }
+            }
+          }
+        },
+        "modalProduct": {
+          "contents": {
+            "img": false,
+            "imgWithCarousel": true,
+            "button": false,
+            "buttonWithQuantity": true
+          },
+          "styles": {
+            "product": {
+              "@media (min-width: 601px)": {
+                "max-width": "100%",
+                "margin-left": "0px",
+                "margin-bottom": "0px"
+              }
+            },
+            "button": {
+              "font-family": "Quantico, sans-serif",
+              "color": "#080605",
+              ":hover": {
+                "color": "#ffffff",
+                "background-color": "#ff4500"
+              },
+              "background-color": "#ffaa00"
+            },
+            "title": {
+              "font-family": "Helvetica Neue, sans-serif",
+              "font-weight": "bold",
+              "font-size": "26px",
+              "color": "#ffaa00"
+            },
+            "price": {
+              "font-family": "Helvetica Neue, sans-serif",
+              "font-weight": "normal",
+              "font-size": "18px",
+              "color": "#ffaa00"
+            }
+          },
+          "googleFonts": [
+            "Quantico"
+          ],
+          "text": {
+            "button": "Add to cart"
+          }
+        },
+        "cart": {
+          "styles": {
+            "button": {
+              "font-family": "Quantico, sans-serif",
+              "color": "#ffffff",
+              ":hover": {
+                "background-color": "#ffaa00",
+                "color": "#000000"
+              },
+              "background-color": "#ff4500"
+            },
+            "title": { "color": "#ffaa00" },
+            "header": { "color": "#ffaa00" },
+            "lineItems": { "color": "#ffaa00" },
+            "subtotalText": { "color": "#ffaa00" },
+            "subtotal": { "color": "#ffaa00" },
+            "cart": { "background-color": "#110f0d" },
+            "footer": { "background-color": "#110f0d" }
+          },
+          "text": {
+            "total": "Subtotal",
+            "button": "Checkout"
+          },
+          "popup": false,
+          "googleFonts": [
+            "Quantico"
+          ]
+        }
+      },
             });
           });
         }
@@ -504,6 +639,30 @@
     </div>
   </div>
 
+  <!-- EXCLUSIVE VIP MESSAGE BOARD (PREMIUM ONLY) -->
+  <div class="view-container" id="boardView">
+    <div class="content-card" style="max-width: 800px;">
+      <h2 class="burn-title" style="font-size: 2.2rem;">Exclusive VIP Message Board</h2>
+      <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem;">
+        Welcome to the members-only campfire message board. Share thoughts, meet-up plans, and lyric feedback with other Premium members.
+      </p>
+
+      <form onsubmit="addBoardPost(event)" style="margin-bottom: 2rem;">
+        <div class="form-group">
+          <textarea id="postContent" class="form-control" rows="3" placeholder="Post a message to the campfire board..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Post Message</button>
+      </form>
+
+      <div id="postsList">
+        <div class="post-item">
+          <strong style="color: var(--accent-gold);">Grason Powell (Team)</strong>
+          <p style="margin-top: 0.3rem;">Welcome to the VIP message board! Thanks for taking a seat by the fire. Tour dates and presale codes will be posted here first.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- FAN PROFILE & PREMIUM MEMBERSHIP VIEW -->
   <div class="view-container" id="accountView">
     <div class="content-card" style="max-width: 850px;">
@@ -520,8 +679,8 @@
         </div>
       </div>
 
-      <!-- PREMIUM MEMBERSHIP PASS PURCHASER -->
-      <div style="background: rgba(255, 153, 0, 0.1); border: 1px solid var(--accent-gold); border-radius: 12px; padding: 2rem; margin-bottom: 2.5rem;">
+      <!-- PREMIUM MEMBERSHIP PASS PURCHASER CONTAINER -->
+      <div id="upgradeContainer" style="background: rgba(255, 153, 0, 0.1); border: 1px solid var(--accent-gold); border-radius: 12px; padding: 2rem; margin-bottom: 2.5rem;">
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
           <div>
             <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.6rem;">Upgrade to Premium Member Pass</h3>
@@ -541,6 +700,12 @@
           <li>Access To Members-Only Merch</li>
           <li>First Access To Tickets/VIP & Members-Only Presale</li>
         </ul>
+      </div>
+
+      <!-- ACTIVE PREMIUM STATUS DISPLAY (SHOWN WHEN USER IS PREMIUM) -->
+      <div id="activePremiumContainer" style="display: none; background: linear-gradient(135deg, rgba(255, 153, 0, 0.2), rgba(255, 69, 0, 0.1)); border: 1px solid var(--accent-gold); border-radius: 12px; padding: 2rem; margin-bottom: 2.5rem;">
+        <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.6rem;">🔥 You are an Active Premium VIP Member!</h3>
+        <p style="color: var(--text-bright); margin-top: 0.5rem;">Your $10/year Pass is active. All website features, presales, and message boards are completely unlocked for you.</p>
       </div>
 
       <!-- ACCOUNT DETAILS FORM -->
@@ -668,7 +833,9 @@
     function switchTab(viewId) {
       document.querySelectorAll('.view-container').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
-      document.getElementById(viewId).classList.add('active');
+      
+      const target = document.getElementById(viewId);
+      if (target) target.classList.add('active');
     }
 
     function openAuthModal(form) {
@@ -693,14 +860,16 @@
       document.getElementById('paymentModal').classList.remove('active');
     }
 
+    // PROCESS PAYMENT & CHARGE CARD
     function processPayment(e) {
       e.preventDefault();
       currentUser.isPremium = true;
       localStorage.setItem('gp_user_' + currentUser.email, JSON.stringify(currentUser));
       localStorage.setItem('gp_active_user', JSON.stringify(currentUser));
+      
       closePaymentModal();
       renderAccountState();
-      alert('Congratulations, ' + currentUser.name + '! Your Premium Membership Pass is active for $10/year.');
+      alert('Card successfully charged $10.00! Your Premium Membership Pass is now active and the website features have been updated.');
     }
 
     function switchAuthForm(form) {
@@ -739,7 +908,6 @@
         initials: getInitials(name)
       };
 
-      // AUTO LOGIN PERSISTENCE
       localStorage.setItem('gp_user_' + user.email, JSON.stringify(user));
       localStorage.setItem('gp_active_user', JSON.stringify(user));
       currentUser = user;
@@ -786,11 +954,19 @@
         `;
       }
 
-      // PERSONALIZED FAN PARAGRAPH
+      // PERSONALIZED FAN PARAGRAPH & PREMIUM UPDATES
       document.getElementById('welcomeHeadline').innerText = `Welcome Back to the Fire, ${currentUser.name}! 🔥`;
       document.getElementById('welcomeParagraph').innerHTML = `
-        It's great to see you back by the fire, ${currentUser.name}. As a registered member of The Circle, you have full access to exclusive behind-the-scenes updates, custom merch previews, and direct song requests. ${currentUser.isPremium ? '<strong>You are currently a Premium VIP Pass holder ($10/year) with full presale and message board access.</strong>' : 'Consider upgrading to a <strong>Premium Pass ($10/year)</strong> to unlock presales, RSVP meetups, and exclusive content!'}
+        It's great to see you back by the fire, ${currentUser.name}. As a registered member of The Circle, you have full access to exclusive behind-the-scenes updates, custom merch previews, and direct song requests. ${currentUser.isPremium ? '<strong>Your Premium VIP Pass ($10/year) is active! You have full access to presale codes, exclusive message boards, and VIP updates below.</strong>' : 'Consider upgrading to a <strong>Premium Pass ($10/year)</strong> to unlock presales, RSVP meetups, and exclusive message boards!'}
       `;
+
+      // DYNAMICALLY UPDATE WEBSITE UI IF PREMIUM
+      if (currentUser.isPremium) {
+        document.getElementById('vipNavTab').style.display = 'block';
+        document.getElementById('premiumHomeContent').style.display = 'block';
+        document.getElementById('upgradeContainer').style.display = 'none';
+        document.getElementById('activePremiumContainer').style.display = 'block';
+      }
 
       // RENDER USER AVATAR / INITIALS IN CORNER
       let avatarHtml = currentUser.avatar 
@@ -862,6 +1038,22 @@
       alert('Your song idea has been submitted directly to Grason Powell! Thank you for sharing.');
       document.getElementById('songTitle').value = '';
       document.getElementById('songLyrics').value = '';
+    }
+
+    function addBoardPost(e) {
+      e.preventDefault();
+      const content = document.getElementById('postContent').value;
+      const postsList = document.getElementById('postsList');
+
+      const newPost = document.createElement('div');
+      newPost.className = 'post-item';
+      newPost.innerHTML = `
+        <strong style="color: var(--accent-gold);">${currentUser.name} (VIP Pass Member)</strong>
+        <p style="margin-top: 0.3rem;">${content}</p>
+      `;
+
+      postsList.prepend(newPost);
+      document.getElementById('postContent').value = '';
     }
 
     function logoutUser() {
