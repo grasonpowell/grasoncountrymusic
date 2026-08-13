@@ -113,7 +113,7 @@
       background: rgba(255, 69, 0, 0.12);
     }
 
-    /* --- PROFILE / INITIALS BUTTON IN CORNER --- */
+    /* --- AVATAR BUTTON IN CORNER --- */
     .nav-avatar-btn {
       display: flex;
       align-items: center;
@@ -187,17 +187,17 @@
       }
     }
 
-    /* --- TAB VIEW CONTAINER --- */
+    /* --- EXTENDED TAB CONTAINERS WITH INTERNAL SCROLLING --- */
     .view-container {
       position: absolute;
       top: 75px; left: 0;
       width: 100vw;
       height: calc(100vh - 75px);
-      overflow-y: auto;
-      padding: 3rem 2rem;
+      overflow-y: auto; /* ENABLES ROOM TO SCROLL WITHIN EACH TAB */
+      padding: 4rem 2rem 8rem 2rem;
       display: none;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
     }
 
     .view-container.active {
@@ -208,9 +208,10 @@
       background: var(--bg-card);
       border: 1px solid var(--border-glow);
       border-radius: 16px;
-      padding: 2.5rem;
-      max-width: 900px;
+      padding: 3rem;
+      max-width: 950px;
       width: 100%;
+      margin-bottom: 3rem; /* SPACING TO SCROLL DOWN */
       box-shadow: 0 20px 50px rgba(0,0,0,0.85);
       backdrop-filter: blur(12px);
     }
@@ -245,32 +246,29 @@
       color: var(--text-bright);
     }
 
-    /* --- MERCH STORE CARDS (NATIVE SHOPIFY STOREFRONT) --- */
+    /* --- MERCH CARDS --- */
     .merch-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1.5rem;
-      margin-top: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
     }
 
     .merch-card {
-      background: rgba(8, 6, 5, 0.7);
+      background: rgba(8, 6, 5, 0.8);
       border: 1px solid var(--border-glow);
       border-radius: 12px;
-      padding: 1.2rem;
+      padding: 1.5rem;
       text-align: center;
       transition: transform 0.3s, border-color 0.3s;
     }
 
     .merch-card:hover {
-      transform: translateY(-4px);
+      transform: translateY(-5px);
       border-color: var(--accent-gold);
     }
 
-    .merch-icon {
-      font-size: 3rem;
-      margin-bottom: 0.5rem;
-    }
+    .merch-icon { font-size: 3.5rem; margin-bottom: 0.8rem; }
 
     /* --- FORM ELEMENTS --- */
     .form-group { margin-bottom: 1.2rem; }
@@ -285,6 +283,53 @@
       background: rgba(8, 6, 5, 0.8); color: var(--text-bright);
       font-size: 0.95rem;
     }
+
+    /* --- SOUND TOGGLE SWITCH STYLES --- */
+    .sound-toggle-box {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: rgba(18, 13, 9, 0.95);
+      border: 1px solid var(--border-glow);
+      padding: 0.6rem 1.2rem;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      z-index: 1000;
+      box-shadow: 0 0 20px rgba(0,0,0,0.8);
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+    }
+
+    .switch input { opacity: 0; width: 0; height: 0; }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #3a2e2b;
+      transition: .4s;
+      border-radius: 24px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px; width: 18px;
+      left: 3px; bottom: 3px;
+      background-color: var(--text-bright);
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider { background-color: var(--accent-ember); }
+    input:checked + .slider:before { transform: translateX(20px); }
 
     /* --- MODALS --- */
     .modal-overlay {
@@ -301,15 +346,6 @@
       background: none; border: none; color: var(--text-muted);
       font-size: 1.5rem; cursor: pointer;
     }
-
-    /* AMBIENT AUDIO TOGGLE */
-    .audio-toggle {
-      position: fixed; bottom: 20px; right: 20px;
-      background: var(--bg-card); border: 1px solid var(--border-glow);
-      padding: 0.6rem 1rem; border-radius: 20px;
-      color: var(--text-bright); font-size: 0.8rem;
-      cursor: pointer; z-index: 100;
-    }
   </style>
 </head>
 <body>
@@ -321,6 +357,11 @@
     </video>
   </div>
   <div class="bg-overlay"></div>
+
+  <!-- AUDIO SOURCE FOR CAMPFIRE SOUND -->
+  <audio id="fireAudio" loop>
+    <source src="https://assets.mixkit.co/active_storage/sfx/2386/2386-preview.mp3" type="audio/mpeg">
+  </audio>
 
   <!-- NAVIGATION BAR -->
   <header>
@@ -339,63 +380,91 @@
     </nav>
   </header>
 
-  <!-- HOME VIEW -->
+  <!-- HOME VIEW (EXTENDED FOR SCROLLING) -->
   <div class="view-container active" id="homeView">
-    <div style="text-align: center;">
+    <div style="text-align: center; margin-bottom: 4rem; padding-top: 2rem;">
       <h1 class="burn-title">GRASON POWELL</h1>
-      <p style="color: var(--text-muted); margin-top: 1rem; font-size: 1.1rem; letter-spacing: 1px;">TAKE A SEAT NEXT TO THE FIRE</p>
+      <p style="color: var(--text-muted); margin-top: 1rem; font-size: 1.2rem; letter-spacing: 2px;">TAKE A SEAT NEXT TO THE FIRE</p>
       <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
         <button class="btn btn-primary" onclick="openAuthModal('signup')">Join The Circle</button>
-        <button class="btn btn-outline" onclick="switchTab('merchView')">Visit Store</button>
+        <button class="btn btn-outline" onclick="switchTab('merchView')">Visit Merch Store</button>
       </div>
+    </div>
+
+    <!-- ROOM TO SCROLL DOWN -->
+    <div class="content-card">
+      <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.8rem; margin-bottom: 1rem;">Welcome to the Campfire</h3>
+      <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.8;">
+        This is the official home of country artist Grason Powell. Here by the fire, fans get exclusive access to behind-the-scenes song production, early concert updates, original merch, and direct communication with Grason.
+      </p>
+    </div>
+
+    <div class="content-card">
+      <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.8rem; margin-bottom: 1rem;">Direct Line To The Music</h3>
+      <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.8;">
+        Have a lyric idea or personal story you want turned into a country song? Use the <strong>Song Request</strong> tab above to submit your ideas directly.
+      </p>
     </div>
   </div>
 
-  <!-- MUSIC VIEW -->
+  <!-- MUSIC VIEW (EXTENDED FOR SCROLLING) -->
   <div class="view-container" id="musicView">
     <div class="content-card" style="text-align: center;">
       <h2 class="burn-title" style="font-size: 2.5rem;">Music</h2>
       <h3 style="color: var(--accent-gold); margin-top: 1rem;">Debut Single In Production</h3>
-      <p style="color: var(--text-muted); margin-top: 0.5rem;">Grason Powell is currently in the studio. Join The Circle to get notified when tracks drop.</p>
+      <p style="color: var(--text-muted); margin-top: 0.5rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+        Grason Powell is currently in the studio working on upcoming acoustic tracks and studio releases. Join The Circle to receive private preview links when tracks drop.
+      </p>
+    </div>
+
+    <div class="content-card">
+      <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 1rem;">Acoustic Sessions</h3>
+      <p style="color: var(--text-muted);">Exclusive unreleased acoustic recordings will be made available right here for registered fans.</p>
     </div>
   </div>
 
-  <!-- TOUR VIEW -->
+  <!-- TOUR VIEW (EXTENDED FOR SCROLLING) -->
   <div class="view-container" id="tourView">
     <div class="content-card" style="text-align: center;">
       <h2 class="burn-title" style="font-size: 2.5rem;">Tour Dates</h2>
       <h3 style="color: var(--accent-gold); margin-top: 1rem;">No Dates Scheduled</h3>
-      <p style="color: var(--text-muted); margin-top: 0.5rem;">Sign up for updates to get notified when acoustic campfire dates are announced in your city.</p>
+      <p style="color: var(--text-muted); margin-top: 0.5rem;">Campfire sessions and tour announcements are currently being planned.</p>
+    </div>
+
+    <div class="content-card">
+      <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 1rem;">Request A Show In Your City</h3>
+      <p style="color: var(--text-muted); margin-bottom: 1rem;">Let us know where you want Grason Powell to play next.</p>
+      <button class="btn btn-primary" onclick="openAuthModal('signup')">Sign Up For City Alerts</button>
     </div>
   </div>
 
-  <!-- NATIVE SHOPIFY MERCH STORE VIEW -->
+  <!-- MERCH STORE VIEW (SHOPIFY STOREFRONT WITH SCROLL ROOM) -->
   <div class="view-container" id="merchView">
     <div class="content-card">
-      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 1rem;">
         <h2 class="burn-title" style="font-size: 2.2rem;">Official Merch Store</h2>
-        <a href="https://Grasoncountrymusic.myshopify.com" target="_blank" class="btn btn-outline" style="font-size: 0.75rem;">Open Full Shopify Store ↗</a>
+        <a href="https://Grasoncountrymusic.myshopify.com" target="_blank" class="btn btn-outline" style="font-size: 0.75rem;">Open Full Shopify Site ↗</a>
       </div>
-      <p style="color: var(--text-muted); margin-top: 0.5rem;">Official Grason Powell Merchandise powered by Printful & Shopify.</p>
+      <p style="color: var(--text-muted);">Official merchandise integrated directly with Printful & Shopify.</p>
       
       <div class="merch-grid">
         <div class="merch-card">
           <div class="merch-icon">🧢</div>
           <h3>Grason Powell Cap</h3>
           <p style="color: var(--accent-gold); font-weight: 700; margin: 0.5rem 0;">$28.00</p>
-          <a href="https://Grasoncountrymusic.myshopify.com" target="_blank" class="btn btn-primary" style="padding: 0.5rem 1.2rem; font-size: 0.75rem;">Buy on Shopify</a>
+          <a href="https://Grasoncountrymusic.myshopify.com" target="_blank" class="btn btn-primary" style="padding: 0.5rem 1.2rem; font-size: 0.75rem;">Buy Item</a>
         </div>
         <div class="merch-card">
           <div class="merch-icon">👕</div>
           <h3>Campfire Logo Tee</h3>
           <p style="color: var(--accent-gold); font-weight: 700; margin: 0.5rem 0;">$32.00</p>
-          <a href="https://Grasoncountrymusic.myshopify.com" target="_blank" class="btn btn-primary" style="padding: 0.5rem 1.2rem; font-size: 0.75rem;">Buy on Shopify</a>
+          <a href="https://Grasoncountrymusic.myshopify.com" target="_blank" class="btn btn-primary" style="padding: 0.5rem 1.2rem; font-size: 0.75rem;">Buy Item</a>
         </div>
         <div class="merch-card">
           <div class="merch-icon">🧥</div>
           <h3>Acoustic Sessions Hoodie</h3>
           <p style="color: var(--accent-gold); font-weight: 700; margin: 0.5rem 0;">$55.00</p>
-          <a href="https://Grasoncountrymusic.myshopify.com" target="_blank" class="btn btn-primary" style="padding: 0.5rem 1.2rem; font-size: 0.75rem;">Buy on Shopify</a>
+          <a href="https://Grasoncountrymusic.myshopify.com" target="_blank" class="btn btn-primary" style="padding: 0.5rem 1.2rem; font-size: 0.75rem;">Buy Item</a>
         </div>
       </div>
     </div>
@@ -403,7 +472,7 @@
 
   <!-- SONG REQUEST VIEW -->
   <div class="view-container" id="requestView">
-    <div class="content-card" style="max-width: 650px;">
+    <div class="content-card" style="max-width: 700px;">
       <h2 class="burn-title" style="font-size: 2.2rem;">Song Idea & Lyric Box</h2>
       <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem;">
         Have a song title or lyric idea? Submit it directly to Grason Powell below. He personally reads every submission!
@@ -415,7 +484,7 @@
         </div>
         <div class="form-group">
           <label>Lyric Concept or Personal Story</label>
-          <textarea id="songLyrics" class="form-control" rows="5" placeholder="Write your lyrics, chorus ideas, or a story you'd love to hear in a song..." required></textarea>
+          <textarea id="songLyrics" class="form-control" rows="6" placeholder="Write your lyrics, chorus ideas, or a story you'd love to hear in a song..." required></textarea>
         </div>
         <button type="submit" class="btn btn-primary" style="width: 100%;">Send Directly To Grason</button>
       </form>
@@ -483,10 +552,6 @@
             <label>Password *</label>
             <input type="password" id="signupPassword" class="form-control" required>
           </div>
-          <div class="form-group" style="display: flex; gap: 0.8rem; align-items: center;">
-            <input type="checkbox" id="signupNewsletter" checked style="accent-color: var(--accent-ember);">
-            <label for="signupNewsletter" style="margin: 0; text-transform: none; color: var(--text-muted);">Sign up for Shop updates</label>
-          </div>
           <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Create Account</button>
         </form>
         <p style="text-align: center; margin-top: 1rem; font-size: 0.85rem; color: var(--text-muted);">
@@ -515,13 +580,16 @@
     </div>
   </div>
 
-  <!-- HIDDEN IFRAME FOR BACKGROUND SHOP SUBSCRIPTION -->
-  <iframe id="hiddenShopifyFrame" style="display:none;" name="hiddenShopifyFrame"></iframe>
-
-  <button class="audio-toggle" onclick="toggleAudio()">🔥 Sound On / Off</button>
+  <!-- CAMPFIRE AUDIO TOGGLE SWITCH -->
+  <div class="sound-toggle-box">
+    <span style="font-size: 0.8rem; font-weight: 700; color: var(--accent-gold);">🔥 Campfire Sound</span>
+    <label class="switch">
+      <input type="checkbox" id="soundSwitch" onchange="toggleSound(this)">
+      <span class="slider"></span>
+    </label>
+  </div>
 
   <script>
-    const SHOPIFY_AUTH_URL = "https://shopify.com/authentication/104591851680/login";
     let currentUser = null;
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -552,7 +620,6 @@
       document.getElementById('loginView').style.display = form === 'login' ? 'block' : 'none';
     }
 
-    // GET USER INITIALS
     function getInitials(name) {
       if (!name) return 'GP';
       const parts = name.trim().split(' ');
@@ -566,9 +633,8 @@
       e.preventDefault();
       const email = document.getElementById('signupEmail').value;
 
-      // CHECK IF EMAIL ALREADY EXISTS
       if (localStorage.getItem('gp_user_' + email)) {
-        alert('An account with this email already exists! Please log in instead.');
+        alert('An account with this email already exists! Please log in.');
         switchAuthForm('login');
         document.getElementById('loginEmail').value = email;
         return;
@@ -580,7 +646,6 @@
         phone: document.getElementById('signupPhone').value,
         email: email,
         password: document.getElementById('signupPassword').value,
-        newsletter: document.getElementById('signupNewsletter').checked,
         avatar: null,
         initials: getInitials(name)
       };
@@ -588,11 +653,6 @@
       localStorage.setItem('gp_user_' + user.email, JSON.stringify(user));
       localStorage.setItem('gp_active_user', JSON.stringify(user));
       currentUser = user;
-
-      // SILENT SHOP SUBSCRIPTION BACKGROUND TRIGGER
-      if (user.newsletter) {
-        document.getElementById('hiddenShopifyFrame').src = SHOPIFY_AUTH_URL;
-      }
 
       closeAuthModal();
       renderAccountState();
@@ -627,13 +687,9 @@
       if (!currentUser) return;
       const navContainer = document.getElementById('authNavContainer');
 
-      // RENDER AVATAR OR INITIALS IN NAVIGATION CORNER
-      let avatarHtml = '';
-      if (currentUser.avatar) {
-        avatarHtml = `<img src="${currentUser.avatar}" class="avatar-circle" alt="Avatar">`;
-      } else {
-        avatarHtml = `<div class="avatar-circle">${currentUser.initials || getInitials(currentUser.name)}</div>`;
-      }
+      let avatarHtml = currentUser.avatar 
+        ? `<img src="${currentUser.avatar}" class="avatar-circle" alt="Avatar">`
+        : `<div class="avatar-circle">${currentUser.initials || getInitials(currentUser.name)}</div>`;
 
       navContainer.innerHTML = `
         <button class="nav-avatar-btn" onclick="switchTab('accountView')">
@@ -696,9 +752,14 @@
       location.reload();
     }
 
-    function toggleAudio() {
-      const video = document.getElementById('bgVideo');
-      video.muted = !video.muted;
+    // TOGGLE CAMPFIRE AUDIO SWITCH
+    function toggleSound(switchEl) {
+      const audio = document.getElementById('fireAudio');
+      if (switchEl.checked) {
+        audio.play().catch(err => console.log('Audio playback allowed after interaction.'));
+      } else {
+        audio.pause();
+      }
     }
   </script>
 </body>
