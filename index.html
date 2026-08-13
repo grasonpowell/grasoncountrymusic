@@ -265,6 +265,17 @@
       background: rgba(255, 153, 0, 0.1);
     }
 
+    .btn-danger {
+      background: rgba(200, 0, 0, 0.2);
+      border: 1px solid #ff3333;
+      color: #ffaaaa;
+    }
+
+    .btn-danger:hover {
+      background: #cc0000;
+      color: #ffffff;
+    }
+
     /* --- PREMIUM MEMBERSHIP LIST --- */
     .premium-perks-list {
       list-style: none;
@@ -313,8 +324,8 @@
       margin-bottom: 1rem;
     }
 
-    /* --- FORM ELEMENTS --- */
-    .form-group { margin-bottom: 1.2rem; }
+    /* --- FORM ELEMENTS & PASSWORD TOGGLE --- */
+    .form-group { margin-bottom: 1.2rem; position: relative; }
     .form-group label {
       display: block; color: var(--text-muted);
       font-size: 0.75rem; text-transform: uppercase;
@@ -325,6 +336,31 @@
       border-radius: 8px; border: 1px solid var(--border-glow);
       background: rgba(8, 6, 5, 0.8); color: var(--text-bright);
       font-size: 0.95rem;
+    }
+
+    .password-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .password-wrapper .form-control {
+      padding-right: 2.8rem;
+    }
+
+    .toggle-pwd-btn {
+      position: absolute;
+      right: 0.8rem;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 1.1rem;
+      user-select: none;
+    }
+
+    .toggle-pwd-btn:hover {
+      color: var(--accent-gold);
     }
 
     /* --- MODALS --- */
@@ -603,7 +639,7 @@
         <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.6rem; margin-bottom: 0.5rem;">Upgrade to Premium Member Pass</h3>
         <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">Join the VIP inner circle for <strong>$10/year</strong> via secure Shopify checkout below.</p>
 
-        <!-- EXACT SHOPIFY MEMBERSHIP PRODUCT BUY BUTTON CODE -->
+        <!-- SHOPIFY MEMBERSHIP PRODUCT BUY BUTTON -->
         <div id='product-component-1786606684628' onclick="activateMembershipOnCheckout()"></div>
         <script type="text/javascript">
         /*<![CDATA[*/
@@ -717,10 +753,16 @@
         </ul>
       </div>
 
-      <!-- ACTIVE PREMIUM STATUS DISPLAY -->
+      <!-- ACTIVE PREMIUM STATUS & CANCEL SUBSCRIPTION CONTAINER -->
       <div id="activePremiumContainer" style="display: none; background: linear-gradient(135deg, rgba(255, 153, 0, 0.2), rgba(255, 69, 0, 0.1)); border: 1px solid var(--accent-gold); border-radius: 12px; padding: 2rem; margin-bottom: 2.5rem;">
-        <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.6rem;">🔥 You are an Active Premium VIP Member!</h3>
-        <p style="color: var(--text-bright); margin-top: 0.5rem;">Your $10/year Pass is active. All website features, presales, and message boards are completely unlocked for you.</p>
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.6rem;">🔥 You are an Active Premium VIP Member!</h3>
+            <p style="color: var(--text-bright); margin-top: 0.5rem;">Your $10/year Pass is active. All presales, message boards, and VIP updates are completely unlocked for you.</p>
+          </div>
+          <!-- CANCEL SUBSCRIPTION BUTTON -->
+          <button class="btn btn-outline" style="border-color: #ff5555; color: #ff8888;" onclick="cancelSubscription()">Cancel Subscription</button>
+        </div>
       </div>
 
       <!-- ACCOUNT DETAILS FORM -->
@@ -739,11 +781,19 @@
         </div>
         <div class="form-group">
           <label>New Password</label>
-          <input type="password" id="profilePassword" class="form-control" placeholder="Leave blank to retain password">
+          <div class="password-wrapper">
+            <input type="password" id="profilePassword" class="form-control" placeholder="Leave blank to retain password">
+            <button type="button" class="toggle-pwd-btn" onclick="togglePasswordVisibility('profilePassword', this)">👁️</button>
+          </div>
         </div>
-        <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
-          <button type="submit" class="btn btn-primary">Save Profile</button>
-          <button type="button" class="btn btn-outline" onclick="logoutUser()">Log Out</button>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-top: 2rem;">
+          <div style="display: flex; gap: 1rem;">
+            <button type="submit" class="btn btn-primary">Save Profile</button>
+            <button type="button" class="btn btn-outline" onclick="logoutUser()">Log Out</button>
+          </div>
+          <!-- DELETE ACCOUNT BUTTON -->
+          <button type="button" class="btn btn-danger" onclick="deleteAccount()">Delete Account</button>
         </div>
       </form>
     </div>
@@ -772,7 +822,10 @@
           </div>
           <div class="form-group">
             <label>Password *</label>
-            <input type="password" id="signupPassword" class="form-control" required>
+            <div class="password-wrapper">
+              <input type="password" id="signupPassword" class="form-control" required>
+              <button type="button" class="toggle-pwd-btn" onclick="togglePasswordVisibility('signupPassword', this)">👁️</button>
+            </div>
           </div>
           <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Create Account</button>
         </form>
@@ -791,7 +844,10 @@
           </div>
           <div class="form-group">
             <label>Password</label>
-            <input type="password" id="loginPassword" class="form-control" required>
+            <div class="password-wrapper">
+              <input type="password" id="loginPassword" class="form-control" required>
+              <button type="button" class="toggle-pwd-btn" onclick="togglePasswordVisibility('loginPassword', this)">👁️</button>
+            </div>
           </div>
           <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Log In</button>
         </form>
@@ -831,7 +887,18 @@
       document.getElementById('authModal').classList.remove('active');
     }
 
-    // ACTIVATES MEMBERSHIP STATE WHEN USER INTERACTS WITH SHOPIFY BUY BUTTON
+    // EYE ICON PASSWORD VISIBILITY TOGGLE
+    function togglePasswordVisibility(inputId, btn) {
+      const input = document.getElementById(inputId);
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.innerText = '🙈';
+      } else {
+        input.type = 'password';
+        btn.innerText = '👁️';
+      }
+    }
+
     function activateMembershipOnCheckout() {
       if (!currentUser) {
         alert('Please sign up or log in first before purchasing!');
@@ -842,6 +909,40 @@
       localStorage.setItem('gp_user_' + currentUser.email, JSON.stringify(currentUser));
       localStorage.setItem('gp_active_user', JSON.stringify(currentUser));
       renderAccountState();
+    }
+
+    // CANCEL SUBSCRIPTION
+    function cancelSubscription() {
+      if (!currentUser || !currentUser.isPremium) return;
+
+      const confirmCancel = confirm("Are you sure you want to cancel your Premium Pass subscription? You will lose access to presales and VIP message boards.");
+      if (confirmCancel) {
+        currentUser.isPremium = false;
+        localStorage.setItem('gp_user_' + currentUser.email, JSON.stringify(currentUser));
+        localStorage.setItem('gp_active_user', JSON.stringify(currentUser));
+        
+        // RE-RENDER WEBSITE STATE
+        document.getElementById('vipNavTab').style.display = 'none';
+        document.getElementById('premiumHomeContent').style.display = 'none';
+        document.getElementById('upgradeContainer').style.display = 'block';
+        document.getElementById('activePremiumContainer').style.display = 'none';
+        
+        renderAccountState();
+        alert("Your Premium subscription has been canceled. You have been reverted to a Free Member.");
+      }
+    }
+
+    // DELETE ACCOUNT AT ALL TIMES
+    function deleteAccount() {
+      if (!currentUser) return;
+
+      const confirmDelete = confirm("Are you sure you want to completely DELETE your account? This action cannot be undone.");
+      if (confirmDelete) {
+        localStorage.removeItem('gp_user_' + currentUser.email);
+        localStorage.removeItem('gp_active_user');
+        alert("Your account has been permanently deleted.");
+        location.reload();
+      }
     }
 
     function switchAuthForm(form) {
@@ -935,6 +1036,11 @@
         document.getElementById('premiumHomeContent').style.display = 'block';
         document.getElementById('upgradeContainer').style.display = 'none';
         document.getElementById('activePremiumContainer').style.display = 'block';
+      } else {
+        document.getElementById('vipNavTab').style.display = 'none';
+        document.getElementById('premiumHomeContent').style.display = 'none';
+        document.getElementById('upgradeContainer').style.display = 'block';
+        document.getElementById('activePremiumContainer').style.display = 'none';
       }
 
       let avatarHtml = currentUser.avatar 
