@@ -5,17 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Grason Powell | The Campfire Sessions</title>
   <style>
-    /* --- CAMPFIRE AESTHETIC VARIABLES --- */
+    /* --- HIGH-END CAMPFIRE PALETTE & DESIGN SYSTEM --- */
     :root {
-      --bg-dark: #0d0b0a; /* Darkest bark/ash */
-      --bg-card: rgba(26, 23, 20, 0.9); /* Translucent leather */
-      --accent: #ff9f43; /* Bright ember gold */
-      --accent-hover: #ffca85;
-      --text-main: #f5f0eb; /* Clean ash-white */
-      --text-muted: #a69b8f; /* Faded oak */
-      --border: rgba(212, 163, 89, 0.2); /* Faint ember glow */
-      --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Georgia", serif;
-      --font-logo: "Georgia", "Times New Roman", serif; /* More rustic/classic */
+      --bg-dark: #080605;
+      --bg-card: rgba(18, 14, 11, 0.85);
+      --bg-card-hover: rgba(28, 22, 17, 0.95);
+      --accent-ember: #ff7700;
+      --accent-gold: #e5a93c;
+      --text-bright: #fffdfa;
+      --text-muted: #b5a494;
+      --border-glow: rgba(255, 119, 0, 0.25);
+      --font-display: "Georgia", "Times New Roman", serif;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
     * {
@@ -30,8 +31,8 @@
 
     body {
       background-color: var(--bg-dark);
-      color: var(--text-main);
-      font-family: var(--font-main);
+      color: var(--text-bright);
+      font-family: var(--font-sans);
       line-height: 1.6;
       overflow-x: hidden;
     }
@@ -41,29 +42,38 @@
       text-decoration: none;
     }
 
-    /* --- BACKGROUND VIDEO INJECT --- */
-    .bg-video-wrapper {
+    /* --- ATMOSPHERIC CAMPFIRE ANIMATED BACKGROUND --- */
+    .hero-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -2;
+      background: radial-gradient(circle at 50% 80%, rgba(255, 100, 0, 0.18) 0%, rgba(8, 6, 5, 0.98) 70%),
+                  linear-gradient(180deg, rgba(8, 6, 5, 0.8) 0%, rgba(8, 6, 5, 1) 100%),
+                  url('https://images.unsplash.com/photo-1508873696983-2df515122519?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+    }
+
+    /* Floating embers simulation */
+    .embers-overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       z-index: -1;
-      overflow: hidden;
-      filter: brightness(0.6) saturate(0.8); /* Enhance dark campfire vibe */
+      pointer-events: none;
+      background-image: radial-gradient(var(--accent-ember) 1px, transparent 1px);
+      background-size: 50px 50px;
+      opacity: 0.15;
+      animation: floatEmbers 20s linear infinite;
     }
 
-    /* Simulate live video with an embed or video tag. I am providing a placeholder overlay. */
-    .bg-video-overlay {
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle, transparent 20%, rgba(13, 11, 10, 1) 90%);
-      position: absolute;
-      top: 0;
-      left: 0;
+    @keyframes floatEmbers {
+      0% { background-position: 0 0; }
+      100% { background-position: 50px -500px; }
     }
-
-    /* In production, replace with: <video autoplay muted loop id="bgVideo"><source src="fire.mp4" type="video/mp4"></video> */
 
     /* --- NAVIGATION --- */
     header {
@@ -71,10 +81,10 @@
       top: 0;
       left: 0;
       width: 100%;
-      background: rgba(13, 11, 10, 0.85);
-      backdrop-filter: blur(8px);
+      background: rgba(8, 6, 5, 0.88);
+      backdrop-filter: blur(12px);
       z-index: 1000;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--border-glow);
     }
 
     nav {
@@ -83,20 +93,20 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem 2rem;
+      padding: 1.2rem 2rem;
     }
 
     .logo {
-      font-family: var(--font-logo);
-      font-size: 1.5rem;
+      font-family: var(--font-display);
+      font-size: 1.4rem;
       font-weight: 700;
-      letter-spacing: 2px;
+      letter-spacing: 3px;
       text-transform: uppercase;
-      color: var(--text-main);
+      color: var(--text-bright);
     }
 
     .logo span {
-      color: var(--accent);
+      color: var(--accent-gold);
     }
 
     .nav-links {
@@ -107,45 +117,56 @@
     }
 
     .nav-links a {
-      font-size: 0.95rem;
+      font-size: 0.85rem;
       font-weight: 600;
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
       text-transform: uppercase;
-      transition: color 0.2s, transform 0.2s;
+      transition: color 0.3s;
     }
 
     .nav-links a:hover {
-      color: var(--accent);
-      transform: translateY(-1px);
+      color: var(--accent-gold);
     }
 
+    /* --- BUTTONS --- */
     .btn {
       display: inline-block;
-      padding: 0.8rem 2.2rem;
-      border-radius: 4px;
+      padding: 0.8rem 2rem;
+      border-radius: 30px;
       font-weight: 700;
       letter-spacing: 1px;
       text-transform: uppercase;
+      font-size: 0.8rem;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       border: none;
     }
 
-    .btn-login {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--accent);
-      font-size: 0.8rem;
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-ember));
+      color: #080605;
+      box-shadow: 0 0 20px rgba(255, 119, 0, 0.3);
     }
 
-    .btn-login:hover {
-      border-color: var(--accent);
-      background: rgba(255, 159, 67, 0.1);
+    .btn-primary:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 0 30px rgba(255, 119, 0, 0.6);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border-glow);
+      color: var(--text-bright);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent-gold);
+      background: rgba(229, 169, 60, 0.1);
     }
 
     /* --- HERO SECTION --- */
     #home {
-      min-height: 90vh;
+      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -154,159 +175,157 @@
     }
 
     .hero-content {
-      max-width: 800px;
+      max-width: 850px;
     }
 
     .tagline {
-      color: var(--accent);
+      color: var(--accent-gold);
       text-transform: uppercase;
-      letter-spacing: 5px;
+      letter-spacing: 6px;
       font-size: 0.85rem;
       font-weight: 700;
-      margin-bottom: 1rem;
-    }
-
-    .campfire-title {
-      font-family: var(--font-logo);
-      font-size: clamp(2.5rem, 6vw, 4.5rem);
-      font-weight: 900;
-      letter-spacing: -2px;
-      text-transform: uppercase;
-      line-height: 1.1;
       margin-bottom: 1.5rem;
     }
 
-    .artist-name {
-      color: var(--accent);
-      font-weight: 700;
-      margin-top: 0.5rem;
+    .main-heading {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 6.5vw, 5rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      text-shadow: 0 10px 30px rgba(0,0,0,0.8);
     }
 
-    .btn-primary {
-      background: var(--accent);
-      color: #110f0d;
-      box-shadow: 0 4px 15px rgba(255, 159, 67, 0.4);
+    .artist-subtitle {
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      margin-bottom: 2.5rem;
+      font-weight: 300;
     }
 
-    .btn-primary:hover {
-      background: var(--accent-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(255, 159, 67, 0.6);
-    }
-
-    /* --- SECTIONS --- */
+    /* --- SECTION LAYOUTS --- */
     section {
       padding: 6rem 2rem;
-      max-width: 1000px;
+      max-width: 1100px;
       margin: 0 auto;
-    }
-
-    .section-header {
-      text-align: center;
-      margin-bottom: 3.5rem;
     }
 
     .section-title {
-      font-size: 2rem;
-      font-weight: 800;
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      text-align: center;
       text-transform: uppercase;
       letter-spacing: 3px;
+      margin-bottom: 0.5rem;
     }
 
     .section-subtitle {
-      color: var(--accent);
-      font-size: 0.95rem;
-      margin-top: 0.5rem;
+      text-align: center;
+      color: var(--accent-gold);
       font-style: italic;
+      margin-bottom: 3.5rem;
     }
 
-    /* --- FORM STYLES (REQUIRED: Phone, Email, Password + Optional Checkbox) --- */
-    .form-box {
+    /* --- CARDS & CONTAINERS --- */
+    .content-card {
       background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
+      border: 1px solid var(--border-glow);
+      border-radius: 16px;
       padding: 3rem;
-      max-width: 500px;
-      margin: 0 auto;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      backdrop-filter: blur(10px);
     }
 
-    .input-group {
-      margin-bottom: 1.5rem;
+    /* --- FAN DASHBOARD / ACCOUNT PROFILE --- */
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      gap: 3rem;
+      align-items: start;
     }
 
-    .input-group label {
-      display: block;
-      color: var(--text-muted);
-      margin-bottom: 0.5rem;
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .input-field {
-      width: 100%;
-      padding: 1rem;
-      border-radius: 4px;
-      border: 1px solid var(--border);
-      background: rgba(13, 11, 10, 0.5);
-      color: var(--text-main);
-      font-size: 1rem;
-    }
-
-    .input-field:focus {
-      outline: none;
-      border-color: var(--accent);
-    }
-
-    .checkbox-group {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-top: 1rem;
-      margin-bottom: 2rem;
-    }
-
-    .checkbox-field {
-      width: 18px;
-      height: 18px;
-      accent-color: var(--accent);
-    }
-
-    .checkbox-label {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-    }
-
-    /* --- MUSIC/TOUR PLACEHOLDERS (AS SET PREVIOUSLY) --- */
-    .music-teaser, .tour-box, .merch-grid {
-      border: 1px solid var(--border);
-      background: var(--bg-card);
-      border-radius: 8px;
-      padding: 3rem;
+    .avatar-wrapper {
       text-align: center;
     }
 
-    /* --- LOGIN MODAL --- */
-    .modal {
-      display: none;
+    .profile-avatar {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      border: 3px solid var(--accent-gold);
+      object-fit: cover;
+      margin-bottom: 1rem;
+      box-shadow: 0 0 20px rgba(255, 119, 0, 0.3);
+      background: #1a1410;
+    }
+
+    .file-upload-btn {
+      display: inline-block;
+      font-size: 0.8rem;
+      color: var(--accent-gold);
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 0.9rem 1.2rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-glow);
+      background: rgba(8, 6, 5, 0.6);
+      color: var(--text-bright);
+      font-size: 0.95rem;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--accent-gold);
+    }
+
+    /* --- MERCH SECTION (SHOPIFY) --- */
+    .shopify-banner {
+      text-align: center;
+      padding: 4rem 2rem;
+      background: linear-gradient(180deg, rgba(255, 119, 0, 0.08) 0%, rgba(18, 14, 11, 0.9) 100%);
+      border: 1px solid var(--border-glow);
+      border-radius: 16px;
+    }
+
+    /* --- MODAL DIALOGS --- */
+    .modal-overlay {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.8);
-      backdrop-filter: blur(5px);
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
       z-index: 2000;
+      display: none;
       align-items: center;
       justify-content: center;
     }
 
-    .modal.open {
+    .modal-overlay.active {
       display: flex;
     }
 
-    .modal-content {
+    .modal-card {
+      width: 100%;
+      max-width: 480px;
       position: relative;
     }
 
@@ -314,31 +333,23 @@
       position: absolute;
       top: 1.5rem;
       right: 1.5rem;
-      color: var(--accent);
-      font-size: 1.5rem;
-      cursor: pointer;
       background: none;
       border: none;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      cursor: pointer;
     }
 
-    /* --- FOOTER --- */
-    footer {
-      border-top: 1px solid var(--border);
-      text-align: center;
-      padding: 3rem 2rem;
-      color: var(--text-muted);
-      font-size: 0.9rem;
+    @media (max-width: 768px) {
+      .profile-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
     }
   </style>
 </head>
 <body>
 
-  <!-- BACKGROUND VIDEO (Placeholder in code, replace with a real fire loop mp4) -->
-  <div class="bg-video-wrapper">
-    <!-- Replace the placeholder below with a real live campfire video -->
-    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" style="background:#0d0b0a; width:100%; height:100%;">
-    <div class="bg-video-overlay"></div>
-  </div>
+  <div class="hero-bg"></div>
+  <div class="embers-overlay"></div>
 
   <!-- NAVIGATION -->
   <header>
@@ -346,10 +357,12 @@
       <a href="#home" class="logo">GRASON <span>POWELL</span></a>
       <ul class="nav-links">
         <li><a href="#home">Home</a></li>
-        <li><a href="#join">The Circle</a></li>
         <li><a href="#music">Music</a></li>
         <li><a href="#tour">Tour</a></li>
-        <li><button class="btn btn-login" onclick="toggleModal('loginModal')">Sign Up / Login</button></li>
+        <li><a href="#merch">Merch</a></li>
+        <li id="navAccountBtn">
+          <button class="btn btn-outline" onclick="openAuthModal('login')">Login / Sign Up</button>
+        </li>
       </ul>
     </nav>
   </header>
@@ -357,90 +370,295 @@
   <!-- HERO SECTION -->
   <section id="home">
     <div class="hero-content">
-      <div class="tagline">Country Music Artist</div>
-      <h1 class="campfire-title">Take A Seat Next To The Fire<span class="artist-name"><br>Grason Powell</span></h1>
-      <a href="#join" class="btn btn-primary">Join The Circle</a>
+      <div class="tagline">The Campfire Sessions</div>
+      <h1 class="main-heading">Take A Seat Next To The Fire</h1>
+      <p class="artist-subtitle">Authentic country stories, acoustic strings, and exclusive fan experiences.</p>
+      <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <button class="btn btn-primary" onclick="openAuthModal('signup')">Join The Circle</button>
+        <a href="#merch" class="btn btn-outline">Visit Official Store</a>
+      </div>
     </div>
   </section>
 
-  <!-- SIGN UP SECTION (REQUIRED FIELDS) -->
-  <section id="join">
-    <div class="section-header">
-      <h2 class="section-title">Join The Circle</h2>
-      <p class="section-subtitle">Sign up for exclusive access and updates</p>
-    </div>
-    <div class="form-box">
-      <form onsubmit="handleFormSubmit(event)">
-        <div class="input-group">
-          <label for="phone">Phone (Required)</label>
-          <input type="tel" id="phone" name="phone" class="input-field" required placeholder="123-456-7890">
+  <!-- FAN ACCOUNT DASHBOARD (VISIBLE WHEN LOGGED IN) -->
+  <section id="accountSection" style="display: none;">
+    <div class="section-title">Your Campfire Pass</div>
+    <div class="section-subtitle">Manage your profile, email notifications, and credentials</div>
+    
+    <div class="content-card">
+      <div class="profile-grid">
+        <div class="avatar-wrapper">
+          <img id="userAvatar" src="https://via.placeholder.com/160/1a1410/ff7700?text=Fan+Avatar" alt="Profile Picture" class="profile-avatar">
+          <label for="avatarInput" class="file-upload-btn">📷 Change Photo</label>
+          <input type="file" id="avatarInput" accept="image/*" style="display: none;" onchange="handleAvatarUpload(event)">
         </div>
-        <div class="input-group">
-          <label for="email">Email (Required)</label>
-          <input type="email" id="email" name="email" class="input-field" required placeholder="your.name@email.com">
-        </div>
-        <div class="input-group">
-          <label for="password">Password (Required)</label>
-          <input type="password" id="password" name="password" class="input-field" required minlength="8" placeholder="At least 8 characters">
-        </div>
-        <div class="checkbox-group">
-          <input type="checkbox" id="updates" name="updates" class="checkbox-field">
-          <label for="updates" class="checkbox-label">Optional: Sign up for email updates & new campfire sessions.</label>
-        </div>
-        <button type="submit" class="btn btn-primary" style="width: 100%;">Join The Fire</button>
-      </form>
-    </div>
-  </section>
 
-  <!-- MUSIC/TOUR/MERCH SECTIONS (Previous Customizations - Placeholders) -->
-  <section id="music">
-    <div class="section-header"><h2 class="section-title">Music</h2><p class="section-subtitle">Releases coming soon.</p></div>
-    <div class="music-teaser">Debut release currently in the studio.</div>
-  </section>
-
-  <section id="tour">
-    <div class="section-header"><h2 class="section-title">Tour Dates</h2><p class="section-subtitle">Live shows & campfire sessions</p></div>
-    <div class="tour-box">No tour dates available at the moment.</div>
-  </section>
-
-  <!-- LOGIN MODAL (HIDDEN) -->
-  <div class="modal" id="loginModal">
-    <div class="modal-content">
-      <button class="close-modal" onclick="toggleModal('loginModal')">&times;</button>
-      <div class="form-box">
-        <form onsubmit="handleFormSubmit(event)">
-          <div class="section-header" style="margin-bottom: 2rem;">
-            <h2 class="section-title" style="font-size: 1.5rem;">Access The Circle</h2>
+        <form id="profileForm" onsubmit="saveProfileChanges(event)">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="profileName" class="form-control" required>
           </div>
-          <div class="input-group">
-            <label for="login-email">Email or Phone</label>
-            <input type="text" id="login-email" name="login-email" class="input-field" required placeholder="email or phone">
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="profileEmail" class="form-control" required>
           </div>
-          <div class="input-group">
-            <label for="login-password">Password</label>
-            <input type="password" id="login-password" name="login-password" class="input-field" required placeholder="password">
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" id="profilePhone" class="form-control" required>
           </div>
-          <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+          <div class="form-group">
+            <label>New Password (Optional)</label>
+            <input type="password" id="profilePassword" class="form-control" placeholder="Leave blank to keep current password">
+          </div>
+          <div class="form-group" style="display: flex; gap: 0.8rem; align-items: center; margin-top: 1rem;">
+            <input type="checkbox" id="profileNewsletter" style="width: 18px; height: 18px; accent-color: var(--accent-ember);">
+            <label for="profileNewsletter" style="margin: 0; text-transform: none; color: var(--text-bright);">Receive email updates about new releases and campfire sessions</label>
+          </div>
+          <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+            <button type="submit" class="btn btn-primary">Save Profile</button>
+            <button type="button" class="btn btn-outline" onclick="logoutUser()">Log Out</button>
+          </div>
         </form>
       </div>
     </div>
+  </section>
+
+  <!-- MUSIC SECTION -->
+  <section id="music">
+    <div class="section-title">Music</div>
+    <div class="section-subtitle">Original songs straight from the porch</div>
+    <div class="content-card" style="text-align: center;">
+      <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Debut Release Coming Soon</h3>
+      <p style="color: var(--text-muted);">Grason Powell is currently in the studio. Join The Circle above to get the first listen.</p>
+    </div>
+  </section>
+
+  <!-- TOUR SECTION -->
+  <section id="tour">
+    <div class="section-title">Tour Dates</div>
+    <div class="section-subtitle">Live campfire sessions & concert dates</div>
+    <div class="content-card" style="text-align: center;">
+      <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">No Shows Currently Scheduled</h3>
+      <p style="color: var(--text-muted);">Check back soon or update your fan account preferences to receive city announcements.</p>
+    </div>
+  </section>
+
+  <!-- MERCH STORE SECTION (SHOPIFY INTEGRATED) -->
+  <section id="merch">
+    <div class="section-title">Official Merch</div>
+    <div class="section-subtitle">Apparel, vinyl, and collectibles</div>
+    
+    <div class="shopify-banner">
+      <h3 style="font-family: var(--font-display); font-size: 2rem; margin-bottom: 1rem;">Visit The Official Store</h3>
+      <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto 2rem;">
+        Explore official Grason Powell hoodies, caps, and merchandise hosted securely on Shopify.
+      </p>
+      <a href="https://Grasoncountrymusic.myshopify.com" target="_blank" rel="noopener" class="btn btn-primary" style="padding: 1rem 3rem;">
+        Shop GrasonCountryMusic.myshopify.com ↗
+      </a>
+    </div>
+  </section>
+
+  <!-- AUTHENTICATION MODAL (LOGIN / SIGN UP) -->
+  <div class="modal-overlay" id="authModal">
+    <div class="modal-card content-card">
+      <button class="close-modal" onclick="closeAuthModal()">&times;</button>
+      
+      <!-- SIGN UP FORM -->
+      <div id="signupView">
+        <h2 style="font-family: var(--font-display); text-align: center; margin-bottom: 0.5rem;">Join The Circle</h2>
+        <p style="text-align: center; color: var(--accent-gold); margin-bottom: 2rem; font-size: 0.9rem;">Create your fan account</p>
+        
+        <form onsubmit="handleSignup(event)">
+          <div class="form-group">
+            <label>Full Name *</label>
+            <input type="text" id="signupName" class="form-control" required placeholder="Grason Powell">
+          </div>
+          <div class="form-group">
+            <label>Phone Number *</label>
+            <input type="tel" id="signupPhone" class="form-control" required placeholder="123-456-7890">
+          </div>
+          <div class="form-group">
+            <label>Email *</label>
+            <input type="email" id="signupEmail" class="form-control" required placeholder="you@example.com">
+          </div>
+          <div class="form-group">
+            <label>Password *</label>
+            <input type="password" id="signupPassword" class="form-control" required placeholder="Minimum 6 characters">
+          </div>
+          <div class="form-group" style="display: flex; gap: 0.8rem; align-items: center;">
+            <input type="checkbox" id="signupNewsletter" checked style="width: 18px; height: 18px; accent-color: var(--accent-ember);">
+            <label for="signupNewsletter" style="margin: 0; text-transform: none; color: var(--text-muted);">Send me email updates on music & tours</label>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Create Account</button>
+        </form>
+        <p style="text-align: center; margin-top: 1.5rem; font-size: 0.85rem; color: var(--text-muted);">
+          Already have an account? <a href="#" onclick="switchAuthView('login')" style="color: var(--accent-gold);">Log in here</a>
+        </p>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <div id="loginView" style="display: none;">
+        <h2 style="font-family: var(--font-display); text-align: center; margin-bottom: 0.5rem;">Welcome Back</h2>
+        <p style="text-align: center; color: var(--accent-gold); margin-bottom: 2rem; font-size: 0.9rem;">Log in to your campfire pass</p>
+        
+        <form onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="loginEmail" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="loginPassword" class="form-control" required>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Log In</button>
+        </form>
+        <p style="text-align: center; margin-top: 1.5rem; font-size: 0.85rem; color: var(--text-muted);">
+          Don't have an account? <a href="#" onclick="switchAuthView('signup')" style="color: var(--accent-gold);">Sign up here</a>
+        </p>
+      </div>
+
+    </div>
   </div>
 
-  <footer>
+  <footer style="border-top: 1px solid var(--border-glow); text-align: center; padding: 3rem 2rem; color: var(--text-muted); font-size: 0.85rem;">
     <p>&copy; 2026 Grason Powell Music. "Take a seat next to the fire."</p>
   </footer>
 
+  <!-- CLIENT-SIDE ACCOUNT MANAGEMENT ENGINE -->
   <script>
-    // Smooth Transition / Modal Handler
-    function toggleModal(modalId) {
-      document.getElementById(modalId).classList.toggle('open');
+    let currentUser = null;
+
+    // Load active session on page initialization
+    window.addEventListener('DOMContentLoaded', () => {
+      const storedUser = localStorage.getItem('gp_active_user');
+      if (storedUser) {
+        currentUser = JSON.parse(storedUser);
+        renderAccountState();
+      }
+    });
+
+    function openAuthModal(view) {
+      switchAuthView(view);
+      document.getElementById('authModal').classList.add('active');
     }
 
-    // Form submission simulation
-    function handleFormSubmit(e) {
+    function closeAuthModal() {
+      document.getElementById('authModal').classList.remove('active');
+    }
+
+    function switchAuthView(view) {
+      document.getElementById('signupView').style.display = view === 'signup' ? 'block' : 'none';
+      document.getElementById('loginView').style.display = view === 'login' ? 'block' : 'none';
+    }
+
+    function handleSignup(e) {
       e.preventDefault();
-      alert('Action recorded for: ' + e.target.querySelector('input').value);
-      toggleModal('loginModal'); // Close modal if used
+      const user = {
+        name: document.getElementById('signupName').value,
+        phone: document.getElementById('signupPhone').value,
+        email: document.getElementById('signupEmail').value,
+        password: document.getElementById('signupPassword').value,
+        newsletter: document.getElementById('signupNewsletter').checked,
+        avatar: 'https://via.placeholder.com/160/1a1410/ff7700?text=' + encodeURIComponent(document.getElementById('signupName').value.charAt(0))
+      };
+
+      localStorage.setItem('gp_user_' + user.email, JSON.stringify(user));
+      localStorage.setItem('gp_active_user', JSON.stringify(user));
+      currentUser = user;
+
+      alert('Welcome to The Circle, ' + user.name + '!');
+      closeAuthModal();
+      renderAccountState();
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+      const pass = document.getElementById('loginPassword').value;
+
+      const record = localStorage.getItem('gp_user_' + email);
+      if (!record) {
+        alert('No account found with that email address.');
+        return;
+      }
+
+      const user = JSON.parse(record);
+      if (user.password !== pass) {
+        alert('Incorrect password.');
+        return;
+      }
+
+      localStorage.setItem('gp_active_user', JSON.stringify(user));
+      currentUser = user;
+
+      closeAuthModal();
+      renderAccountState();
+    }
+
+    function renderAccountState() {
+      if (!currentUser) return;
+
+      // Update Nav Link to show user profile button
+      const navBtnContainer = document.getElementById('navAccountBtn');
+      navBtnContainer.innerHTML = `<button class="btn btn-outline" onclick="scrollToAccount()">My Account (${currentUser.name.split(' ')[0]})</button>`;
+
+      // Populate Profile Section
+      document.getElementById('profileName').value = currentUser.name;
+      document.getElementById('profileEmail').value = currentUser.email;
+      document.getElementById('profilePhone').value = currentUser.phone || '';
+      document.getElementById('profileNewsletter').checked = currentUser.newsletter;
+      document.getElementById('userAvatar').src = currentUser.avatar;
+
+      // Show profile section
+      document.getElementById('accountSection').style.display = 'block';
+    }
+
+    function saveProfileChanges(e) {
+      e.preventDefault();
+      if (!currentUser) return;
+
+      currentUser.name = document.getElementById('profileName').value;
+      currentUser.email = document.getElementById('profileEmail').value;
+      currentUser.phone = document.getElementById('profilePhone').value;
+      currentUser.newsletter = document.getElementById('profileNewsletter').checked;
+
+      const newPass = document.getElementById('profilePassword').value;
+      if (newPass.trim() !== '') {
+        currentUser.password = newPass;
+      }
+
+      localStorage.setItem('gp_user_' + currentUser.email, JSON.stringify(currentUser));
+      localStorage.setItem('gp_active_user', JSON.stringify(currentUser));
+
+      alert('Your account details have been updated!');
+      renderAccountState();
+    }
+
+    function handleAvatarUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const imageDataUrl = e.target.result;
+        currentUser.avatar = imageDataUrl;
+        document.getElementById('userAvatar').src = imageDataUrl;
+
+        localStorage.setItem('gp_user_' + currentUser.email, JSON.stringify(currentUser));
+        localStorage.setItem('gp_active_user', JSON.stringify(currentUser));
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function logoutUser() {
+      localStorage.removeItem('gp_active_user');
+      currentUser = null;
+      location.reload();
+    }
+
+    function scrollToAccount() {
+      document.getElementById('accountSection').scrollIntoView({ behavior: 'smooth' });
     }
   </script>
 </body>
