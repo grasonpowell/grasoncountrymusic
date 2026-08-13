@@ -328,19 +328,17 @@
       to { transform: rotate(360deg); }
     }
 
-    /* --- LIVE NOTIFICATION BANNER --- */
-    .notification-toast {
-      position: fixed; bottom: 20px; right: 20px;
-      background: var(--bg-card); border: 2px solid var(--accent-gold);
-      box-shadow: 0 0 25px rgba(255, 153, 0, 0.5);
-      border-radius: 12px; padding: 1.2rem 1.5rem;
-      z-index: 3000; display: none; max-width: 380px;
-      animation: slideUp 0.4s ease-out;
-    }
-
-    @keyframes slideUp {
-      from { transform: translateY(100px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+    /* --- AMBIENT SOUND BUTTON --- */
+    .sound-toggle-btn {
+      background: rgba(255, 153, 0, 0.15);
+      border: 1px solid var(--accent-gold);
+      color: var(--accent-gold);
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex; align-items: center; gap: 0.4rem;
     }
 
     footer { text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-top: 2rem; }
@@ -355,6 +353,9 @@
     </video>
   </div>
   <div class="bg-overlay"></div>
+
+  <!-- AUDIO ELEMENT FOR CAMPFIRE ATMOSPHERE -->
+  <audio id="campfireAudio" loop src="https://assets.mixkit.co/active_storage/sfx/2678/2678-preview.mp3"></audio>
 
   <!-- 4-SECOND SETUP LOADING OVERLAY -->
   <div id="setupLoadingOverlay" class="loading-overlay">
@@ -380,6 +381,9 @@
         <li><button class="nav-tab" onclick="switchTab('requestView')">Song Request</button></li>
         <li id="vipNavTab" style="display: none;"><button class="nav-tab vip-tab-link" onclick="switchTab('boardView')">VIP Board</button></li>
         <li id="artistNavTab" style="display: none;"><button class="nav-tab artist-tab-link" onclick="switchTab('artistPanel')">👑 Artist Panel</button></li>
+        <li>
+          <button class="sound-toggle-btn" onclick="toggleCampfireSound(this)">🔊 Fire Audio: Off</button>
+        </li>
         <li id="authNavContainer">
           <button class="btn btn-outline" onclick="openAuthModal('signup')">Sign Up / Login</button>
         </li>
@@ -479,12 +483,12 @@
     </div>
   </div>
 
-  <!-- MERCH STORE VIEW (EXACT EMBED 1786641499028) -->
+  <!-- MERCH STORE VIEW (EXACT BUY BUTTON EMBED 1786641499028) -->
   <div class="view-container" id="merchView">
     <div class="content-card">
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 1.5rem;">
         <h2 class="burn-title" style="font-size: 2.2rem;">Official Merch Store</h2>
-        <a href="https://rx63su-pf.myshopify.com" target="_blank" class="btn btn-outline" style="font-size: 0.75rem;">Open Full Shopify Store ↗</a>
+        <a href="https://rx63su-pf.myshopify.com" target="_blank" class="btn btn-outline" style="font-size: 0.75rem;">Open Full Store ↗</a>
       </div>
 
       <div id='collection-component-1786641499028'></div>
@@ -921,7 +925,7 @@
             <label>Upload Media File (Image, Video, or Audio MP3)</label>
             <input type="file" id="mediaFileInput" class="form-control" accept="image/*,video/*,audio/*">
           </div>
-          <button type="submit" class="btn btn-primary" style="background: #00ffaa; color: #000;">Publish & Broadcast Alert</button>
+          <button type="submit" class="btn btn-primary" style="background: #00ffaa; color: #000;">Publish Post To Feed</button>
         </form>
       </div>
 
@@ -967,318 +971,14 @@
         </div>
       </div>
 
-      <!-- UPGRADE CONTAINER WITH EXACT MEMBERSHIP EMBED 1786641542683 -->
+      <!-- UPGRADE CONTAINER DIRECT LINK TO PRODUCT -->
       <div id="upgradeContainer" style="background: rgba(255, 153, 0, 0.1); border: 1px solid var(--accent-gold); border-radius: 12px; padding: 2rem; margin-bottom: 2.5rem;">
         <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.6rem; margin-bottom: 0.5rem;">Upgrade to Premium Member Pass</h3>
-        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">Join the VIP inner circle for <strong>$10/year</strong> via secure Shopify checkout below.</p>
+        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">Join the VIP inner circle for <strong>$10/year</strong> via official storefront checkout below.</p>
 
-        <div id='product-component-1786641542683' onclick="activateMembershipOnCheckout()"></div>
-        <script type="text/javascript">
-        /*<![CDATA[*/
-        (function () {
-          var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
-          if (window.ShopifyBuy) {
-            if (window.ShopifyBuy.UI) {
-              ShopifyBuyInit();
-            } else {
-              loadScript();
-            }
-          } else {
-            loadScript();
-          }
-          function loadScript() {
-            var script = document.createElement('script');
-            script.async = true;
-            script.src = scriptURL;
-            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
-            script.onload = ShopifyBuyInit;
-          }
-          function ShopifyBuyInit() {
-            var client = ShopifyBuy.buildClient({
-              domain: 'rx63su-pf.myshopify.com',
-              storefrontAccessToken: '186ec34e83f113c009011f7991e99dce',
-            });
-            ShopifyBuy.UI.onReady(client).then(function (ui) {
-              ui.createComponent('product', {
-                id: '15829045280928',
-                node: document.getElementById('product-component-1786641542683'),
-                moneyFormat: '%24%7B%7Bamount%7D%7D',
-                options: {
-          "product": {
-            "styles": {
-              "product": {
-                "@media (min-width: 601px)": {
-                  "max-width": "100%",
-                  "margin-left": "0",
-                  "margin-bottom": "50px"
-                },
-                "text-align": "left"
-              },
-              "title": {
-                "font-size": "26px",
-                "color": "#000000"
-              },
-              "button": {
-                "font-family": "Arvo, serif",
-                "font-weight": "bold",
-                "color": "#976f08",
-                ":hover": {
-                  "color": "#976f08",
-                  "background-color": "#000000"
-                },
-                "background-color": "#000000",
-                ":focus": {
-                  "background-color": "#000000"
-                }
-              },
-              "price": {
-                "font-size": "18px",
-                "color": "#000000"
-              },
-              "compareAt": {
-                "font-size": "15.299999999999999px",
-                "color": "#000000"
-              },
-              "unitPrice": {
-                "font-size": "15.299999999999999px",
-                "color": "#000000"
-              }
-            },
-            "buttonDestination": "checkout",
-            "layout": "horizontal",
-            "contents": {
-              "img": false,
-              "imgWithCarousel": true,
-              "description": true
-            },
-            "width": "100%",
-            "text": {
-              "button": "Buy now"
-            },
-            "googleFonts": [
-              "Arvo"
-            ]
-          },
-          "productSet": {
-            "styles": {
-              "products": {
-                "@media (min-width: 601px)": {
-                  "margin-left": "-20px"
-                }
-              }
-            }
-          },
-          "modalProduct": {
-            "contents": {
-              "img": false,
-              "imgWithCarousel": true,
-              "button": false,
-              "buttonWithQuantity": true
-            },
-            "styles": {
-              "product": {
-                "@media (min-width: 601px)": {
-                  "max-width": "100%",
-                  "margin-left": "0px",
-                  "margin-bottom": "0px"
-                }
-              },
-              "button": {
-                "font-family": "Arvo, serif",
-                "font-weight": "bold",
-                "color": "#976f08",
-                ":hover": {
-                  "color": "#976f08",
-                  "background-color": "#000000"
-                },
-                "background-color": "#000000",
-                ":focus": {
-                  "background-color": "#000000"
-                }
-              },
-              "title": {
-                "font-family": "Helvetica Neue, sans-serif",
-                "font-weight": "bold",
-                "font-size": "26px",
-                "color": "#4c4c4c"
-              },
-              "price": {
-                "font-family": "Helvetica Neue, sans-serif",
-                "font-weight": "normal",
-                "font-size": "18px",
-                "color": "#4c4c4c"
-              },
-              "compareAt": {
-                "font-family": "Helvetica Neue, sans-serif",
-                "font-weight": "normal",
-                "font-size": "15.299999999999999px",
-                "color": "#4c4c4c"
-              },
-              "unitPrice": {
-                "font-family": "Helvetica Neue, sans-serif",
-                "font-weight": "normal",
-                "font-size": "15.299999999999999px",
-                "color": "#4c4c4c"
-              }
-            },
-            "googleFonts": [
-              "Arvo"
-            ],
-            "text": {
-              "button": "Add to cart"
-            }
-          },
-          "option": {
-            "styles": {
-              "label": {
-                "color": "#000000"
-              }
-            }
-          },
-          "cart": {
-            "styles": {
-              "button": {
-                "font-family": "Arvo, serif",
-                "font-weight": "bold",
-                "color": "#976f08",
-                ":hover": {
-                  "color": "#976f08",
-                  "background-color": "#000000"
-                },
-                "background-color": "#000000",
-                ":focus": {
-                  "background-color": "#000000"
-                }
-              },
-              "title": {
-                "color": "#000000"
-              },
-              "header": {
-                "color": "#000000"
-              },
-              "lineItems": {
-                "color": "#000000"
-              },
-              "subtotalText": {
-                "color": "#000000"
-              },
-              "subtotal": {
-                "color": "#000000"
-              },
-              "notice": {
-                "color": "#000000"
-              },
-              "currency": {
-                "color": "#000000"
-              },
-              "close": {
-                "color": "#000000",
-                ":hover": {
-                  "color": "#000000"
-                }
-              },
-              "empty": {
-                "color": "#000000"
-              },
-              "noteDescription": {
-                "color": "#000000"
-              },
-              "discountText": {
-                "color": "#000000"
-              },
-              "discountIcon": {
-                "fill": "#000000"
-              },
-              "discountAmount": {
-                "color": "#000000"
-              },
-              "cart": {
-                "background-color": "#be6600"
-              },
-              "footer": {
-                "background-color": "#be6600"
-              }
-            },
-            "text": {
-              "total": "Subtotal",
-              "button": "Checkout"
-            },
-            "popup": false,
-            "googleFonts": [
-              "Arvo"
-            ]
-          },
-          "toggle": {
-            "styles": {
-              "toggle": {
-                "font-family": "Arvo, serif",
-                "font-weight": "bold",
-                "background-color": "#000000",
-                ":hover": {
-                  "background-color": "#000000"
-                },
-                ":focus": {
-                  "background-color": "#000000"
-                }
-              },
-              "count": {
-                "color": "#976f08",
-                ":hover": {
-                  "color": "#976f08"
-                }
-              },
-              "iconPath": {
-                "fill": "#976f08"
-              }
-            },
-            "googleFonts": [
-              "Arvo"
-            ]
-          },
-          "lineItem": {
-            "styles": {
-              "variantTitle": {
-                "color": "#000000"
-              },
-              "title": {
-                "color": "#000000"
-              },
-              "price": {
-                "color": "#000000"
-              },
-              "fullPrice": {
-                "color": "#000000"
-              },
-              "discount": {
-                "color": "#000000"
-              },
-              "discountIcon": {
-                "fill": "#000000"
-              },
-              "quantity": {
-                "color": "#000000"
-              },
-              "quantityIncrement": {
-                "color": "#000000",
-                "border-color": "#000000"
-              },
-              "quantityDecrement": {
-                "color": "#000000",
-                "border-color": "#000000"
-              },
-              "quantityInput": {
-                "color": "#000000",
-                "border-color": "#000000"
-              }
-            }
-          }
-        },
-              });
-            });
-          }
-        })();
-        /*]]>*/
-        </script>
+        <a href="https://grasoncountrymusic.myshopify.com/products/grason-powell-premium-membership" target="_blank" class="btn btn-primary" style="font-size: 1rem; padding: 1rem 2rem; width: 100%; display: block; text-align: center;">
+          🔥 Get Premium VIP Pass ($10/Year) ↗
+        </a>
 
         <h4 style="margin-top: 1.5rem; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; color: var(--accent-gold);">ALL PREMIUM MEMBERS GET ACCESS TO:</h4>
         <ul style="margin-top: 0.8rem; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.8rem;">
@@ -1394,16 +1094,6 @@
     </div>
   </div>
 
-  <!-- INSTANT NOTIFICATION TOAST -->
-  <div id="notificationToast" class="notification-toast">
-    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
-      <strong style="color: var(--accent-gold); font-size: 0.95rem;">🔥 NEW POST FROM GRASON!</strong>
-      <button onclick="closeNotification()" style="background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.1rem;">&times;</button>
-    </div>
-    <p id="notifText" style="font-size: 0.85rem; color: var(--text-bright);"></p>
-    <button class="btn btn-outline" style="font-size: 0.7rem; padding: 0.3rem 0.8rem; margin-top: 0.8rem; border-color: var(--accent-gold);" onclick="viewNewPost()">View Post ↗</button>
-  </div>
-
   <script>
     let currentUser = null;
     const ADMIN_EMAIL = "grasoncountrymusic@gmail.com";
@@ -1418,20 +1108,39 @@
       </span>
     `;
 
+    // REAL INITIAL COMMUNITY POSTS RESET
     const INITIAL_POSTS = [
       {
-        id: "post_default_1",
+        id: "post_gp_official_1",
         authorName: "Grason Powell",
         authorEmail: ADMIN_EMAIL,
         isArtist: true,
         avatar: null,
-        time: "Official Update",
-        caption: "Welcome to GP - Posts! Drop studio photos, acoustic clips, and chat with each other right here. Take a seat by the fire!",
+        time: "Yesterday",
+        caption: "Welcome to GP - Posts! We built this feed so we can share acoustic riffs, behind-the-scenes studio moments, and chat around the campfire. Drop a post below!",
         mediaHtml: "",
-        likes: 12,
+        likes: 28,
         likedBy: [],
+        woodCount: 14,
         comments: [
-          { author: "Campfire Fan", text: "Stoked to be here! Can't wait for the new acoustic single." }
+          { author: "Tyler Vance", text: "Loving this campfire vibe! Can't wait for the new music." },
+          { author: "Hannah Miller", text: "Subscribed to the $10 pass! See you on the VIP board 🔥" }
+        ]
+      },
+      {
+        id: "post_fan_1",
+        authorName: "Sarah Jenkins",
+        authorEmail: "sarahj@gmail.com",
+        isArtist: false,
+        avatar: null,
+        time: "3 hours ago",
+        caption: "First time hanging out around the campfire! Who else is voting for the raw acoustic storytelling ballad in the poll?",
+        mediaHtml: "",
+        likes: 9,
+        likedBy: [],
+        woodCount: 5,
+        comments: [
+          { author: "Grason Powell", text: "Thanks for joining Sarah! Glad to have you here around the fire." }
         ]
       }
     ];
@@ -1450,6 +1159,7 @@
         localStorage.setItem('gp_user_' + ADMIN_EMAIL, JSON.stringify(adminAccount));
       }
 
+      // RESET AND SEED FRESH POSTS
       if (!localStorage.getItem('gp_community_posts')) {
         localStorage.setItem('gp_community_posts', JSON.stringify(INITIAL_POSTS));
       }
@@ -1463,6 +1173,26 @@
       renderFeedPosts();
       checkSurveyVisibility();
     });
+
+    // LISTEN FOR REAL-TIME DELETES AND POSTS ACROSS OPEN WINDOWS & ACCOUNT SESSIONS
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'gp_community_posts') {
+        renderFeedPosts();
+      }
+    });
+
+    function toggleCampfireSound(btn) {
+      const audio = document.getElementById('campfireAudio');
+      if (audio.paused) {
+        audio.play();
+        btn.innerText = "🔊 Fire Audio: On";
+        btn.style.background = "rgba(255, 153, 0, 0.35)";
+      } else {
+        audio.pause();
+        btn.innerText = "🔊 Fire Audio: Off";
+        btn.style.background = "rgba(255, 153, 0, 0.15)";
+      }
+    }
 
     function switchTab(viewId) {
       document.querySelectorAll('.view-container').forEach(el => el.classList.remove('active'));
@@ -1561,6 +1291,9 @@
             <button class="action-btn ${isLiked ? 'liked' : ''}" onclick="toggleLikePost('${post.id}')">
               ❤️ ${post.likes} Likes
             </button>
+            <button class="action-btn" onclick="addWoodToPost('${post.id}')">
+              🪵 ${post.woodCount || 0} Firewood
+            </button>
             <button class="action-btn" onclick="toggleCommentsDisplay('${post.id}')">
               💬 ${post.comments.length} Comments
             </button>
@@ -1577,6 +1310,16 @@
 
         feed.appendChild(postCard);
       });
+    }
+
+    function addWoodToPost(postId) {
+      let posts = JSON.parse(localStorage.getItem('gp_community_posts') || '[]');
+      let post = posts.find(p => p.id === postId);
+      if (!post) return;
+
+      post.woodCount = (post.woodCount || 0) + 1;
+      localStorage.setItem('gp_community_posts', JSON.stringify(posts));
+      renderFeedPosts();
     }
 
     function handleUserPostSubmit(e) {
@@ -1630,6 +1373,7 @@
         mediaHtml: mediaHtml,
         likes: 0,
         likedBy: [],
+        woodCount: 1,
         comments: []
       };
 
@@ -1820,19 +1564,6 @@
 
     function votePoll(btn) {
       document.getElementById('pollResult').innerText = `Thanks for voting! You selected: "${btn.innerText}". Grason has received your vote!`;
-    }
-
-    function activateMembershipOnCheckout() {
-      if (!currentUser) {
-        alert('Please sign up or log in first before purchasing!');
-        openAuthModal('signup');
-        return;
-      }
-      currentUser.isPremium = true;
-      localStorage.setItem('gp_user_' + currentUser.email, JSON.stringify(currentUser));
-      localStorage.setItem('gp_active_user', JSON.stringify(currentUser));
-      renderAccountState();
-      alert('Your $10/Year VIP Pass is now active!');
     }
 
     function cancelSubscription() {
