@@ -90,13 +90,18 @@
       background: rgba(255, 69, 0, 0.12);
     }
 
+    .vip-tab-link {
+      color: var(--accent-gold) !important;
+      border: 1px dashed var(--accent-gold);
+    }
+
     .artist-tab-link {
       color: #00ffaa !important;
       border: 1px solid #00ffaa;
       background: rgba(0, 255, 170, 0.1);
     }
 
-    /* --- COOL ARTIST VERIFIED BADGE SVG --- */
+    /* --- ARTIST VERIFIED BADGE --- */
     .artist-verified-badge {
       display: inline-flex;
       align-items: center;
@@ -111,7 +116,7 @@
       filter: drop-shadow(0 0 6px var(--accent-gold));
     }
 
-    /* --- AVATAR BUTTON IN CORNER --- */
+    /* --- AVATAR BUTTON --- */
     .nav-avatar-btn {
       display: flex; align-items: center; gap: 0.6rem;
       background: rgba(255, 69, 0, 0.1);
@@ -140,7 +145,7 @@
       text-shadow: 0 0 20px rgba(255, 69, 0, 0.6);
     }
 
-    /* --- CONTAINER CARDS --- */
+    /* --- CONTAINERS & CARDS --- */
     .view-container {
       position: absolute; top: 75px; left: 0;
       width: 100vw; height: calc(100vh - 75px);
@@ -158,7 +163,6 @@
       backdrop-filter: blur(12px);
     }
 
-    /* --- BUTTONS --- */
     .btn {
       display: inline-block; padding: 0.8rem 2rem;
       border-radius: 30px; font-weight: 700; letter-spacing: 1px;
@@ -180,6 +184,17 @@
       color: var(--text-bright);
     }
 
+    .btn-danger {
+      background: rgba(200, 0, 0, 0.2);
+      border: 1px solid #ff3333;
+      color: #ffaaaa;
+    }
+
+    .btn-danger:hover {
+      background: #cc0000;
+      color: #ffffff;
+    }
+
     .poll-btn {
       background: rgba(8, 6, 5, 0.8); border: 1px solid var(--border-glow);
       color: var(--text-bright); padding: 0.8rem 1.2rem;
@@ -189,31 +204,22 @@
 
     .poll-btn:hover { border-color: var(--accent-gold); }
 
-    /* --- MEDIA FEED STYLING --- */
+    /* --- MEDIA FEED --- */
     .post-card {
       background: rgba(8, 6, 5, 0.85);
       border: 1px solid var(--border-glow);
-      border-radius: 12px;
-      padding: 1.8rem;
-      margin-bottom: 2rem;
+      border-radius: 12px; padding: 1.8rem; margin-bottom: 2rem;
     }
 
     .post-card img, .post-card video {
-      width: 100%;
-      max-height: 480px;
-      object-fit: cover;
-      border-radius: 8px;
-      margin-top: 1rem;
-      border: 1px solid var(--border-glow);
+      width: 100%; max-height: 480px; object-fit: cover;
+      border-radius: 8px; margin-top: 1rem; border: 1px solid var(--border-glow);
     }
 
-    .post-card audio {
-      width: 100%;
-      margin-top: 1rem;
-    }
+    .post-card audio { width: 100%; margin-top: 1rem; }
 
-    /* --- FORM ELEMENTS --- */
-    .form-group { margin-bottom: 1.2rem; }
+    /* --- FORM ELEMENTS & PASSWORD TOGGLE --- */
+    .form-group { margin-bottom: 1.2rem; position: relative; }
     .form-group label {
       display: block; color: var(--text-muted);
       font-size: 0.75rem; text-transform: uppercase;
@@ -224,6 +230,16 @@
       border-radius: 8px; border: 1px solid var(--border-glow);
       background: rgba(8, 6, 5, 0.8); color: var(--text-bright);
       font-size: 0.95rem;
+    }
+
+    .password-wrapper {
+      position: relative; display: flex; align-items: center;
+    }
+    .password-wrapper .form-control { padding-right: 2.8rem; }
+
+    .toggle-pwd-btn {
+      position: absolute; right: 0.8rem; background: none; border: none;
+      color: var(--text-muted); cursor: pointer; font-size: 1.1rem;
     }
 
     .modal-overlay {
@@ -262,6 +278,7 @@
         <li><button class="nav-tab" onclick="switchTab('musicView')">Music</button></li>
         <li><button class="nav-tab" onclick="switchTab('merchView')">Merch Store</button></li>
         <li><button class="nav-tab" onclick="switchTab('requestView')">Song Request</button></li>
+        <li id="vipNavTab" style="display: none;"><button class="nav-tab vip-tab-link" onclick="switchTab('boardView')">VIP Board</button></li>
         <li id="artistNavTab" style="display: none;"><button class="nav-tab artist-tab-link" onclick="switchTab('artistPanel')">👑 Artist Panel</button></li>
         <li id="authNavContainer">
           <button class="btn btn-outline" onclick="openAuthModal('signup')">Sign Up / Login</button>
@@ -282,7 +299,7 @@
       </div>
     </div>
 
-    <!-- EDITABLE FAN POLL (SHOWN TO FREE & PAID USERS) -->
+    <!-- FAN POLL -->
     <div class="content-card">
       <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.6rem; margin-bottom: 1rem;">
         🔥 Official Artist Poll
@@ -299,19 +316,29 @@
       <p id="pollResult" style="color: var(--accent-gold); margin-top: 0.8rem; font-weight: 700;"></p>
     </div>
 
+    <!-- UNLOCKED MEMBER BANNER -->
+    <div class="content-card" id="premiumHomeContent" style="display: none; border-color: var(--accent-gold);">
+      <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.8rem; margin-bottom: 1rem;">
+        🔥 VIP Member Access Unlocked
+      </h3>
+      <p style="color: var(--text-bright); font-size: 1.05rem; line-height: 1.8;">
+        <strong>Tour Presale Code:</strong> Use code <code style="background:var(--accent-ember); padding:2px 6px; border-radius:4px; color:#fff;">CAMPFIRE2026</code> for early tickets.<br>
+        <strong>VIP Message Board:</strong> Head over to the <em>VIP Board</em> tab to chat with the band and other members.
+      </p>
+    </div>
+
     <footer>
       Questions or problems? Contact support: <a href="mailto:grasoncountrymusic@gmail.com" style="color: var(--accent-gold); text-decoration: underline;">grasoncountrymusic@gmail.com</a>
     </footer>
   </div>
 
-  <!-- GRASON POWELL EXCLUSIVE POSTS FEED (VISIBLE TO ALL USERS) -->
+  <!-- GRASON POWELL EXCLUSIVE POSTS FEED (FOR ALL USERS) -->
   <div class="view-container" id="postsView">
     <div class="content-card" style="max-width: 850px;">
       <h2 class="burn-title" style="font-size: 2.2rem; margin-bottom: 1rem;">Grason Powell's Feed</h2>
       <p style="color: var(--text-muted); margin-bottom: 2rem;">Official photos, studio video clips, and audio previews direct from Grason Powell.</p>
 
       <div id="artistPostsFeed">
-        <!-- DEFAULT POST WITH OFFICIAL ARTIST BADGE -->
         <div class="post-card">
           <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 0.8rem;">
             <div class="avatar-circle">GP</div>
@@ -336,7 +363,7 @@
             </div>
           </div>
           <p style="font-size: 1.05rem; line-height: 1.6;">
-            Welcome to the new official posts page! I'm going to be dropping exclusive studio pictures, video clips, and audio teasers right here for everyone. Take a seat by the fire!
+            Welcome to the new official posts page! I'm dropping studio photos, acoustic clips, and music previews right here for everyone. Take a seat by the fire!
           </p>
         </div>
       </div>
@@ -354,7 +381,7 @@
     </div>
   </div>
 
-  <!-- MERCH STORE VIEW -->
+  <!-- MERCH STORE VIEW (EXACT EMBEDDED SHOPIFY COLLECTION) -->
   <div class="view-container" id="merchView">
     <div class="content-card">
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 1.5rem;">
@@ -362,18 +389,25 @@
         <a href="https://rx63su-pf.myshopify.com" target="_blank" class="btn btn-outline" style="font-size: 0.75rem;">Open Full Shopify Site ↗</a>
       </div>
 
-      <!-- SHOPIFY MERCH COLLECTION EMBED -->
+      <!-- OFFICIAL MERCH STORE BUY BUTTON COLLECTION -->
       <div id='collection-component-1786603249726'></div>
       <script type="text/javascript">
       /*<![CDATA[*/
       (function () {
         var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
         if (window.ShopifyBuy) {
-          if (window.ShopifyBuy.UI) { ShopifyBuyInit(); } else { loadScript(); }
-        } else { loadScript(); }
+          if (window.ShopifyBuy.UI) {
+            ShopifyBuyInit();
+          } else {
+            loadScript();
+          }
+        } else {
+          loadScript();
+        }
         function loadScript() {
           var script = document.createElement('script');
-          script.async = true; script.src = scriptURL;
+          script.async = true;
+          script.src = scriptURL;
           (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
           script.onload = ShopifyBuyInit;
         }
@@ -388,15 +422,56 @@
               node: document.getElementById('collection-component-1786603249726'),
               moneyFormat: '%24%7B%7Bamount%7D%7D',
               options: {
-                "product": {
-                  "styles": {
-                    "product": { "@media (min-width: 601px)": { "max-width": "calc(25% - 20px)", "margin-left": "20px", "margin-bottom": "50px", "width": "calc(25% - 20px)" } },
-                    "title": { "color": "#ffaa00" }, "price": { "color": "#ffaa00" },
-                    "button": { "font-family": "Quantico, sans-serif", "color": "#080605", ":hover": { "color": "#ffffff", "background-color": "#ff4500" }, "background-color": "#ffaa00" }
-                  },
-                  "text": { "button": "Add to cart" }
-                }
+        "product": {
+          "styles": {
+            "product": {
+              "@media (min-width: 601px)": {
+                "max-width": "calc(25% - 20px)",
+                "margin-left": "20px",
+                "margin-bottom": "50px",
+                "width": "calc(25% - 20px)"
+              },
+              "img": {
+                "height": "calc(100% - 15px)",
+                "position": "absolute",
+                "left": "0",
+                "right": "0",
+                "top": "0"
+              },
+              "imgWrapper": {
+                "padding-top": "calc(75% + 15px)",
+                "position": "relative",
+                "height": "0"
               }
+            },
+            "title": { "color": "#ffaa00" },
+            "button": {
+              "font-family": "Quantico, sans-serif",
+              "color": "#080605",
+              ":hover": {
+                "color": "#ffffff",
+                "background-color": "#ff4500"
+              },
+              "background-color": "#ffaa00"
+            },
+            "price": { "color": "#ffaa00" }
+          },
+          "text": { "button": "Add to cart" },
+          "googleFonts": [ "Quantico" ]
+        },
+        "cart": {
+          "styles": {
+            "button": {
+              "font-family": "Quantico, sans-serif",
+              "color": "#ffffff",
+              "background-color": "#ff4500"
+            },
+            "title": { "color": "#ffaa00" },
+            "cart": { "background-color": "#110f0d" }
+          },
+          "text": { "button": "Checkout" }
+        }
+      },
             });
           });
         }
@@ -427,13 +502,36 @@
     </div>
   </div>
 
-  <!-- ARTIST CONTROL PANEL (ONLY FOR GRASON POWELL ACCOUNT) -->
+  <!-- VIP MESSAGE BOARD VIEW (MEMBERS ONLY) -->
+  <div class="view-container" id="boardView">
+    <div class="content-card" style="max-width: 800px;">
+      <h2 class="burn-title" style="font-size: 2.2rem;">Exclusive VIP Message Board</h2>
+      <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem;">
+        Welcome to the members-only campfire board. Post thoughts, meet-up plans, and lyrics with other Premium members.
+      </p>
+
+      <form onsubmit="addBoardPost(event)" style="margin-bottom: 2rem;">
+        <div class="form-group">
+          <textarea id="postContent" class="form-control" rows="3" placeholder="Post a message to the campfire board..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Post Message</button>
+      </form>
+
+      <div id="postsList">
+        <div class="post-item" style="background: rgba(8, 6, 5, 0.7); border: 1px solid var(--border-glow); padding: 1.2rem; border-radius: 8px; margin-bottom: 1rem;">
+          <strong style="color: var(--accent-gold);">Grason Powell (Team)</strong>
+          <p style="margin-top: 0.3rem;">Welcome to the VIP message board! Thanks for taking a seat by the fire.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ARTIST STUDIO PANEL (ONLY FOR GRASON POWELL) -->
   <div class="view-container" id="artistPanel">
     <div class="content-card" style="max-width: 850px; border-color: #00ffaa;">
       <h2 class="burn-title" style="font-size: 2.2rem; color: #00ffaa;">👑 Artist Studio Control Panel</h2>
       <p style="color: var(--text-muted); margin-bottom: 2rem;">Manage official posts, upload photos/videos/audio, and edit the home fan poll.</p>
 
-      <!-- 1. CREATE POST WITH PICTURE / VIDEO / AUDIO -->
       <div style="background: rgba(0, 255, 170, 0.08); border: 1px solid #00ffaa; border-radius: 12px; padding: 1.8rem; margin-bottom: 2rem;">
         <h3 style="color: #00ffaa; margin-bottom: 1rem;">📸 Publish Post with Photo, Video, or Audio</h3>
         <form onsubmit="publishArtistMediaPost(event)">
@@ -449,7 +547,6 @@
         </form>
       </div>
 
-      <!-- 2. EDIT HOME POLL -->
       <div style="background: rgba(8, 6, 5, 0.85); border: 1px solid var(--border-glow); border-radius: 12px; padding: 1.8rem;">
         <h3 style="color: var(--accent-gold); margin-bottom: 1rem;">📊 Edit Fan Song Poll</h3>
         <form onsubmit="updatePollFromAdmin(event)">
@@ -475,7 +572,7 @@
     </div>
   </div>
 
-  <!-- FAN PROFILE & MEMBERSHIP PAYMENT TAB -->
+  <!-- FAN PROFILE & SUBSCRIPTION ACCOUNT TAB -->
   <div class="view-container" id="accountView">
     <div class="content-card" style="max-width: 850px;">
       <h2 class="burn-title" style="font-size: 2.2rem;">Your Pass & Membership</h2>
@@ -491,24 +588,107 @@
         </div>
       </div>
 
-      <!-- $10/YEAR MEMBERSHIP PURCHASER -->
+      <!-- $10/YEAR SHOPIFY SUBSCRIPTION BUY BUTTON -->
       <div id="upgradeContainer" style="background: rgba(255, 153, 0, 0.1); border: 1px solid var(--accent-gold); border-radius: 12px; padding: 2rem; margin-bottom: 2.5rem;">
-        <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.6rem; margin-bottom: 0.5rem;">Upgrade to Premium Pass</h3>
-        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">Join the VIP inner circle for <strong>$10/year</strong> via secure checkout below.</p>
+        <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.6rem; margin-bottom: 0.5rem;">Upgrade to Premium Member Pass</h3>
+        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">Join the VIP inner circle for <strong>$10/year</strong> via secure Shopify checkout below.</p>
 
-        <button class="btn btn-primary" onclick="payForMembershipDirect()" style="margin-bottom: 1.5rem;">Pay $10.00 / Year Now ↗</button>
+        <!-- EXACT SHOPIFY SUBSCRIPTION PRODUCT BUY BUTTON EMBED -->
+        <div id='product-component-1786606684628' onclick="activateMembershipOnCheckout()"></div>
+        <script type="text/javascript">
+        /*<![CDATA[*/
+        (function () {
+          var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
+          if (window.ShopifyBuy) {
+            if (window.ShopifyBuy.UI) {
+              ShopifyBuyInit();
+            } else {
+              loadScript();
+            }
+          } else {
+            loadScript();
+          }
+          function loadScript() {
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = scriptURL;
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
+            script.onload = ShopifyBuyInit;
+          }
+          function ShopifyBuyInit() {
+            var client = ShopifyBuy.buildClient({
+              domain: 'rx63su-pf.myshopify.com',
+              storefrontAccessToken: '186ec34e83f113c009011f7991e99dce',
+            });
+            ShopifyBuy.UI.onReady(client).then(function (ui) {
+              ui.createComponent('product', {
+                id: '15829045280928',
+                node: document.getElementById('product-component-1786606684628'),
+                moneyFormat: '%24%7B%7Bamount%7D%7D',
+                options: {
+          "product": {
+            "styles": {
+              "product": {
+                "@media (min-width: 601px)": {
+                  "max-width": "100%",
+                  "margin-left": "0",
+                  "margin-bottom": "50px"
+                },
+                "text-align": "left"
+              },
+              "title": { "font-size": "26px", "color": "#ffaa00" },
+              "button": {
+                "font-family": "Quantico, sans-serif",
+                "color": "#080605",
+                ":hover": { "color": "#ffffff", "background-color": "#ff4500" },
+                "background-color": "#ffaa00"
+              },
+              "price": { "font-size": "18px", "color": "#ffaa00" }
+            },
+            "layout": "horizontal",
+            "contents": { "img": false, "imgWithCarousel": true, "description": true },
+            "width": "100%",
+            "text": { "button": "Add to cart" },
+            "googleFonts": [ "Quantico" ]
+          },
+          "cart": {
+            "styles": {
+              "button": {
+                "font-family": "Quantico, sans-serif",
+                "color": "#ffffff",
+                "background-color": "#ff4500"
+              },
+              "title": { "color": "#ffaa00" },
+              "cart": { "background-color": "#110f0d" }
+            },
+            "text": { "button": "Checkout" }
+          }
+        },
+              });
+            });
+          }
+        })();
+        /*]]>*/
+        </script>
 
-        <h4 style="text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; color: var(--accent-gold);">ALL PREMIUM MEMBERS GET ACCESS TO:</h4>
+        <h4 style="margin-top: 1.5rem; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; color: var(--accent-gold);">ALL PREMIUM MEMBERS GET ACCESS TO:</h4>
         <ul style="margin-top: 0.8rem; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.8rem;">
           <li>🔥 Access To Exclusive Push Updates</li>
           <li>🔥 RSVP For Door/Set Times & Meet-Ups</li>
-          <li>🔥 App Exclusive Merch Store Access</li>
-          <li>🔥 First Access To Ticket VIP Presale</li>
+          <li>🔥 Access To Exclusive VIP Message Boards</li>
+          <li>🔥 First Access To Ticket VIP Presales</li>
         </ul>
       </div>
 
+      <!-- ACTIVE PREMIUM STATUS & CANCEL SUBSCRIPTION -->
       <div id="activePremiumContainer" style="display: none; background: rgba(255, 153, 0, 0.15); border: 1px solid var(--accent-gold); border-radius: 12px; padding: 2rem; margin-bottom: 2.5rem;">
-        <h3 style="color: var(--accent-gold);">🔥 Your $10/Year VIP Pass is Active!</h3>
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.6rem;">🔥 Your $10/Year VIP Pass is Active!</h3>
+            <p style="color: var(--text-bright); margin-top: 0.5rem;">You have full access to presale codes, VIP message boards, and member updates.</p>
+          </div>
+          <button class="btn btn-outline" style="border-color: #ff5555; color: #ff8888;" onclick="cancelSubscription()">Cancel Subscription</button>
+        </div>
       </div>
 
       <!-- ACCOUNT DETAILS FORM -->
@@ -521,15 +701,26 @@
           <label>Email Address</label>
           <input type="email" id="profileEmail" class="form-control" required>
         </div>
-        <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
-          <button type="submit" class="btn btn-primary">Save Profile</button>
-          <button type="button" class="btn btn-outline" onclick="logoutUser()">Log Out</button>
+        <div class="form-group">
+          <label>New Password</label>
+          <div class="password-wrapper">
+            <input type="password" id="profilePassword" class="form-control" placeholder="Leave blank to retain password">
+            <button type="button" class="toggle-pwd-btn" onclick="togglePasswordVisibility('profilePassword', this)">👁️</button>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-top: 2rem;">
+          <div style="display: flex; gap: 1rem;">
+            <button type="submit" class="btn btn-primary">Save Profile</button>
+            <button type="button" class="btn btn-outline" onclick="logoutUser()">Log Out</button>
+          </div>
+          <button type="button" class="btn btn-danger" onclick="deleteAccount()">Delete Account</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- AUTH MODAL -->
+  <!-- AUTHENTICATION MODAL -->
   <div class="modal-overlay" id="authModal">
     <div class="modal-card content-card" style="position: relative; max-width: 480px;">
       <button class="close-modal" onclick="closeAuthModal()">&times;</button>
@@ -547,7 +738,10 @@
           </div>
           <div class="form-group">
             <label>Password *</label>
-            <input type="password" id="signupPassword" class="form-control" required>
+            <div class="password-wrapper">
+              <input type="password" id="signupPassword" class="form-control" required>
+              <button type="button" class="toggle-pwd-btn" onclick="togglePasswordVisibility('signupPassword', this)">👁️</button>
+            </div>
           </div>
           <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Create Account</button>
         </form>
@@ -565,7 +759,10 @@
           </div>
           <div class="form-group">
             <label>Password</label>
-            <input type="password" id="loginPassword" class="form-control" required>
+            <div class="password-wrapper">
+              <input type="password" id="loginPassword" class="form-control" required>
+              <button type="button" class="toggle-pwd-btn" onclick="togglePasswordVisibility('loginPassword', this)">👁️</button>
+            </div>
           </div>
           <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Log In</button>
         </form>
@@ -580,7 +777,6 @@
     let currentUser = null;
     const ADMIN_EMAIL = "grasoncountrymusic@gmail.com";
 
-    // SVG BADGE HTML TEMPLATE
     const ARTIST_BADGE_HTML = `
       <span class="artist-verified-badge" title="Official Artist Badge">
         <svg class="artist-badge-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -591,7 +787,6 @@
     `;
 
     window.addEventListener('DOMContentLoaded', () => {
-      // PRE-POPULATE GRASON POWELL ARTIST ACCOUNT
       if (!localStorage.getItem('gp_user_' + ADMIN_EMAIL)) {
         const adminAccount = {
           name: "Grason Powell",
@@ -629,18 +824,63 @@
       document.getElementById('authModal').classList.remove('active');
     }
 
+    function togglePasswordVisibility(inputId, btn) {
+      const input = document.getElementById(inputId);
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.innerText = '🙈';
+      } else {
+        input.type = 'password';
+        btn.innerText = '👁️';
+      }
+    }
+
     function switchAuthForm(form) {
       document.getElementById('signupView').style.display = form === 'signup' ? 'block' : 'none';
       document.getElementById('loginView').style.display = form === 'login' ? 'block' : 'none';
     }
 
-    // PUBLISH ARTIST POST (PHOTO, VIDEO, OR AUDIO)
+    function activateMembershipOnCheckout() {
+      if (!currentUser) {
+        alert('Please sign up or log in first before purchasing!');
+        openAuthModal('signup');
+        return;
+      }
+      currentUser.isPremium = true;
+      localStorage.setItem('gp_user_' + currentUser.email, JSON.stringify(currentUser));
+      localStorage.setItem('gp_active_user', JSON.stringify(currentUser));
+      renderAccountState();
+    }
+
+    function cancelSubscription() {
+      if (!currentUser || !currentUser.isPremium) return;
+
+      const confirmCancel = confirm("Are you sure you want to cancel your Premium Pass subscription? You will lose access to the VIP board.");
+      if (confirmCancel) {
+        currentUser.isPremium = false;
+        localStorage.setItem('gp_user_' + currentUser.email, JSON.stringify(currentUser));
+        localStorage.setItem('gp_active_user', JSON.stringify(currentUser));
+        renderAccountState();
+        alert("Your Premium subscription has been canceled.");
+      }
+    }
+
+    function deleteAccount() {
+      if (!currentUser) return;
+
+      const confirmDelete = confirm("Are you sure you want to completely DELETE your account?");
+      if (confirmDelete) {
+        localStorage.removeItem('gp_user_' + currentUser.email);
+        localStorage.removeItem('gp_active_user');
+        alert("Your account has been deleted.");
+        location.reload();
+      }
+    }
+
     function publishArtistMediaPost(e) {
       e.preventDefault();
       const caption = document.getElementById('postCaptionInput').value;
       const fileInput = document.getElementById('mediaFileInput');
-      const feed = document.getElementById('artistPostsFeed');
-
       const file = fileInput.files[0];
 
       if (file) {
@@ -691,7 +931,6 @@
       switchTab('postsView');
     }
 
-    // EDIT POLL FROM ARTIST PANEL
     function updatePollFromAdmin(e) {
       e.preventDefault();
       const q = document.getElementById('pollQuestionInput').value;
@@ -712,19 +951,6 @@
 
     function votePoll(btn) {
       document.getElementById('pollResult').innerText = `Thanks for voting! You selected: "${btn.innerText}". Grason has received your vote!`;
-    }
-
-    function payForMembershipDirect() {
-      if (!currentUser) {
-        alert('Please sign up or log in first!');
-        openAuthModal('signup');
-        return;
-      }
-      currentUser.isPremium = true;
-      localStorage.setItem('gp_user_' + currentUser.email, JSON.stringify(currentUser));
-      localStorage.setItem('gp_active_user', JSON.stringify(currentUser));
-      renderAccountState();
-      alert('Congratulations! Your $10/Year Premium Membership Pass is active.');
     }
 
     function handleSignup(e) {
@@ -785,9 +1011,16 @@
         document.getElementById('artistNavTab').style.display = 'none';
       }
 
-      if (currentUser.isPremium) {
+      if (currentUser.isPremium || currentUser.isArtist) {
+        document.getElementById('vipNavTab').style.display = 'block';
+        document.getElementById('premiumHomeContent').style.display = 'block';
         document.getElementById('upgradeContainer').style.display = 'none';
         document.getElementById('activePremiumContainer').style.display = 'block';
+      } else {
+        document.getElementById('vipNavTab').style.display = 'none';
+        document.getElementById('premiumHomeContent').style.display = 'none';
+        document.getElementById('upgradeContainer').style.display = 'block';
+        document.getElementById('activePremiumContainer').style.display = 'none';
       }
 
       let badgeHtml = currentUser.isArtist ? ARTIST_BADGE_HTML : '';
@@ -809,7 +1042,54 @@
       } else if (currentUser.isPremium) {
         badge.innerText = '🔥 Premium Member ($10/Year)';
         badge.style.background = 'var(--accent-gold)'; badge.style.color = '#000';
+      } else {
+        badge.innerText = 'Free Member';
+        badge.style.background = 'var(--accent-ember)'; badge.style.color = '#fff';
       }
+    }
+
+    function addBoardPost(e) {
+      e.preventDefault();
+      const content = document.getElementById('postContent').value;
+      const postsList = document.getElementById('postsList');
+
+      const newPost = document.createElement('div');
+      newPost.style.cssText = "background: rgba(8, 6, 5, 0.7); border: 1px solid var(--border-glow); padding: 1.2rem; border-radius: 8px; margin-bottom: 1rem;";
+      newPost.innerHTML = `
+        <strong style="color: var(--accent-gold);">${currentUser.name} ${currentUser.isArtist ? '(👑 Artist)' : '(VIP Pass Member)'}</strong>
+        <p style="margin-top: 0.3rem;">${content}</p>
+      `;
+
+      postsList.prepend(newPost);
+      document.getElementById('postContent').value = '';
+    }
+
+    function saveProfileChanges(e) {
+      e.preventDefault();
+      currentUser.name = document.getElementById('profileName').value;
+      currentUser.email = document.getElementById('profileEmail').value;
+
+      const newPass = document.getElementById('profilePassword').value;
+      if (newPass.trim() !== '') currentUser.password = newPass;
+
+      localStorage.setItem('gp_user_' + currentUser.email, JSON.stringify(currentUser));
+      localStorage.setItem('gp_active_user', JSON.stringify(currentUser));
+      renderAccountState();
+      alert('Profile saved!');
+    }
+
+    function handleAvatarUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        currentUser.avatar = evt.target.result;
+        localStorage.setItem('gp_user_' + currentUser.email, JSON.stringify(currentUser));
+        localStorage.setItem('gp_active_user', JSON.stringify(currentUser));
+        renderAccountState();
+      };
+      reader.readAsDataURL(file);
     }
 
     function handleSongRequest(e) {
