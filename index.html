@@ -255,6 +255,21 @@
       font-size: 1.5rem; cursor: pointer;
     }
 
+    /* --- LIVE NOTIFICATION BANNER --- */
+    .notification-toast {
+      position: fixed; bottom: 20px; right: 20px;
+      background: var(--bg-card); border: 2px solid var(--accent-gold);
+      box-shadow: 0 0 25px rgba(255, 153, 0, 0.5);
+      border-radius: 12px; padding: 1.2rem 1.5rem;
+      z-index: 3000; display: none; max-width: 380px;
+      animation: slideUp 0.4s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
     footer { text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-top: 2rem; }
   </style>
 </head>
@@ -316,13 +331,13 @@
       <p id="pollResult" style="color: var(--accent-gold); margin-top: 0.8rem; font-weight: 700;"></p>
     </div>
 
-    <!-- UNLOCKED MEMBER BANNER -->
+    <!-- UNLOCKED MEMBER BANNER (UPDATED MESSAGE) -->
     <div class="content-card" id="premiumHomeContent" style="display: none; border-color: var(--accent-gold);">
       <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.8rem; margin-bottom: 1rem;">
         🔥 VIP Member Access Unlocked
       </h3>
       <p style="color: var(--text-bright); font-size: 1.05rem; line-height: 1.8;">
-        <strong>Tour Presale Code:</strong> Use code <code style="background:var(--accent-ember); padding:2px 6px; border-radius:4px; color:#fff;">CAMPFIRE2026</code> for early tickets.<br>
+        <strong>Tour Dates:</strong> There are no upcoming shows right now and no active presale codes.<br>
         <strong>VIP Message Board:</strong> Head over to the <em>VIP Board</em> tab to chat with the band and other members.
       </p>
     </div>
@@ -332,7 +347,7 @@
     </footer>
   </div>
 
-  <!-- GRASON POWELL EXCLUSIVE POSTS FEED (FOR ALL USERS) -->
+  <!-- GRASON POWELL EXCLUSIVE POSTS FEED -->
   <div class="view-container" id="postsView">
     <div class="content-card" style="max-width: 850px;">
       <h2 class="burn-title" style="font-size: 2.2rem; margin-bottom: 1rem;">Grason Powell's Feed</h2>
@@ -381,7 +396,7 @@
     </div>
   </div>
 
-  <!-- MERCH STORE VIEW (EXACT EMBEDDED SHOPIFY COLLECTION) -->
+  <!-- MERCH STORE VIEW -->
   <div class="view-container" id="merchView">
     <div class="content-card">
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 1.5rem;">
@@ -389,7 +404,6 @@
         <a href="https://rx63su-pf.myshopify.com" target="_blank" class="btn btn-outline" style="font-size: 0.75rem;">Open Full Shopify Site ↗</a>
       </div>
 
-      <!-- OFFICIAL MERCH STORE BUY BUTTON COLLECTION -->
       <div id='collection-component-1786603249726'></div>
       <script type="text/javascript">
       /*<![CDATA[*/
@@ -502,7 +516,7 @@
     </div>
   </div>
 
-  <!-- VIP MESSAGE BOARD VIEW (MEMBERS ONLY) -->
+  <!-- VIP MESSAGE BOARD VIEW -->
   <div class="view-container" id="boardView">
     <div class="content-card" style="max-width: 800px;">
       <h2 class="burn-title" style="font-size: 2.2rem;">Exclusive VIP Message Board</h2>
@@ -526,7 +540,7 @@
     </div>
   </div>
 
-  <!-- ARTIST STUDIO PANEL (ONLY FOR GRASON POWELL) -->
+  <!-- ARTIST STUDIO PANEL -->
   <div class="view-container" id="artistPanel">
     <div class="content-card" style="max-width: 850px; border-color: #00ffaa;">
       <h2 class="burn-title" style="font-size: 2.2rem; color: #00ffaa;">👑 Artist Studio Control Panel</h2>
@@ -543,7 +557,7 @@
             <label>Upload Media File (Image, Video, or Audio MP3)</label>
             <input type="file" id="mediaFileInput" class="form-control" accept="image/*,video/*,audio/*">
           </div>
-          <button type="submit" class="btn btn-primary" style="background: #00ffaa; color: #000;">Publish to Feed</button>
+          <button type="submit" class="btn btn-primary" style="background: #00ffaa; color: #000;">Publish & Send Instant Fan Alert</button>
         </form>
       </div>
 
@@ -593,12 +607,10 @@
         <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.6rem; margin-bottom: 0.5rem;">Upgrade to Premium Member Pass</h3>
         <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">Join the VIP inner circle for <strong>$10/year</strong> via secure Shopify checkout below.</p>
 
-        <!-- DIRECT SUBSCRIBE BUTTON LINKED TO SHOPIFY -->
         <button class="btn btn-primary" onclick="activateMembershipOnCheckout()" style="margin-bottom: 1.5rem; width: 100%; max-width: 320px;">
           Subscribe & Pay $10.00 / Year ↗
         </button>
 
-        <!-- EXACT SHOPIFY SUBSCRIPTION PRODUCT BUY BUTTON EMBED -->
         <div id='product-component-1786606684628' onclick="activateMembershipOnCheckout()"></div>
         <script type="text/javascript">
         /*<![CDATA[*/
@@ -748,6 +760,19 @@
               <button type="button" class="toggle-pwd-btn" onclick="togglePasswordVisibility('signupPassword', this)">👁️</button>
             </div>
           </div>
+          <div class="form-group">
+            <label>Phone Number (Optional)</label>
+            <input type="tel" id="signupPhone" class="form-control" placeholder="(555) 000-0000">
+          </div>
+          
+          <!-- SIGN UP FOR UPDATES / SHOPIFY CHECKBOX -->
+          <div class="form-group" style="display: flex; align-items: flex-start; gap: 10px; margin-top: 1rem;">
+            <input type="checkbox" id="signupShopifyUpdates" style="width: 18px; height: 18px; margin-top: 2px; accent-color: var(--accent-gold);">
+            <label for="signupShopifyUpdates" style="text-transform: none; font-size: 0.85rem; color: var(--text-bright); cursor: pointer; line-height: 1.4;">
+              Sign up for updates & automatically create / connect your Shop account for fast store checkout.
+            </label>
+          </div>
+
           <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Create Account</button>
         </form>
         <p style="text-align: center; margin-top: 1rem; font-size: 0.85rem; color: var(--text-muted);">
@@ -778,9 +803,20 @@
     </div>
   </div>
 
+  <!-- INSTANT NOTIFICATION TOAST FOR POSTS -->
+  <div id="notificationToast" class="notification-toast">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+      <strong style="color: var(--accent-gold); font-size: 0.95rem;">🔥 NEW POST FROM GRASON!</strong>
+      <button onclick="closeNotification()" style="background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.1rem;">&times;</button>
+    </div>
+    <p id="notifText" style="font-size: 0.85rem; color: var(--text-bright);"></p>
+    <button class="btn btn-outline" style="font-size: 0.7rem; padding: 0.3rem 0.8rem; margin-top: 0.8rem; border-color: var(--accent-gold);" onclick="viewNewPost()">View Post ↗</button>
+  </div>
+
   <script>
     let currentUser = null;
     const ADMIN_EMAIL = "grasoncountrymusic@gmail.com";
+    const SHOPIFY_AUTH_URL = "https://shopify.com/authentication/104591851680/login?analytics_trace_id=6e33060d-33c6-4b3e-9a05-c7108ed1ad09&client_id=cb81980b-885f-41b1-bd28-d2a99ac2089a&locale=en-US&redirect_uri=%2Fauthentication%2F104591851680%2Foauth%2Fauthorize%3Fanalytics_trace_id%3D6e33060d-33c6-4b3e-9a05-c7108ed1ad09%26buyer_flags%3DeyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJyeDYzc3UtcGYubXlzaG9waWZ5LmNvbSIsImZsYWdzIjpbXSwiZXhwIjoxNzg3MjEzOTYwLCJuYmYiOjE3ODY2MDkxNjB9.OLEwmi63emd7HUnVn7HsAMVa0nAJS_3xAjqMS8wIUJM%26client_id%3Dcb81980b-885f-41b1-bd28-d2a99ac2089a%26locale%3Den-US%26nonce%3D53bdf5e8-dc5b-4dd7-8175-37d752fb4cd7%26redirect_uri%3Dhttps%253A%252F%252Fshopify.com%252F104591851680%252Faccount%252Fcallback%26region_country%3DUS%26response_type%3Dcode%26scope%3Dopenid%2Bemail%2Bcustomer-account-api%253Afull%26state%3DhWNFbIeOMuoLqLHpAzIsDRhp&region_country=US";
 
     const ARTIST_BADGE_HTML = `
       <span class="artist-verified-badge" title="Official Artist Badge">
@@ -810,6 +846,14 @@
         currentUser = JSON.parse(stored);
         renderAccountState();
       }
+
+      // Check cross-tab broadcast notifications
+      window.addEventListener('storage', (e) => {
+        if (e.key === 'gp_latest_post_notify') {
+          const notif = JSON.parse(e.newValue);
+          triggerNotificationBanner(notif.caption);
+        }
+      });
     });
 
     function switchTab(viewId) {
@@ -933,7 +977,28 @@
       feed.prepend(postCard);
       document.getElementById('postCaptionInput').value = '';
       document.getElementById('mediaFileInput').value = '';
-      alert('Post published live to Grason\'s Posts feed!');
+
+      // Trigger instant notifications across open sessions
+      const notifData = { caption: caption, time: Date.now() };
+      localStorage.setItem('gp_latest_post_notify', JSON.stringify(notifData));
+      triggerNotificationBanner(caption);
+
+      alert('Post published live! Fan notification dispatched.');
+      switchTab('postsView');
+    }
+
+    function triggerNotificationBanner(caption) {
+      document.getElementById('notifText').innerText = caption.length > 90 ? caption.substring(0, 90) + '...' : caption;
+      const toast = document.getElementById('notificationToast');
+      toast.style.display = 'block';
+    }
+
+    function closeNotification() {
+      document.getElementById('notificationToast').style.display = 'none';
+    }
+
+    function viewNewPost() {
+      closeNotification();
       switchTab('postsView');
     }
 
@@ -963,12 +1028,16 @@
       e.preventDefault();
       const email = document.getElementById('signupEmail').value.toLowerCase();
       const name = document.getElementById('signupName').value;
+      const phone = document.getElementById('signupPhone').value;
+      const wantsShopifyUpdates = document.getElementById('signupShopifyUpdates').checked;
       const isArtistAccount = email === ADMIN_EMAIL;
 
       const user = {
         name: isArtistAccount ? "Grason Powell" : name,
         email: email,
         password: document.getElementById('signupPassword').value,
+        phone: phone || '',
+        wantsUpdates: wantsShopifyUpdates,
         avatar: null,
         isPremium: isArtistAccount ? true : false,
         isArtist: isArtistAccount,
@@ -981,6 +1050,11 @@
 
       closeAuthModal();
       renderAccountState();
+
+      if (wantsShopifyUpdates) {
+        alert('Signing you up for Shop & site updates! Opening Shop verification...');
+        window.open(SHOPIFY_AUTH_URL, '_blank');
+      }
     }
 
     function handleLogin(e) {
