@@ -57,7 +57,7 @@
     }
 
     nav {
-      max-width: 1200px; margin: 0 auto;
+      max-width: 1250px; margin: 0 auto;
       display: flex; justify-content: space-between;
       align-items: center; padding: 1rem 2rem;
     }
@@ -71,16 +71,16 @@
     }
 
     .nav-links {
-      display: flex; gap: 0.8rem;
+      display: flex; gap: 0.6rem;
       list-style: none; align-items: center;
     }
 
     .nav-tab {
       background: none; border: none;
-      color: var(--text-muted); font-size: 0.8rem;
-      font-weight: 700; letter-spacing: 1.5px;
+      color: var(--text-muted); font-size: 0.78rem;
+      font-weight: 700; letter-spacing: 1.2px;
       text-transform: uppercase; cursor: pointer;
-      padding: 0.5rem 0.8rem; border-radius: 4px;
+      padding: 0.5rem 0.7rem; border-radius: 4px;
       transition: all 0.3s ease;
     }
 
@@ -111,8 +111,8 @@
     }
 
     .artist-badge-svg {
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
       filter: drop-shadow(0 0 6px var(--accent-gold));
     }
 
@@ -132,7 +132,7 @@
       color: #080605; display: flex; align-items: center; justify-content: center;
       font-weight: 800; font-size: 0.85rem; object-fit: cover;
       border: 1px solid var(--accent-gold);
-      overflow: hidden;
+      overflow: hidden; flex-shrink: 0;
     }
 
     .avatar-circle img {
@@ -154,7 +154,7 @@
     .view-container {
       position: absolute; top: 75px; left: 0;
       width: 100vw; height: calc(100vh - 75px);
-      overflow-y: auto; padding: 4rem 2rem 8rem 2rem;
+      overflow-y: auto; padding: 3rem 2rem 8rem 2rem;
       display: none; flex-direction: column; align-items: center;
     }
 
@@ -163,13 +163,13 @@
     .content-card {
       background: var(--bg-card);
       border: 1px solid var(--border-glow);
-      border-radius: 16px; padding: 3rem;
-      max-width: 1000px; width: 100%; margin-bottom: 3rem;
+      border-radius: 16px; padding: 2.5rem;
+      max-width: 950px; width: 100%; margin-bottom: 2.5rem;
       backdrop-filter: blur(12px);
     }
 
     .btn {
-      display: inline-block; padding: 0.8rem 2rem;
+      display: inline-block; padding: 0.8rem 1.8rem;
       border-radius: 30px; font-weight: 700; letter-spacing: 1px;
       text-transform: uppercase; font-size: 0.8rem; cursor: pointer;
       transition: all 0.3s; border: none; text-align: center;
@@ -209,7 +209,7 @@
 
     .poll-btn:hover { border-color: var(--accent-gold); }
 
-    /* --- MEDIA FEED --- */
+    /* --- COMMUNITY MEDIA FEED --- */
     .post-card {
       background: rgba(8, 6, 5, 0.85);
       border: 1px solid var(--border-glow);
@@ -222,6 +222,54 @@
     }
 
     .post-card audio { width: 100%; margin-top: 1rem; }
+
+    .post-actions {
+      display: flex; gap: 1rem; margin-top: 1rem; align-items: center;
+      border-top: 1px solid rgba(255, 85, 0, 0.2); padding-top: 0.8rem;
+    }
+
+    .action-btn {
+      background: none; border: none; color: var(--text-muted);
+      cursor: pointer; font-size: 0.9rem; font-weight: 700;
+      display: flex; align-items: center; gap: 0.4rem;
+      transition: color 0.2s;
+    }
+
+    .action-btn:hover, .action-btn.liked {
+      color: var(--accent-gold);
+    }
+
+    .comment-section {
+      margin-top: 1rem; padding-top: 1rem;
+      border-top: 1px dashed rgba(255, 85, 0, 0.2);
+      display: none;
+    }
+
+    .comment-item {
+      background: rgba(0,0,0,0.4); padding: 0.6rem 0.8rem;
+      border-radius: 6px; margin-bottom: 0.5rem; font-size: 0.88rem;
+    }
+
+    /* --- TABBED SURVEY STYLES --- */
+    .survey-option-grid {
+      display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 0.8rem; margin-bottom: 1.2rem;
+    }
+
+    .survey-tag {
+      background: rgba(8, 6, 5, 0.9);
+      border: 1px solid var(--border-glow);
+      padding: 0.6rem 1.2rem; border-radius: 20px;
+      color: var(--text-muted); cursor: pointer;
+      font-size: 0.9rem; font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .survey-tag:hover, .survey-tag.selected {
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+      background: rgba(255, 153, 0, 0.15);
+      box-shadow: 0 0 10px rgba(255, 153, 0, 0.3);
+    }
 
     /* --- FORM ELEMENTS & PASSWORD TOGGLE --- */
     .form-group { margin-bottom: 1.2rem; position: relative; }
@@ -260,6 +308,26 @@
       font-size: 1.5rem; cursor: pointer;
     }
 
+    /* --- 4-SECOND SETUP LOADING SCREEN --- */
+    .loading-overlay {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(8, 6, 5, 0.98); backdrop-filter: blur(15px);
+      z-index: 9999; display: none; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center;
+    }
+
+    .flame-spinner {
+      width: 70px; height: 70px; border-radius: 50%;
+      border: 4px solid rgba(255, 69, 0, 0.2);
+      border-top-color: var(--accent-gold);
+      border-bottom-color: var(--accent-ember);
+      animation: spin 1s linear infinite; margin-bottom: 1.5rem;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
     /* --- LIVE NOTIFICATION BANNER --- */
     .notification-toast {
       position: fixed; bottom: 20px; right: 20px;
@@ -288,16 +356,27 @@
   </div>
   <div class="bg-overlay"></div>
 
+  <!-- 4-SECOND SETUP LOADING SCREEN OVERLAY -->
+  <div id="setupLoadingOverlay" class="loading-overlay">
+    <div class="flame-spinner"></div>
+    <h2 style="font-family: var(--font-display); color: var(--accent-gold); font-size: 2rem; margin-bottom: 0.5rem;">
+      Gathering around the campfire...
+    </h2>
+    <p id="loadingStatusText" style="color: var(--text-muted); font-size: 1.1rem; max-width: 450px; line-height: 1.5;">
+      Getting things 100% perfect for you...
+    </p>
+  </div>
+
   <!-- NAVIGATION BAR -->
   <header>
     <nav>
       <div class="logo">GRASON POWELL</div>
       <ul class="nav-links">
         <li><button class="nav-tab active" onclick="switchTab('homeView')">Home</button></li>
-        <li><button class="nav-tab" onclick="switchTab('postsView')">Grason's Posts</button></li>
+        <li><button class="nav-tab" onclick="switchTab('postsView')">Community Feed</button></li>
         <li><button class="nav-tab" onclick="switchTab('musicView')">Music</button></li>
         <li><button class="nav-tab" onclick="switchTab('merchView')">Merch Store</button></li>
-        <li><button class="nav-tab" onclick="switchTab('surveyView')">Fan Survey</button></li>
+        <li id="surveyNavTab"><button class="nav-tab" onclick="switchTab('surveyView')">Fan Survey</button></li>
         <li><button class="nav-tab" onclick="switchTab('requestView')">Song Request</button></li>
         <li id="vipNavTab" style="display: none;"><button class="nav-tab vip-tab-link" onclick="switchTab('boardView')">VIP Board</button></li>
         <li id="artistNavTab" style="display: none;"><button class="nav-tab artist-tab-link" onclick="switchTab('artistPanel')">👑 Artist Panel</button></li>
@@ -353,41 +432,28 @@
     </footer>
   </div>
 
-  <!-- GRASON POWELL EXCLUSIVE POSTS FEED -->
+  <!-- COMMUNITY & ARTIST POSTS FEED (ALL FANS CAN POST & COMMENT) -->
   <div class="view-container" id="postsView">
-    <div class="content-card" style="max-width: 850px;">
-      <h2 class="burn-title" style="font-size: 2.2rem; margin-bottom: 1rem;">Grason Powell's Feed</h2>
-      <p style="color: var(--text-muted); margin-bottom: 2rem;">Official photos, studio video clips, and audio previews direct from Grason Powell.</p>
+    <div class="content-card" style="max-width: 900px;">
+      <h2 class="burn-title" style="font-size: 2.2rem; margin-bottom: 0.5rem;">Community Feed</h2>
+      <p style="color: var(--text-muted); margin-bottom: 2rem;">Photos, audio previews, video clips, and thoughts from Grason and fans around the fire.</p>
 
-      <div id="artistPostsFeed">
-        <div class="post-card">
-          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 0.8rem;">
-            <div class="avatar-circle" id="feedDefaultArtistAvatar">GP</div>
-            <div>
-              <strong style="color: var(--accent-gold); font-size: 1.1rem;">
-                Grason Powell
-                <span class="artist-verified-badge" title="Official Artist Badge">
-                  <svg class="artist-badge-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2L15.09 5.26L19.5 4.5L19.26 9L23 12L19.26 15L19.5 19.5L15.09 18.74L12 22L8.91 18.74L4.5 19.5L4.74 15L1 12L4.74 9L4.5 4.5L8.91 5.26L12 2Z" fill="url(#badgeGrad)"/>
-                    <path d="M9 12L11 14L15 10" stroke="#080605" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    <defs>
-                      <linearGradient id="badgeGrad" x1="0" y1="0" x2="24" y2="24">
-                        <stop offset="0%" stop-color="#ffe28a"/>
-                        <stop offset="50%" stop-color="#ffaa00"/>
-                        <stop offset="100%" stop-color="#ff4500"/>
-                      </linearGradient>
-                    </defs>
-                  </svg>
-                </span>
-              </strong>
-              <div style="font-size: 0.75rem; color: var(--text-muted);">Official Update</div>
-            </div>
+      <!-- FAN POST CREATOR BOX -->
+      <div style="background: rgba(8, 6, 5, 0.9); border: 1px solid var(--border-glow); border-radius: 12px; padding: 1.5rem; margin-bottom: 2.5rem;">
+        <h3 style="color: var(--accent-gold); font-size: 1.2rem; margin-bottom: 1rem;">🔥 Share Something With The Circle</h3>
+        <form onsubmit="handleUserPostSubmit(event)">
+          <div class="form-group">
+            <textarea id="userPostCaption" class="form-control" rows="3" placeholder="Write a post, share a memory, or leave a thought..." required></textarea>
           </div>
-          <p style="font-size: 1.05rem; line-height: 1.6;">
-            Welcome to the new official posts page! I'm dropping studio photos, acoustic clips, and music previews right here for everyone. Take a seat by the fire!
-          </p>
-        </div>
+          <div class="form-group">
+            <label>Upload Media File (Photo, Video, or Audio MP3)</label>
+            <input type="file" id="userPostMedia" class="form-control" accept="image/*,video/*,audio/*">
+          </div>
+          <button type="submit" class="btn btn-primary">Post To Feed 🚀</button>
+        </form>
       </div>
+
+      <div id="artistPostsFeed"></div>
     </div>
   </div>
 
@@ -402,7 +468,7 @@
     </div>
   </div>
 
-  <!-- MERCH STORE VIEW (WITH WORKING BUY BUTTONS) -->
+  <!-- MERCH STORE VIEW -->
   <div class="view-container" id="merchView">
     <div class="content-card">
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 1.5rem;">
@@ -410,10 +476,8 @@
         <a href="https://rx63su-pf.myshopify.com" target="_blank" class="btn btn-outline" style="font-size: 0.75rem;">Open Full Shopify Store ↗</a>
       </div>
 
-      <!-- SHOPIFY COLLECTION CONTAINER -->
       <div id='collection-component-1786603249726' style="min-height: 300px;"></div>
 
-      <!-- DIRECT FALLBACK BUY BUTTONS IN CASE SDK PREVENTED BY BLOCKERS -->
       <div id="fallbackStoreButtons" style="margin-top: 2rem; border-top: 1px solid var(--border-glow); padding-top: 2rem;">
         <h3 style="color: var(--accent-gold); margin-bottom: 1rem; font-family: var(--font-display);">Direct Checkout Options</h3>
         <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
@@ -421,116 +485,61 @@
           <a href="https://rx63su-pf.myshopify.com/cart" target="_blank" class="btn btn-outline">View Cart / Checkout ↗</a>
         </div>
       </div>
-
-      <script type="text/javascript">
-      /*<![CDATA[*/
-      (function () {
-        var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
-        if (window.ShopifyBuy) {
-          if (window.ShopifyBuy.UI) {
-            ShopifyBuyInit();
-          } else {
-            loadScript();
-          }
-        } else {
-          loadScript();
-        }
-        function loadScript() {
-          var script = document.createElement('script');
-          script.async = true;
-          script.src = scriptURL;
-          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
-          script.onload = ShopifyBuyInit;
-        }
-        function ShopifyBuyInit() {
-          var client = ShopifyBuy.buildClient({
-            domain: 'rx63su-pf.myshopify.com',
-            storefrontAccessToken: '186ec34e83f113c009011f7991e99dce',
-          });
-          ShopifyBuy.UI.onReady(client).then(function (ui) {
-            ui.createComponent('collection', {
-              id: '685602373792',
-              node: document.getElementById('collection-component-1786603249726'),
-              moneyFormat: '%24%7B%7Bamount%7D%7D',
-              options: {
-                "product": {
-                  "styles": {
-                    "product": {
-                      "@media (min-width: 601px)": {
-                        "max-width": "calc(25% - 20px)",
-                        "margin-left": "20px",
-                        "margin-bottom": "50px",
-                        "width": "calc(25% - 20px)"
-                      }
-                    },
-                    "title": { "color": "#ffaa00" },
-                    "button": {
-                      "font-family": "Quantico, sans-serif",
-                      "color": "#080605",
-                      ":hover": { "color": "#ffffff", "background-color": "#ff4500" },
-                      "background-color": "#ffaa00"
-                    },
-                    "price": { "color": "#ffaa00" }
-                  },
-                  "text": { "button": "Add to cart" }
-                },
-                "cart": {
-                  "styles": {
-                    "button": {
-                      "font-family": "Quantico, sans-serif",
-                      "color": "#ffffff",
-                      "background-color": "#ff4500"
-                    },
-                    "title": { "color": "#ffaa00" },
-                    "cart": { "background-color": "#110f0d" }
-                  },
-                  "text": { "button": "Checkout" }
-                }
-              }
-            });
-          });
-        }
-      })();
-      /*]]>*/
-      </script>
     </div>
   </div>
 
-  <!-- FAN OPTIONAL SURVEY VIEW -->
+  <!-- TABBED FAN OPTIONAL SURVEY VIEW WITH OTHER BUTTON -->
   <div class="view-container" id="surveyView">
-    <div class="content-card" style="max-width: 750px;">
-      <h2 class="burn-title" style="font-size: 2.2rem;">Optional Fan Survey</h2>
+    <div class="content-card" style="max-width: 800px;">
+      <h2 class="burn-title" style="font-size: 2.2rem;">Official Fan Survey</h2>
       <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 2rem;">
-        Help Grason know his listener base better! This survey is 100% optional. Answer as many or as few questions as you like.
+        Select your answers or click <strong>"Other"</strong> to write your own! This tab will hide once submitted.
       </p>
 
-      <form onsubmit="handleFanSurvey(event)">
-        <div class="form-group">
-          <label>1. What's your favorite song and why?</label>
-          <textarea id="surveyFavSong" class="form-control" rows="3" placeholder="Tell Grason which song hits closest to home..."></textarea>
+      <form onsubmit="handleTabbedSurveySubmit(event)">
+        <!-- QUESTION 1 -->
+        <div style="margin-bottom: 2rem; background: rgba(0,0,0,0.3); padding: 1.5rem; border-radius: 10px; border: 1px solid var(--border-glow);">
+          <label style="color: var(--accent-gold); font-weight: 700; font-size: 1.05rem;">1. What kind of music style do you love most from Grason?</label>
+          <div class="survey-option-grid" id="q1Grid">
+            <div class="survey-tag" onclick="selectSurveyTag(this, 'q1')">🎸 Raw Acoustic</div>
+            <div class="survey-tag" onclick="selectSurveyTag(this, 'q1')">🔥 Outlaw Country</div>
+            <div class="survey-tag" onclick="selectSurveyTag(this, 'q1')">🌙 Porch Storytelling</div>
+            <div class="survey-tag" onclick="toggleOtherInput('q1OtherWrap')">✏️ Other</div>
+          </div>
+          <div id="q1OtherWrap" style="display: none; margin-top: 0.5rem;">
+            <input type="text" id="q1OtherText" class="form-control" placeholder="Type your custom response...">
+          </div>
         </div>
 
-        <div class="form-group">
-          <label>2. How did you first discover Grason Powell's music?</label>
-          <input type="text" id="surveyDiscovery" class="form-control" placeholder="e.g. TikTok, Spotify recommendation, a friend, social media...">
+        <!-- QUESTION 2 -->
+        <div style="margin-bottom: 2rem; background: rgba(0,0,0,0.3); padding: 1.5rem; border-radius: 10px; border: 1px solid var(--border-glow);">
+          <label style="color: var(--accent-gold); font-weight: 700; font-size: 1.05rem;">2. How did you first discover Grason Powell?</label>
+          <div class="survey-option-grid" id="q2Grid">
+            <div class="survey-tag" onclick="selectSurveyTag(this, 'q2')">📱 TikTok / Reels</div>
+            <div class="survey-tag" onclick="selectSurveyTag(this, 'q2')">🎧 Spotify / Apple Music</div>
+            <div class="survey-tag" onclick="selectSurveyTag(this, 'q2')">🤝 Recommended by a friend</div>
+            <div class="survey-tag" onclick="toggleOtherInput('q2OtherWrap')">✏️ Other</div>
+          </div>
+          <div id="q2OtherWrap" style="display: none; margin-top: 0.5rem;">
+            <input type="text" id="q2OtherText" class="form-control" placeholder="Type where you discovered Grason...">
+          </div>
         </div>
 
-        <div class="form-group">
-          <label>3. Which city / state would you love to see Grason perform live in?</label>
-          <input type="text" id="surveyCity" class="form-control" placeholder="e.g. Nashville TN, Austin TX, Charlotte NC...">
+        <!-- QUESTION 3 -->
+        <div style="margin-bottom: 2rem; background: rgba(0,0,0,0.3); padding: 1.5rem; border-radius: 10px; border: 1px solid var(--border-glow);">
+          <label style="color: var(--accent-gold); font-weight: 700; font-size: 1.05rem;">3. Which concert stop region should he tour next?</label>
+          <div class="survey-option-grid" id="q3Grid">
+            <div class="survey-tag" onclick="selectSurveyTag(this, 'q3')">🤠 Nashville / Southeast</div>
+            <div class="survey-tag" onclick="selectSurveyTag(this, 'q3')">🌵 Texas / Southwest</div>
+            <div class="survey-tag" onclick="selectSurveyTag(this, 'q3')">🌲 Pacific Northwest</div>
+            <div class="survey-tag" onclick="toggleOtherInput('q3OtherWrap')">✏️ Other</div>
+          </div>
+          <div id="q3OtherWrap" style="display: none; margin-top: 0.5rem;">
+            <input type="text" id="q3OtherText" class="form-control" placeholder="Type your city or state...">
+          </div>
         </div>
 
-        <div class="form-group">
-          <label>4. What type of merch items would you be most excited to buy?</label>
-          <input type="text" id="surveyMerch" class="form-control" placeholder="e.g. Campfire hoodies, vinyl records, trucker hats, guitar picks...">
-        </div>
-
-        <div class="form-group">
-          <label>5. Any general message or note for Grason?</label>
-          <textarea id="surveyNotes" class="form-control" rows="3" placeholder="Write a note directly to Grason..."></textarea>
-        </div>
-
-        <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Survey Responses 📝</button>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Survey & Save Answers 📝</button>
       </form>
     </div>
   </div>
@@ -571,12 +580,7 @@
         <button type="submit" class="btn btn-primary">Post Message</button>
       </form>
 
-      <div id="postsList">
-        <div class="post-item" style="background: rgba(8, 6, 5, 0.7); border: 1px solid var(--border-glow); padding: 1.2rem; border-radius: 8px; margin-bottom: 1rem;">
-          <strong style="color: var(--accent-gold);">Grason Powell (Team)</strong>
-          <p style="margin-top: 0.3rem;">Welcome to the VIP message board! Thanks for taking a seat by the fire.</p>
-        </div>
-      </div>
+      <div id="postsList"></div>
     </div>
   </div>
 
@@ -589,7 +593,6 @@
       <!-- ARTIST PROFILE PICTURE UPLOADER -->
       <div style="background: rgba(0, 255, 170, 0.08); border: 1px solid #00ffaa; border-radius: 12px; padding: 1.8rem; margin-bottom: 2rem;">
         <h3 style="color: #00ffaa; margin-bottom: 1rem;">🖼️ Update Official Artist Profile Picture</h3>
-        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">Upload your official avatar picture. It will display next to all your feed posts, VIP board comments, and navigation badge!</p>
         <div style="display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap;">
           <div id="artistPanelAvatarPreview" class="avatar-circle" style="width: 70px; height: 70px; font-size: 1.8rem;">GP</div>
           <div>
@@ -599,9 +602,9 @@
         </div>
       </div>
 
-      <!-- PUBLISH POST -->
+      <!-- PUBLISH ARTIST POST -->
       <div style="background: rgba(0, 255, 170, 0.08); border: 1px solid #00ffaa; border-radius: 12px; padding: 1.8rem; margin-bottom: 2rem;">
-        <h3 style="color: #00ffaa; margin-bottom: 1rem;">📸 Publish Post with Photo, Video, or Audio</h3>
+        <h3 style="color: #00ffaa; margin-bottom: 1rem;">📸 Publish Official Artist Media Post</h3>
         <form onsubmit="publishArtistMediaPost(event)">
           <div class="form-group">
             <label>Caption / Post Message</label>
@@ -611,7 +614,7 @@
             <label>Upload Media File (Image, Video, or Audio MP3)</label>
             <input type="file" id="mediaFileInput" class="form-control" accept="image/*,video/*,audio/*">
           </div>
-          <button type="submit" class="btn btn-primary" style="background: #00ffaa; color: #000;">Publish & Send Instant Fan Alert</button>
+          <button type="submit" class="btn btn-primary" style="background: #00ffaa; color: #000;">Publish & Broadcast Alert</button>
         </form>
       </div>
 
@@ -657,17 +660,14 @@
         </div>
       </div>
 
-      <!-- $10/YEAR SHOPIFY SUBSCRIPTION BUY BUTTON CONTAINER -->
+      <!-- UPGRADE CONTAINER -->
       <div id="upgradeContainer" style="background: rgba(255, 153, 0, 0.1); border: 1px solid var(--accent-gold); border-radius: 12px; padding: 2rem; margin-bottom: 2.5rem;">
         <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.6rem; margin-bottom: 0.5rem;">Upgrade to Premium Member Pass</h3>
         <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">Join the VIP inner circle for <strong>$10/year</strong> via secure Shopify checkout below.</p>
 
-        <!-- DIRECT SUBSCRIPTION BUY BUTTON LINKED TO SHOPIFY CHECKOUT -->
         <a href="https://rx63su-pf.myshopify.com/cart/47035540472096:1?channel=buy_button" target="_blank" onclick="activateMembershipOnCheckout()" class="btn btn-primary" style="margin-bottom: 1.5rem; width: 100%; max-width: 340px;">
           Subscribe & Pay $10.00 / Year ↗
         </a>
-
-        <div id='product-component-1786606684628' onclick="activateMembershipOnCheckout()"></div>
 
         <h4 style="margin-top: 1.5rem; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; color: var(--accent-gold);">ALL PREMIUM MEMBERS GET ACCESS TO:</h4>
         <ul style="margin-top: 0.8rem; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.8rem;">
@@ -678,7 +678,7 @@
         </ul>
       </div>
 
-      <!-- ACTIVE PREMIUM STATUS & CANCEL SUBSCRIPTION -->
+      <!-- ACTIVE PREMIUM STATUS -->
       <div id="activePremiumContainer" style="display: none; background: rgba(255, 153, 0, 0.15); border: 1px solid var(--accent-gold); border-radius: 12px; padding: 2rem; margin-bottom: 2.5rem;">
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
           <div>
@@ -807,8 +807,27 @@
       </span>
     `;
 
+    // DEFAULT INITIAL POSTS
+    const INITIAL_POSTS = [
+      {
+        id: "post_default_1",
+        authorName: "Grason Powell",
+        authorEmail: ADMIN_EMAIL,
+        isArtist: true,
+        avatar: null,
+        time: "Official Update",
+        caption: "Welcome to the new official community feed! Drop studio photos, acoustic clips, and chat with each other right here. Take a seat by the fire!",
+        mediaHtml: "",
+        likes: 12,
+        likedBy: [],
+        comments: [
+          { author: "Campfire Fan", text: "Stoked to be here! Can't wait for the new acoustic single." }
+        ]
+      }
+    ];
+
     window.addEventListener('DOMContentLoaded', () => {
-      // Initialize default artist account if not present
+      // Seed default admin account
       if (!localStorage.getItem('gp_user_' + ADMIN_EMAIL)) {
         const adminAccount = {
           name: "Grason Powell",
@@ -822,18 +841,19 @@
         localStorage.setItem('gp_user_' + ADMIN_EMAIL, JSON.stringify(adminAccount));
       }
 
+      // Seed default feed posts if empty
+      if (!localStorage.getItem('gp_community_posts')) {
+        localStorage.setItem('gp_community_posts', JSON.stringify(INITIAL_POSTS));
+      }
+
       const stored = localStorage.getItem('gp_active_user');
       if (stored) {
         currentUser = JSON.parse(stored);
         renderAccountState();
       }
 
-      window.addEventListener('storage', (e) => {
-        if (e.key === 'gp_latest_post_notify') {
-          const notif = JSON.parse(e.newValue);
-          triggerNotificationBanner(notif.caption);
-        }
-      });
+      renderFeedPosts();
+      checkSurveyVisibility();
     });
 
     function switchTab(viewId) {
@@ -869,45 +889,253 @@
       document.getElementById('loginView').style.display = form === 'login' ? 'block' : 'none';
     }
 
-    function activateMembershipOnCheckout() {
+    /* 4-SECOND SETUP LOADING DISPLAY */
+    function run4SecondSetup(callback) {
+      const overlay = document.getElementById('setupLoadingOverlay');
+      const text = document.getElementById('loadingStatusText');
+      overlay.style.display = 'flex';
+
+      setTimeout(() => { text.innerText = "Tuning guitars & setting up your personalized campfire pass..."; }, 1300);
+      setTimeout(() => { text.innerText = "Connecting to official feed & VIP benefits..."; }, 2600);
+
+      setTimeout(() => {
+        overlay.style.display = 'none';
+        if (callback) callback();
+      }, 4000);
+    }
+
+    /* RENDER ALL PERSISTENT POSTS & COMMENTS */
+    function renderFeedPosts() {
+      const feed = document.getElementById('artistPostsFeed');
+      const posts = JSON.parse(localStorage.getItem('gp_community_posts') || '[]');
+      feed.innerHTML = '';
+
+      posts.forEach(post => {
+        const postCard = document.createElement('div');
+        postCard.className = 'post-card';
+
+        let avatarContent = post.avatar 
+          ? `<img src="${post.avatar}" alt="${post.authorName}">` 
+          : (post.isArtist && getArtistAvatarSrc() ? `<img src="${getArtistAvatarSrc()}" alt="Artist">` : `GP`);
+
+        let badge = post.isArtist ? ARTIST_BADGE_HTML : '';
+        let isLiked = currentUser && post.likedBy.includes(currentUser.email);
+        let canDelete = currentUser && (currentUser.email === post.authorEmail || currentUser.isArtist);
+
+        let deleteBtnHtml = canDelete 
+          ? `<button class="action-btn" style="color:#ff6666; margin-left:auto;" onclick="deletePost('${post.id}')">🗑️ Delete</button>` 
+          : '';
+
+        let commentsHtml = post.comments.map(c => `
+          <div class="comment-item">
+            <strong style="color:var(--accent-gold);">${c.author}:</strong> ${c.text}
+          </div>
+        `).join('');
+
+        postCard.innerHTML = `
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 0.8rem;">
+            <div class="avatar-circle">${avatarContent}</div>
+            <div>
+              <strong style="color: var(--accent-gold); font-size: 1.05rem;">
+                ${post.authorName} ${badge}
+              </strong>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">${post.time}</div>
+            </div>
+            ${deleteBtnHtml}
+          </div>
+          <p style="font-size: 1.05rem; line-height: 1.6;">${post.caption}</p>
+          ${post.mediaHtml || ''}
+
+          <div class="post-actions">
+            <button class="action-btn ${isLiked ? 'liked' : ''}" onclick="toggleLikePost('${post.id}')">
+              ❤️ ${post.likes} Likes
+            </button>
+            <button class="action-btn" onclick="toggleCommentsDisplay('${post.id}')">
+              💬 ${post.comments.length} Comments
+            </button>
+          </div>
+
+          <div class="comment-section" id="comments_${post.id}">
+            <div id="commentList_${post.id}">${commentsHtml}</div>
+            <form onsubmit="addCommentToPost(event, '${post.id}')" style="display:flex; gap:0.5rem; margin-top:0.8rem;">
+              <input type="text" class="form-control" placeholder="Write a comment..." required style="padding:0.5rem 0.8rem; font-size:0.85rem;">
+              <button type="submit" class="btn btn-primary" style="padding:0.5rem 1rem; font-size:0.75rem;">Reply</button>
+            </form>
+          </div>
+        `;
+
+        feed.appendChild(postCard);
+      });
+    }
+
+    function handleUserPostSubmit(e) {
+      e.preventDefault();
       if (!currentUser) {
-        alert('Please sign up or log in first before purchasing!');
+        alert("Please sign up or log in first to share a post!");
         openAuthModal('signup');
         return;
       }
-      currentUser.isPremium = true;
-      localStorage.setItem('gp_user_' + currentUser.email, JSON.stringify(currentUser));
-      localStorage.setItem('gp_active_user', JSON.stringify(currentUser));
-      renderAccountState();
-      alert('Your $10/Year VIP Pass is now active!');
+
+      const caption = document.getElementById('userPostCaption').value;
+      const fileInput = document.getElementById('userPostMedia');
+      const file = fileInput.files[0];
+
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          const mediaSrc = evt.target.result;
+          let mediaHtml = '';
+
+          if (file.type.startsWith('image/')) {
+            mediaHtml = `<img src="${mediaSrc}" alt="Fan Image">`;
+          } else if (file.type.startsWith('video/')) {
+            mediaHtml = `<video src="${mediaSrc}" controls></video>`;
+          } else if (file.type.startsWith('audio/')) {
+            mediaHtml = `<audio src="${mediaSrc}" controls></audio>`;
+          }
+
+          saveAndAppendPost(caption, mediaHtml);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        saveAndAppendPost(caption, '');
+      }
+
+      e.target.reset();
     }
 
-    function cancelSubscription() {
-      if (!currentUser || !currentUser.isPremium) return;
+    function saveAndAppendPost(caption, mediaHtml) {
+      const posts = JSON.parse(localStorage.getItem('gp_community_posts') || '[]');
 
-      const confirmCancel = confirm("Are you sure you want to cancel your Premium Pass subscription? You will lose access to the VIP board.");
-      if (confirmCancel) {
-        currentUser.isPremium = false;
-        localStorage.setItem('gp_user_' + currentUser.email, JSON.stringify(currentUser));
-        localStorage.setItem('gp_active_user', JSON.stringify(currentUser));
-        renderAccountState();
-        alert("Your Premium subscription has been canceled.");
+      const newPost = {
+        id: "post_" + Date.now(),
+        authorName: currentUser.name,
+        authorEmail: currentUser.email,
+        isArtist: currentUser.isArtist || currentUser.email === ADMIN_EMAIL,
+        avatar: currentUser.avatar,
+        time: "Just Now",
+        caption: caption,
+        mediaHtml: mediaHtml,
+        likes: 0,
+        likedBy: [],
+        comments: []
+      };
+
+      posts.unshift(newPost);
+      localStorage.setItem('gp_community_posts', JSON.stringify(posts));
+
+      renderFeedPosts();
+      alert("Your post is live on the Community Feed!");
+    }
+
+    function deletePost(postId) {
+      if (!confirm("Are you sure you want to delete this post?")) return;
+      let posts = JSON.parse(localStorage.getItem('gp_community_posts') || '[]');
+      posts = posts.filter(p => p.id !== postId);
+      localStorage.setItem('gp_community_posts', JSON.stringify(posts));
+      renderFeedPosts();
+    }
+
+    function toggleLikePost(postId) {
+      if (!currentUser) { alert("Please log in to like posts!"); openAuthModal('login'); return; }
+
+      let posts = JSON.parse(localStorage.getItem('gp_community_posts') || '[]');
+      let post = posts.find(p => p.id === postId);
+      if (!post) return;
+
+      const idx = post.likedBy.indexOf(currentUser.email);
+      if (idx > -1) {
+        post.likedBy.splice(idx, 1);
+        post.likes = Math.max(0, post.likes - 1);
+      } else {
+        post.likedBy.push(currentUser.email);
+        post.likes += 1;
+      }
+
+      localStorage.setItem('gp_community_posts', JSON.stringify(posts));
+      renderFeedPosts();
+    }
+
+    function toggleCommentsDisplay(postId) {
+      const el = document.getElementById('comments_' + postId);
+      if (el) el.style.display = el.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function addCommentToPost(e, postId) {
+      e.preventDefault();
+      if (!currentUser) { alert("Please log in to comment!"); openAuthModal('login'); return; }
+
+      const input = e.target.querySelector('input');
+      const text = input.value;
+
+      let posts = JSON.parse(localStorage.getItem('gp_community_posts') || '[]');
+      let post = posts.find(p => p.id === postId);
+      if (!post) return;
+
+      post.comments.push({ author: currentUser.name, text: text });
+      localStorage.setItem('gp_community_posts', JSON.stringify(posts));
+
+      renderFeedPosts();
+      toggleCommentsDisplay(postId);
+    }
+
+    /* SURVEY TAG & OTHER TOGGLE HANDLERS */
+    function selectSurveyTag(el, questionGroup) {
+      const parent = el.parentElement;
+      parent.querySelectorAll('.survey-tag').forEach(t => t.classList.remove('selected'));
+      el.classList.add('selected');
+
+      const otherWrap = document.getElementById(questionGroup + 'OtherWrap');
+      if (otherWrap) otherWrap.style.display = 'none';
+    }
+
+    function toggleOtherInput(wrapId) {
+      const wrap = document.getElementById(wrapId);
+      if (wrap) wrap.style.display = wrap.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function handleTabbedSurveySubmit(e) {
+      e.preventDefault();
+      if (!currentUser) {
+        alert("Please log in to submit your survey!");
+        openAuthModal('signup');
+        return;
+      }
+
+      const q1Selected = document.querySelector('#q1Grid .survey-tag.selected')?.innerText || document.getElementById('q1OtherText').value || "No response";
+      const q2Selected = document.querySelector('#q2Grid .survey-tag.selected')?.innerText || document.getElementById('q2OtherText').value || "No response";
+      const q3Selected = document.querySelector('#q3Grid .survey-tag.selected')?.innerText || document.getElementById('q3OtherText').value || "No response";
+
+      const surveyRecord = {
+        userEmail: currentUser.email,
+        q1: q1Selected, q2: q2Selected, q3: q3Selected,
+        date: new Date().toLocaleDateString()
+      };
+
+      let completedSurveys = JSON.parse(localStorage.getItem('gp_completed_surveys') || '{}');
+      completedSurveys[currentUser.email] = surveyRecord;
+      localStorage.setItem('gp_completed_surveys', JSON.stringify(completedSurveys));
+
+      alert("Survey submitted! Thank you for helping Grason make things perfect.");
+      checkSurveyVisibility();
+      switchTab('homeView');
+    }
+
+    function checkSurveyVisibility() {
+      if (!currentUser) {
+        document.getElementById('surveyNavTab').style.display = 'block';
+        return;
+      }
+
+      const completedSurveys = JSON.parse(localStorage.getItem('gp_completed_surveys') || '{}');
+      if (completedSurveys[currentUser.email]) {
+        document.getElementById('surveyNavTab').style.display = 'none';
+      } else {
+        document.getElementById('surveyNavTab').style.display = 'block';
       }
     }
 
-    function deleteAccount() {
-      if (!currentUser) return;
-
-      const confirmDelete = confirm("Are you sure you want to completely DELETE your account?");
-      if (confirmDelete) {
-        localStorage.removeItem('gp_user_' + currentUser.email);
-        localStorage.removeItem('gp_active_user');
-        alert("Your account has been deleted.");
-        location.reload();
-      }
-    }
-
-    /* ARTIST PROFILE PHOTO HANDLER */
+    /* ARTIST SPECIFIC PUBLISHING & AVATARS */
     function handleArtistAvatarUpload(e) {
       const file = e.target.files[0];
       if (!file) return;
@@ -915,11 +1143,8 @@
       const reader = new FileReader();
       reader.onload = function(evt) {
         const photoData = evt.target.result;
-
-        // Save artist photo globally
         localStorage.setItem('gp_artist_avatar', photoData);
 
-        // Update active user profile if currently logged in as admin
         if (currentUser && (currentUser.isArtist || currentUser.email === ADMIN_EMAIL)) {
           currentUser.avatar = photoData;
           localStorage.setItem('gp_user_' + currentUser.email, JSON.stringify(currentUser));
@@ -927,18 +1152,14 @@
         }
 
         renderAccountState();
+        renderFeedPosts();
         alert('Artist Profile Picture updated successfully!');
       };
       reader.readAsDataURL(file);
     }
 
     function getArtistAvatarSrc() {
-      const storedArtistAvatar = localStorage.getItem('gp_artist_avatar');
-      if (storedArtistAvatar) return storedArtistAvatar;
-      if (currentUser && (currentUser.isArtist || currentUser.email === ADMIN_EMAIL) && currentUser.avatar) {
-        return currentUser.avatar;
-      }
-      return null;
+      return localStorage.getItem('gp_artist_avatar') || null;
     }
 
     function publishArtistMediaPost(e) {
@@ -961,61 +1182,12 @@
             mediaHtml = `<audio src="${mediaSrc}" controls></audio>`;
           }
 
-          createAndAppendPost(caption, mediaHtml);
+          saveAndAppendPost(caption, mediaHtml);
         };
         reader.readAsDataURL(file);
       } else {
-        createAndAppendPost(caption, '');
+        saveAndAppendPost(caption, '');
       }
-    }
-
-    function createAndAppendPost(caption, mediaHtml) {
-      const feed = document.getElementById('artistPostsFeed');
-      const postCard = document.createElement('div');
-      postCard.className = 'post-card';
-
-      const avatarSrc = getArtistAvatarSrc();
-      const avatarHtml = avatarSrc ? `<img src="${avatarSrc}" alt="Grason Powell">` : `GP`;
-
-      postCard.innerHTML = `
-        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 0.8rem;">
-          <div class="avatar-circle">${avatarHtml}</div>
-          <div>
-            <strong style="color: var(--accent-gold); font-size: 1.1rem;">
-              Grason Powell ${ARTIST_BADGE_HTML}
-            </strong>
-            <div style="font-size: 0.75rem; color: var(--text-muted);">Just Now</div>
-          </div>
-        </div>
-        <p style="font-size: 1.05rem; line-height: 1.6;">${caption}</p>
-        ${mediaHtml}
-      `;
-
-      feed.prepend(postCard);
-      document.getElementById('postCaptionInput').value = '';
-      document.getElementById('mediaFileInput').value = '';
-
-      const notifData = { caption: caption, time: Date.now() };
-      localStorage.setItem('gp_latest_post_notify', JSON.stringify(notifData));
-      triggerNotificationBanner(caption);
-
-      alert('Post published live! Fan alert sent.');
-      switchTab('postsView');
-    }
-
-    function triggerNotificationBanner(caption) {
-      document.getElementById('notifText').innerText = caption.length > 90 ? caption.substring(0, 90) + '...' : caption;
-      const toast = document.getElementById('notificationToast');
-      toast.style.display = 'block';
-    }
-
-    function closeNotification() {
-      document.getElementById('notificationToast').style.display = 'none';
-    }
-
-    function viewNewPost() {
-      closeNotification();
-      switchTab('postsView');
     }
 
     function updatePollFromAdmin(e) {
@@ -1038,30 +1210,6 @@
 
     function votePoll(btn) {
       document.getElementById('pollResult').innerText = `Thanks for voting! You selected: "${btn.innerText}". Grason has received your vote!`;
-    }
-
-    function handleFanSurvey(e) {
-      e.preventDefault();
-      const favSong = document.getElementById('surveyFavSong').value;
-      const discovery = document.getElementById('surveyDiscovery').value;
-      const city = document.getElementById('surveyCity').value;
-      const merch = document.getElementById('surveyMerch').value;
-      const notes = document.getElementById('surveyNotes').value;
-
-      const surveySubmission = {
-        user: currentUser ? currentUser.name : "Anonymous Fan",
-        email: currentUser ? currentUser.email : "Not logged in",
-        favSong, discovery, city, merch, notes,
-        date: new Date().toLocaleDateString()
-      };
-
-      let existingSurveys = JSON.parse(localStorage.getItem('gp_fan_surveys') || '[]');
-      existingSurveys.push(surveySubmission);
-      localStorage.setItem('gp_fan_surveys', JSON.stringify(existingSurveys));
-
-      alert("Thank you for completing the fan survey! Grason appreciates your feedback!");
-      e.target.reset();
-      switchTab('homeView');
     }
 
     function handleSignup(e) {
@@ -1089,12 +1237,12 @@
       currentUser = user;
 
       closeAuthModal();
-      renderAccountState();
 
-      if (wantsShopifyUpdates) {
-        alert('Signing you up for Shop & site updates! Opening Shop account checkout flow...');
-        window.open(SHOPIFY_AUTH_URL, '_blank');
-      }
+      run4SecondSetup(() => {
+        renderAccountState();
+        checkSurveyVisibility();
+        if (wantsShopifyUpdates) window.open(SHOPIFY_AUTH_URL, '_blank');
+      });
     }
 
     function handleLogin(e) {
@@ -1119,20 +1267,22 @@
       currentUser = user;
 
       closeAuthModal();
-      renderAccountState();
+
+      run4SecondSetup(() => {
+        renderAccountState();
+        checkSurveyVisibility();
+      });
     }
 
     function renderAccountState() {
       if (!currentUser) return;
       const navContainer = document.getElementById('authNavContainer');
-
       const artistAvatarSrc = getArtistAvatarSrc();
 
       if (currentUser.isArtist || currentUser.email === ADMIN_EMAIL) {
         document.getElementById('artistNavTab').style.display = 'block';
         if (artistAvatarSrc) {
           document.getElementById('artistPanelAvatarPreview').innerHTML = `<img src="${artistAvatarSrc}" alt="Artist Avatar">`;
-          document.getElementById('feedDefaultArtistAvatar').innerHTML = `<img src="${artistAvatarSrc}" alt="Artist Avatar">`;
         }
       } else {
         document.getElementById('artistNavTab').style.display = 'none';
@@ -1181,6 +1331,7 @@
 
     function addBoardPost(e) {
       e.preventDefault();
+      if (!currentUser) { alert("Please log in to post on the VIP board!"); openAuthModal('login'); return; }
       const content = document.getElementById('postContent').value;
       const postsList = document.getElementById('postsList');
 
@@ -1224,7 +1375,6 @@
       reader.onload = function(evt) {
         currentUser.avatar = evt.target.result;
         
-        // If artist account is updating from account view, sync artist avatar
         if (currentUser.isArtist || currentUser.email === ADMIN_EMAIL) {
           localStorage.setItem('gp_artist_avatar', evt.target.result);
         }
@@ -1232,6 +1382,7 @@
         localStorage.setItem('gp_user_' + currentUser.email, JSON.stringify(currentUser));
         localStorage.setItem('gp_active_user', JSON.stringify(currentUser));
         renderAccountState();
+        renderFeedPosts();
       };
       reader.readAsDataURL(file);
     }
