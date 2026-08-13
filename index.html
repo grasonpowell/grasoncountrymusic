@@ -222,7 +222,6 @@
       border: 1px solid var(--accent-gold);
       border-radius: 12px;
       padding: 1.8rem;
-      margin-bottom: 2rem;
       position: relative;
     }
 
@@ -269,6 +268,11 @@
       color: var(--text-bright);
     }
 
+    .btn-outline:hover {
+      border-color: var(--accent-gold);
+      background: rgba(255, 153, 0, 0.1);
+    }
+
     /* --- MERCH SEARCH & STOREFRONT --- */
     .merch-search-bar {
       width: 100%;
@@ -289,7 +293,7 @@
 
     .merch-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 2rem;
     }
 
@@ -408,7 +412,7 @@
           Welcome to the Campfire!
         </h3>
         <p id="aiUpdatesText" style="color: var(--text-bright); font-size: 1.05rem; line-height: 1.7;">
-          <strong>What's New with Grason Powell:</strong> Debut single studio sessions are under way! Explore merch, request song lyrics directly, or check for upcoming acoustic tour dates.
+          <strong>What's New with Grason Powell:</strong> Studio sessions for Grason's debut single are officially under way! Explore the official merch, leave a lyric idea directly for Grason, or check for tour announcements.
         </p>
       </div>
     </div>
@@ -416,7 +420,7 @@
     <div class="content-card">
       <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.8rem; margin-bottom: 1rem;">Direct Line To The Music</h3>
       <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.8;">
-        Have a lyric idea or personal story you want turned into a country song? Use the <strong>Song Request</strong> tab above to submit your ideas directly to Grason.
+        Have a lyric idea or personal story you want turned into a country song? Use the <strong>Song Request</strong> tab above to submit your ideas directly to Grason Powell.
       </p>
     </div>
 
@@ -445,18 +449,18 @@
     </div>
   </div>
 
-  <!-- MERCH STORE VIEW (WITH SEARCH BAR & ALL PRODUCTS) -->
+  <!-- MERCH STORE VIEW -->
   <div class="view-container" id="merchView">
     <div class="content-card">
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 1.5rem;">
         <h2 class="burn-title" style="font-size: 2.2rem;">Official Merch Store</h2>
-        <a href="https://rx63su-pf.myshopify.com" target="_blank" class="btn btn-outline" style="font-size: 0.75rem;">Open Full Shopify Site ↗</a>
+        <a href="https://rx63su-pf.myshopify.com" target="_blank" class="btn btn-outline" style="font-size: 0.75rem;">Open Full Store ↗</a>
       </div>
 
       <!-- SEARCH BAR -->
       <input type="text" id="merchSearchInput" class="merch-search-bar" placeholder="🔍 Search merchandise (e.g. Cap, Tee, Hoodie, Vinyl)..." onkeyup="filterMerch()">
 
-      <!-- ALL MERCH PRODUCT GRID -->
+      <!-- MERCH PRODUCT GRID -->
       <div class="merch-grid" id="merchGrid">
         <div class="merch-item" data-keywords="cap hat logo black">
           <div class="merch-icon">🧢</div>
@@ -617,7 +621,7 @@
   <script>
     let currentUser = null;
 
-    // AUTOMATIC LOG IN ON PAGE LOAD
+    // AUTOMATIC LOGIN & SESSION RESTORATION
     window.addEventListener('DOMContentLoaded', () => {
       const stored = localStorage.getItem('gp_active_user');
       if (stored) {
@@ -737,7 +741,7 @@
       if (!currentUser) return;
       const navContainer = document.getElementById('authNavContainer');
 
-      // REPLACE "JOIN THE CIRCLE" WITH PERSONALIZED LOGGED-IN HERO BUTTONS
+      // REPLACE SIGN UP BUTTONS WITH LOGGED IN HERO ACTIONS
       const homeCta = document.getElementById('homeHeroCta');
       if (homeCta) {
         homeCta.innerHTML = `
