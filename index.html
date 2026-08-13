@@ -246,6 +246,52 @@
       color: var(--text-bright);
     }
 
+    .btn-outline:hover {
+      border-color: var(--accent-gold);
+      background: rgba(255, 153, 0, 0.1);
+    }
+
+    /* --- MERCH GRID STYLES --- */
+    .merch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .merch-item {
+      background: rgba(8, 6, 5, 0.85);
+      border: 1px solid var(--border-glow);
+      border-radius: 12px;
+      padding: 1.8rem;
+      text-align: center;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+
+    .merch-item:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent-gold);
+    }
+
+    .merch-icon {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .merch-title {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      color: var(--text-bright);
+      margin-bottom: 0.5rem;
+    }
+
+    .merch-price {
+      color: var(--accent-gold);
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 1.2rem;
+    }
+
     /* --- FORM ELEMENTS --- */
     .form-group { margin-bottom: 1.2rem; }
     .form-group label {
@@ -361,189 +407,41 @@
     </div>
   </div>
 
-  <!-- MERCH STORE VIEW (SHOPIFY BUY BUTTON INTEGRATED) -->
+  <!-- MERCH STORE VIEW -->
   <div class="view-container" id="merchView">
     <div class="content-card">
-      <h2 class="burn-title" style="font-size: 2.2rem; margin-bottom: 1.5rem;">Official Merch Store</h2>
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 1rem;">
+        <h2 class="burn-title" style="font-size: 2.2rem;">Official Merch Store</h2>
+        <a href="https://rx63su-pf.myshopify.com" target="_blank" class="btn btn-outline" style="font-size: 0.75rem;">Open Full Store ↗</a>
+      </div>
+      <p style="color: var(--text-muted);">Official merchandise powered by Printful & Shopify.</p>
       
-      <!-- SHOPIFY BUY BUTTON EMBED START -->
-      <div id='collection-component-1786603249726'></div>
-      <script type="text/javascript">
-      /*<![CDATA[*/
-      (function () {
-        var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
-        if (window.ShopifyBuy) {
-          if (window.ShopifyBuy.UI) {
-            ShopifyBuyInit();
-          } else {
-            loadScript();
-          }
-        } else {
-          loadScript();
-        }
-        function loadScript() {
-          var script = document.createElement('script');
-          script.async = true;
-          script.src = scriptURL;
-          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
-          script.onload = ShopifyBuyInit;
-        }
-        function ShopifyBuyInit() {
-          var client = ShopifyBuy.buildClient({
-            domain: 'rx63su-pf.myshopify.com',
-            storefrontAccessToken: '186ec34e83f113c009011f7991e99dce',
-          });
-          ShopifyBuy.UI.onReady(client).then(function (ui) {
-            ui.createComponent('collection', {
-              id: '685602373792',
-              node: document.getElementById('collection-component-1786603249726'),
-              moneyFormat: '%24%7B%7Bamount%7D%7D',
-              options: {
-        "product": {
-          "styles": {
-            "product": {
-              "@media (min-width: 601px)": {
-                "max-width": "calc(25% - 20px)",
-                "margin-left": "20px",
-                "margin-bottom": "50px",
-                "width": "calc(25% - 20px)"
-              },
-              "img": {
-                "height": "calc(100% - 15px)",
-                "position": "absolute",
-                "left": "0",
-                "right": "0",
-                "top": "0"
-              },
-              "imgWrapper": {
-                "padding-top": "calc(75% + 15px)",
-                "position": "relative",
-                "height": "0"
-              }
-            },
-            "title": {
-              "color": "#ffaa00"
-            },
-            "button": {
-              "font-family": "Quantico, sans-serif",
-              "color": "#ffaa00",
-              ":hover": {
-                "color": "#ffffff",
-                "background-color": "#ff4500"
-              },
-              "background-color": "#110f0d",
-              ":focus": {
-                "background-color": "#110f0d"
-              }
-            },
-            "price": {
-              "color": "#ffaa00"
-            },
-            "compareAt": {
-              "color": "#ffaa00"
-            },
-            "unitPrice": {
-              "color": "#ffaa00"
-            }
-          },
-          "text": {
-            "button": "Add to cart"
-          },
-          "googleFonts": [
-            "Quantico"
-          ]
-        },
-        "productSet": {
-          "styles": {
-            "products": {
-              "@media (min-width: 601px)": {
-                "margin-left": "-20px"
-              }
-            }
-          }
-        },
-        "modalProduct": {
-          "contents": {
-            "img": false,
-            "imgWithCarousel": true,
-            "button": false,
-            "buttonWithQuantity": true
-          },
-          "styles": {
-            "product": {
-              "@media (min-width: 601px)": {
-                "max-width": "100%",
-                "margin-left": "0px",
-                "margin-bottom": "0px"
-              }
-            },
-            "button": {
-              "font-family": "Quantico, sans-serif",
-              "color": "#ffaa00",
-              ":hover": {
-                "color": "#ffffff",
-                "background-color": "#ff4500"
-              },
-              "background-color": "#110f0d",
-              ":focus": {
-                "background-color": "#110f0d"
-              }
-            },
-            "title": {
-              "font-family": "Helvetica Neue, sans-serif",
-              "font-weight": "bold",
-              "font-size": "26px",
-              "color": "#ffaa00"
-            },
-            "price": {
-              "font-family": "Helvetica Neue, sans-serif",
-              "font-weight": "normal",
-              "font-size": "18px",
-              "color": "#ffaa00"
-            }
-          },
-          "googleFonts": [
-            "Quantico"
-          ],
-          "text": {
-            "button": "Add to cart"
-          }
-        },
-        "cart": {
-          "styles": {
-            "button": {
-              "font-family": "Quantico, sans-serif",
-              "color": "#000000",
-              ":hover": {
-                "background-color": "#ffaa00"
-              },
-              "background-color": "#ff4500"
-            },
-            "title": { "color": "#ffaa00" },
-            "header": { "color": "#ffaa00" },
-            "lineItems": { "color": "#ffaa00" },
-            "subtotalText": { "color": "#ffaa00" },
-            "subtotal": { "color": "#ffaa00" },
-            "cart": { "background-color": "#110f0d" },
-            "footer": { "background-color": "#110f0d" }
-          },
-          "text": {
-            "total": "Subtotal",
-            "button": "Checkout"
-          },
-          "popup": false,
-          "googleFonts": [
-            "Quantico"
-          ]
-        }
-      },
-            });
-          });
-        }
-      })();
-      /*]]>*/
-      </script>
-      <!-- SHOPIFY BUY BUTTON EMBED END -->
+      <!-- SHOPIFY EMBED CONTAINER -->
+      <div id="shopifyCollectionContainer" style="margin-top: 2rem;">
+        <div id='collection-component-1786603249726'></div>
+      </div>
+
+      <!-- FALLBACK PRODUCT CARDS IF SCRIPT IS BLOCKED -->
+      <div class="merch-grid" id="fallbackMerchGrid">
+        <div class="merch-item">
+          <div class="merch-icon">🧢</div>
+          <div class="merch-title">Grason Powell Cap</div>
+          <div class="merch-price">$28.00</div>
+          <a href="https://rx63su-pf.myshopify.com" target="_blank" class="btn btn-primary">Buy Now</a>
+        </div>
+        <div class="merch-item">
+          <div class="merch-icon">👕</div>
+          <div class="merch-title">Campfire Logo Tee</div>
+          <div class="merch-price">$32.00</div>
+          <a href="https://rx63su-pf.myshopify.com" target="_blank" class="btn btn-primary">Buy Now</a>
+        </div>
+        <div class="merch-item">
+          <div class="merch-icon">🧥</div>
+          <div class="merch-title">Acoustic Sessions Hoodie</div>
+          <div class="merch-price">$55.00</div>
+          <a href="https://rx63su-pf.myshopify.com" target="_blank" class="btn btn-primary">Buy Now</a>
+        </div>
+      </div>
 
     </div>
   </div>
@@ -660,6 +558,7 @@
 
   <script>
     let currentUser = null;
+    let shopifyInitialized = false;
 
     window.addEventListener('DOMContentLoaded', () => {
       const stored = localStorage.getItem('gp_active_user');
@@ -673,6 +572,53 @@
       document.querySelectorAll('.view-container').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
       document.getElementById(viewId).classList.add('active');
+
+      // Initialize Shopify SDK when switching to Merch tab
+      if (viewId === 'merchView' && !shopifyInitialized) {
+        shopifyInitialized = true;
+        initShopifySdk();
+      }
+    }
+
+    function initShopifySdk() {
+      var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
+      if (window.ShopifyBuy && window.ShopifyBuy.UI) {
+        ShopifyBuyInit();
+      } else {
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = scriptURL;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
+        script.onload = ShopifyBuyInit;
+      }
+    }
+
+    function ShopifyBuyInit() {
+      var client = ShopifyBuy.buildClient({
+        domain: 'rx63su-pf.myshopify.com',
+        storefrontAccessToken: '186ec34e83f113c009011f7991e99dce',
+      });
+      ShopifyBuy.UI.onReady(client).then(function (ui) {
+        ui.createComponent('collection', {
+          id: '685602373792',
+          node: document.getElementById('collection-component-1786603249726'),
+          moneyFormat: '%24%7B%7Bamount%7D%7D',
+          options: {
+            "product": {
+              "styles": {
+                "title": { "color": "#ffaa00" },
+                "price": { "color": "#ffaa00" },
+                "button": {
+                  "color": "#000000",
+                  "background-color": "#ffaa00",
+                  ":hover": { "background-color": "#ff4500", "color": "#ffffff" }
+                }
+              }
+            }
+          }
+        });
+        document.getElementById('fallbackMerchGrid').style.display = 'none';
+      });
     }
 
     function openAuthModal(form) {
