@@ -187,7 +187,7 @@
       }
     }
 
-    /* --- EXTENDED TAB CONTAINERS WITH INTERNAL SCROLLING --- */
+    /* --- TAB CONTAINERS --- */
     .view-container {
       position: absolute;
       top: 75px; left: 0;
@@ -214,6 +214,29 @@
       margin-bottom: 3rem;
       box-shadow: 0 20px 50px rgba(0,0,0,0.85);
       backdrop-filter: blur(12px);
+    }
+
+    /* --- AI ASSISTANT BOX --- */
+    .ai-welcome-box {
+      background: linear-gradient(135deg, rgba(255, 153, 0, 0.15), rgba(255, 69, 0, 0.05));
+      border: 1px solid var(--accent-gold);
+      border-radius: 12px;
+      padding: 1.8rem;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .ai-badge {
+      display: inline-block;
+      background: var(--accent-ember);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
     }
 
     .btn {
@@ -246,17 +269,28 @@
       color: var(--text-bright);
     }
 
-    .btn-outline:hover {
-      border-color: var(--accent-gold);
-      background: rgba(255, 153, 0, 0.1);
+    /* --- MERCH SEARCH & STOREFRONT --- */
+    .merch-search-bar {
+      width: 100%;
+      padding: 1rem 1.5rem;
+      border-radius: 30px;
+      border: 1px solid var(--border-glow);
+      background: rgba(8, 6, 5, 0.8);
+      color: var(--text-bright);
+      font-size: 1rem;
+      margin-bottom: 2rem;
     }
 
-    /* --- MERCH GRID STYLES --- */
+    .merch-search-bar:focus {
+      outline: none;
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 15px rgba(255, 153, 0, 0.3);
+    }
+
     .merch-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 2rem;
-      margin-top: 2rem;
     }
 
     .merch-item {
@@ -273,10 +307,7 @@
       border-color: var(--accent-gold);
     }
 
-    .merch-icon {
-      font-size: 3.5rem;
-      margin-bottom: 1rem;
-    }
+    .merch-icon { font-size: 3.5rem; margin-bottom: 1rem; }
 
     .merch-title {
       font-family: var(--font-display);
@@ -321,6 +352,13 @@
       background: none; border: none; color: var(--text-muted);
       font-size: 1.5rem; cursor: pointer;
     }
+
+    footer {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-top: 2rem;
+    }
   </style>
 </head>
 <body>
@@ -352,28 +390,39 @@
 
   <!-- HOME VIEW -->
   <div class="view-container active" id="homeView">
-    <div style="text-align: center; margin-bottom: 4rem; padding-top: 2rem;">
+    <div style="text-align: center; margin-bottom: 3rem; padding-top: 1rem;">
       <h1 class="burn-title">GRASON POWELL</h1>
       <p style="color: var(--text-muted); margin-top: 1rem; font-size: 1.2rem; letter-spacing: 2px;">TAKE A SEAT NEXT TO THE FIRE</p>
-      <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+      
+      <div id="homeHeroCta" style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
         <button class="btn btn-primary" onclick="openAuthModal('signup')">Join The Circle</button>
         <button class="btn btn-outline" onclick="switchTab('merchView')">Visit Merch Store</button>
       </div>
     </div>
 
+    <!-- DYNAMIC AI WELCOME & UPDATES BOX -->
     <div class="content-card">
-      <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.8rem; margin-bottom: 1rem;">Welcome to the Campfire</h3>
-      <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.8;">
-        This is the official home of country artist Grason Powell. Here by the fire, fans get exclusive access to behind-the-scenes song production, early concert updates, original merch, and direct communication with Grason.
-      </p>
+      <div class="ai-welcome-box">
+        <span class="ai-badge">🤖 AI Campfire Guide</span>
+        <h3 id="aiWelcomeMessage" style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 0.8rem;">
+          Welcome to the Campfire!
+        </h3>
+        <p id="aiUpdatesText" style="color: var(--text-bright); font-size: 1.05rem; line-height: 1.7;">
+          <strong>What's New with Grason Powell:</strong> Debut single studio sessions are under way! Explore merch, request song lyrics directly, or check for upcoming acoustic tour dates.
+        </p>
+      </div>
     </div>
 
     <div class="content-card">
       <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.8rem; margin-bottom: 1rem;">Direct Line To The Music</h3>
       <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.8;">
-        Have a lyric idea or personal story you want turned into a country song? Use the <strong>Song Request</strong> tab above to submit your ideas directly.
+        Have a lyric idea or personal story you want turned into a country song? Use the <strong>Song Request</strong> tab above to submit your ideas directly to Grason.
       </p>
     </div>
+
+    <footer>
+      Questions or problems? Contact support: <a href="mailto:grasoncountrymusic@gmail.com" style="color: var(--accent-gold); text-decoration: underline;">grasoncountrymusic@gmail.com</a>
+    </footer>
   </div>
 
   <!-- MUSIC VIEW -->
@@ -382,13 +431,8 @@
       <h2 class="burn-title" style="font-size: 2.5rem;">Music</h2>
       <h3 style="color: var(--accent-gold); margin-top: 1rem;">Debut Single In Production</h3>
       <p style="color: var(--text-muted); margin-top: 0.5rem; max-width: 600px; margin-left: auto; margin-right: auto;">
-        Grason Powell is currently in the studio working on upcoming acoustic tracks and studio releases. Join The Circle to receive private preview links when tracks drop.
+        Grason Powell is currently in the studio recording upcoming acoustic tracks.
       </p>
-    </div>
-
-    <div class="content-card">
-      <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 1rem;">Acoustic Sessions</h3>
-      <p style="color: var(--text-muted);">Exclusive unreleased acoustic recordings will be made available right here for registered fans.</p>
     </div>
   </div>
 
@@ -399,46 +443,60 @@
       <h3 style="color: var(--accent-gold); margin-top: 1rem;">No Dates Scheduled</h3>
       <p style="color: var(--text-muted); margin-top: 0.5rem;">Campfire sessions and tour announcements are currently being planned.</p>
     </div>
-
-    <div class="content-card">
-      <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 1rem;">Request A Show In Your City</h3>
-      <p style="color: var(--text-muted); margin-bottom: 1rem;">Let us know where you want Grason Powell to play next.</p>
-      <button class="btn btn-primary" onclick="openAuthModal('signup')">Sign Up For City Alerts</button>
-    </div>
   </div>
 
-  <!-- MERCH STORE VIEW -->
+  <!-- MERCH STORE VIEW (WITH SEARCH BAR & ALL PRODUCTS) -->
   <div class="view-container" id="merchView">
     <div class="content-card">
-      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 1rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 1.5rem;">
         <h2 class="burn-title" style="font-size: 2.2rem;">Official Merch Store</h2>
-        <a href="https://rx63su-pf.myshopify.com" target="_blank" class="btn btn-outline" style="font-size: 0.75rem;">Open Full Store ↗</a>
-      </div>
-      <p style="color: var(--text-muted);">Official merchandise powered by Printful & Shopify.</p>
-      
-      <!-- SHOPIFY EMBED CONTAINER -->
-      <div id="shopifyCollectionContainer" style="margin-top: 2rem;">
-        <div id='collection-component-1786603249726'></div>
+        <a href="https://rx63su-pf.myshopify.com" target="_blank" class="btn btn-outline" style="font-size: 0.75rem;">Open Full Shopify Site ↗</a>
       </div>
 
-      <!-- FALLBACK PRODUCT CARDS IF SCRIPT IS BLOCKED -->
-      <div class="merch-grid" id="fallbackMerchGrid">
-        <div class="merch-item">
+      <!-- SEARCH BAR -->
+      <input type="text" id="merchSearchInput" class="merch-search-bar" placeholder="🔍 Search merchandise (e.g. Cap, Tee, Hoodie, Vinyl)..." onkeyup="filterMerch()">
+
+      <!-- ALL MERCH PRODUCT GRID -->
+      <div class="merch-grid" id="merchGrid">
+        <div class="merch-item" data-keywords="cap hat logo black">
           <div class="merch-icon">🧢</div>
           <div class="merch-title">Grason Powell Cap</div>
           <div class="merch-price">$28.00</div>
           <a href="https://rx63su-pf.myshopify.com" target="_blank" class="btn btn-primary">Buy Now</a>
         </div>
-        <div class="merch-item">
+
+        <div class="merch-item" data-keywords="tee t-shirt shirt campfire logo black">
           <div class="merch-icon">👕</div>
           <div class="merch-title">Campfire Logo Tee</div>
           <div class="merch-price">$32.00</div>
           <a href="https://rx63su-pf.myshopify.com" target="_blank" class="btn btn-primary">Buy Now</a>
         </div>
-        <div class="merch-item">
+
+        <div class="merch-item" data-keywords="hoodie jacket acoustic sweater brown black">
           <div class="merch-icon">🧥</div>
           <div class="merch-title">Acoustic Sessions Hoodie</div>
           <div class="merch-price">$55.00</div>
+          <a href="https://rx63su-pf.myshopify.com" target="_blank" class="btn btn-primary">Buy Now</a>
+        </div>
+
+        <div class="merch-item" data-keywords="vinyl record album music vinyl lp debut">
+          <div class="merch-icon">💿</div>
+          <div class="merch-title">Autographed Vinyl LP</div>
+          <div class="merch-price">$40.00</div>
+          <a href="https://rx63su-pf.myshopify.com" target="_blank" class="btn btn-primary">Buy Now</a>
+        </div>
+
+        <div class="merch-item" data-keywords="poster art photo campfire poster signed">
+          <div class="merch-icon">🖼️</div>
+          <div class="merch-title">Campfire Sessions Tour Poster</div>
+          <div class="merch-price">$20.00</div>
+          <a href="https://rx63su-pf.myshopify.com" target="_blank" class="btn btn-primary">Buy Now</a>
+        </div>
+
+        <div class="merch-item" data-keywords="beanie hat winter warm gold black">
+          <div class="merch-icon">🧶</div>
+          <div class="merch-title">Ember Knit Beanie</div>
+          <div class="merch-price">$25.00</div>
           <a href="https://rx63su-pf.myshopify.com" target="_blank" class="btn btn-primary">Buy Now</a>
         </div>
       </div>
@@ -558,13 +616,15 @@
 
   <script>
     let currentUser = null;
-    let shopifyInitialized = false;
 
+    // AUTOMATIC LOG IN ON PAGE LOAD
     window.addEventListener('DOMContentLoaded', () => {
       const stored = localStorage.getItem('gp_active_user');
       if (stored) {
         currentUser = JSON.parse(stored);
         renderAccountState();
+      } else {
+        updateAiWelcomeGuest();
       }
     });
 
@@ -572,52 +632,22 @@
       document.querySelectorAll('.view-container').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
       document.getElementById(viewId).classList.add('active');
-
-      // Initialize Shopify SDK when switching to Merch tab
-      if (viewId === 'merchView' && !shopifyInitialized) {
-        shopifyInitialized = true;
-        initShopifySdk();
-      }
     }
 
-    function initShopifySdk() {
-      var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
-      if (window.ShopifyBuy && window.ShopifyBuy.UI) {
-        ShopifyBuyInit();
-      } else {
-        var script = document.createElement('script');
-        script.async = true;
-        script.src = scriptURL;
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
-        script.onload = ShopifyBuyInit;
-      }
-    }
+    /* SEARCH MERCH FUNCTION */
+    function filterMerch() {
+      const query = document.getElementById('merchSearchInput').value.toLowerCase();
+      const items = document.querySelectorAll('.merch-item');
 
-    function ShopifyBuyInit() {
-      var client = ShopifyBuy.buildClient({
-        domain: 'rx63su-pf.myshopify.com',
-        storefrontAccessToken: '186ec34e83f113c009011f7991e99dce',
-      });
-      ShopifyBuy.UI.onReady(client).then(function (ui) {
-        ui.createComponent('collection', {
-          id: '685602373792',
-          node: document.getElementById('collection-component-1786603249726'),
-          moneyFormat: '%24%7B%7Bamount%7D%7D',
-          options: {
-            "product": {
-              "styles": {
-                "title": { "color": "#ffaa00" },
-                "price": { "color": "#ffaa00" },
-                "button": {
-                  "color": "#000000",
-                  "background-color": "#ffaa00",
-                  ":hover": { "background-color": "#ff4500", "color": "#ffffff" }
-                }
-              }
-            }
-          }
-        });
-        document.getElementById('fallbackMerchGrid').style.display = 'none';
+      items.forEach(item => {
+        const keywords = item.getAttribute('data-keywords').toLowerCase();
+        const title = item.querySelector('.merch-title').innerText.toLowerCase();
+
+        if (keywords.includes(query) || title.includes(query)) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
       });
     }
 
@@ -649,7 +679,7 @@
       const email = document.getElementById('signupEmail').value;
 
       if (localStorage.getItem('gp_user_' + email)) {
-        alert('An account with this email already exists! Please log in.');
+        alert('An account with this email already exists! Logging you in.');
         switchAuthForm('login');
         document.getElementById('loginEmail').value = email;
         return;
@@ -665,6 +695,7 @@
         initials: getInitials(name)
       };
 
+      // AUTO LOGIN PERSISTENCE
       localStorage.setItem('gp_user_' + user.email, JSON.stringify(user));
       localStorage.setItem('gp_active_user', JSON.stringify(user));
       currentUser = user;
@@ -698,10 +729,30 @@
       renderAccountState();
     }
 
+    function updateAiWelcomeGuest() {
+      document.getElementById('aiWelcomeMessage').innerText = "Welcome to the Campfire, Friend!";
+    }
+
     function renderAccountState() {
       if (!currentUser) return;
       const navContainer = document.getElementById('authNavContainer');
 
+      // REPLACE "JOIN THE CIRCLE" WITH PERSONALIZED LOGGED-IN HERO BUTTONS
+      const homeCta = document.getElementById('homeHeroCta');
+      if (homeCta) {
+        homeCta.innerHTML = `
+          <button class="btn btn-primary" onclick="switchTab('requestView')">Submit Song Idea</button>
+          <button class="btn btn-outline" onclick="switchTab('merchView')">Browse Store</button>
+        `;
+      }
+
+      // PERSONALIZED AI WELCOME MESSAGE
+      document.getElementById('aiWelcomeMessage').innerText = `Welcome Back to the Fire, ${currentUser.name}! 🔥`;
+      document.getElementById('aiUpdatesText').innerHTML = `
+        <strong>Your Personal Campfire Experience:</strong> Hello ${currentUser.name}! You are currently signed in as a VIP Circle member. Grason is actively reading fan song requests—head over to the <em>Song Request</em> tab to leave your idea!
+      `;
+
+      // RENDER USER AVATAR / INITIALS IN CORNER
       let avatarHtml = currentUser.avatar 
         ? `<img src="${currentUser.avatar}" class="avatar-circle" alt="Avatar">`
         : `<div class="avatar-circle">${currentUser.initials || getInitials(currentUser.name)}</div>`;
