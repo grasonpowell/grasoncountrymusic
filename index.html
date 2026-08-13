@@ -588,10 +588,15 @@
         </div>
       </div>
 
-      <!-- $10/YEAR SHOPIFY SUBSCRIPTION BUY BUTTON -->
+      <!-- $10/YEAR SHOPIFY SUBSCRIPTION BUY BUTTON CONTAINER -->
       <div id="upgradeContainer" style="background: rgba(255, 153, 0, 0.1); border: 1px solid var(--accent-gold); border-radius: 12px; padding: 2rem; margin-bottom: 2.5rem;">
         <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.6rem; margin-bottom: 0.5rem;">Upgrade to Premium Member Pass</h3>
         <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">Join the VIP inner circle for <strong>$10/year</strong> via secure Shopify checkout below.</p>
+
+        <!-- DIRECT SUBSCRIBE BUTTON LINKED TO SHOPIFY -->
+        <button class="btn btn-primary" onclick="activateMembershipOnCheckout()" style="margin-bottom: 1.5rem; width: 100%; max-width: 320px;">
+          Subscribe & Pay $10.00 / Year ↗
+        </button>
 
         <!-- EXACT SHOPIFY SUBSCRIPTION PRODUCT BUY BUTTON EMBED -->
         <div id='product-component-1786606684628' onclick="activateMembershipOnCheckout()"></div>
@@ -850,6 +855,7 @@
       localStorage.setItem('gp_user_' + currentUser.email, JSON.stringify(currentUser));
       localStorage.setItem('gp_active_user', JSON.stringify(currentUser));
       renderAccountState();
+      alert('Your $10/Year VIP Pass is now active!');
     }
 
     function cancelSubscription() {
