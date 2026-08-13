@@ -118,6 +118,12 @@
       border: 1px dashed var(--accent-gold);
     }
 
+    .admin-tab-link {
+      color: #00ffaa !important;
+      border: 1px stroke #00ffaa;
+      background: rgba(0, 255, 170, 0.1);
+    }
+
     /* --- AVATAR BUTTON IN CORNER --- */
     .nav-avatar-btn {
       display: flex;
@@ -408,6 +414,7 @@
         <li><button class="nav-tab" onclick="switchTab('merchView')">Merch Store</button></li>
         <li><button class="nav-tab" onclick="switchTab('requestView')">Song Request</button></li>
         <li id="vipNavTab" style="display: none;"><button class="nav-tab vip-tab-link" onclick="switchTab('boardView')">VIP Board</button></li>
+        <li id="adminNavTab" style="display: none;"><button class="nav-tab admin-tab-link" onclick="switchTab('adminView')">👑 Admin Panel</button></li>
         <li id="authNavContainer">
           <button class="btn btn-outline" onclick="openAuthModal('signup')">Sign Up / Login</button>
         </li>
@@ -614,6 +621,28 @@
           <strong style="color: var(--accent-gold);">Grason Powell (Team)</strong>
           <p style="margin-top: 0.3rem;">Welcome to the VIP message board! Thanks for taking a seat by the fire. Tour dates and presale codes will be posted here first.</p>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEBSITE OWNER / ADMIN PANEL (ONLY SHOWN TO GRASON POWELL) -->
+  <div class="view-container" id="adminView">
+    <div class="content-card" style="max-width: 850px; border-color: #00ffaa;">
+      <h2 class="burn-title" style="font-size: 2.2rem; color: #00ffaa;">👑 Owner Control Panel</h2>
+      <p style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 2rem;">
+        Welcome back, Grason! You have full owner administrative access to update site content, broadcast messages, and moderate fan boards.
+      </p>
+
+      <div style="background: rgba(0, 255, 170, 0.08); border: 1px stroke #00ffaa; border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem;">
+        <h3 style="color: #00ffaa; margin-bottom: 0.8rem;">📢 Broadcast Website Announcement</h3>
+        <textarea id="adminBroadcastInput" class="form-control" rows="3" placeholder="Type a message to instantly update the homepage announcement..."></textarea>
+        <button class="btn btn-primary" style="margin-top: 1rem; background: #00ffaa; color: #000;" onclick="publishAdminBroadcast()">Broadcast Announcement</button>
+      </div>
+
+      <div style="background: rgba(8, 6, 5, 0.8); border: 1px solid var(--border-glow); border-radius: 12px; padding: 1.5rem;">
+        <h3 style="color: var(--accent-gold); margin-bottom: 0.8rem;">⚙️ Fan Board Moderation</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">Clear or reset fan posts on the message board if necessary.</p>
+        <button class="btn btn-danger" onclick="clearFanBoard()">Clear Fan Board Posts</button>
       </div>
     </div>
   </div>
@@ -860,9 +889,25 @@
 
   <script>
     let currentUser = null;
+    const ADMIN_EMAIL = "grasoncountrymusic@gmail.com";
 
     // AUTOMATIC LOGIN & SESSION RESTORATION
     window.addEventListener('DOMContentLoaded', () => {
+      // PRE-POPULATE ADMIN RECORD IN LOCAL STORAGE
+      if (!localStorage.getItem('gp_user_' + ADMIN_EMAIL)) {
+        const adminAccount = {
+          name: "Grason Powell (Team)",
+          phone: "555-0199",
+          email: ADMIN_EMAIL,
+          password: "GrasonCountryMusic2013!",
+          avatar: null,
+          isPremium: true,
+          isOwner: true,
+          initials: "GP"
+        };
+        localStorage.setItem('gp_user_' + ADMIN_EMAIL, JSON.stringify(adminAccount));
+      }
+
       const stored = localStorage.getItem('gp_active_user');
       if (stored) {
         currentUser = JSON.parse(stored);
@@ -920,15 +965,8 @@
         currentUser.isPremium = false;
         localStorage.setItem('gp_user_' + currentUser.email, JSON.stringify(currentUser));
         localStorage.setItem('gp_active_user', JSON.stringify(currentUser));
-        
-        // RE-RENDER WEBSITE STATE
-        document.getElementById('vipNavTab').style.display = 'none';
-        document.getElementById('premiumHomeContent').style.display = 'none';
-        document.getElementById('upgradeContainer').style.display = 'block';
-        document.getElementById('activePremiumContainer').style.display = 'none';
-        
         renderAccountState();
-        alert("Your Premium subscription has been canceled. You have been reverted to a Free Member.");
+        alert("Your Premium subscription has been canceled.");
       }
     }
 
@@ -961,7 +999,7 @@
 
     function handleSignup(e) {
       e.preventDefault();
-      const email = document.getElementById('signupEmail').value;
+      const email = document.getElementById('signupEmail').value.toLowerCase();
 
       if (localStorage.getItem('gp_user_' + email)) {
         alert('An account with this email already exists! Logging you in.');
@@ -971,13 +1009,16 @@
       }
 
       const name = document.getElementById('signupName').value;
+      const isOwnerAccount = email === ADMIN_EMAIL;
+
       const user = {
-        name: name,
+        name: isOwnerAccount ? "Grason Powell (Team)" : name,
         phone: document.getElementById('signupPhone').value,
         email: email,
         password: document.getElementById('signupPassword').value,
         avatar: null,
-        isPremium: false,
+        isPremium: isOwnerAccount ? true : false,
+        isOwner: isOwnerAccount,
         initials: getInitials(name)
       };
 
@@ -987,12 +1028,12 @@
 
       closeAuthModal();
       renderAccountState();
-      alert('Welcome to The Circle, ' + user.name + '!');
+      alert(isOwnerAccount ? 'Welcome Back, Website Owner Grason Powell!' : 'Welcome to The Circle, ' + user.name + '!');
     }
 
     function handleLogin(e) {
       e.preventDefault();
-      const email = document.getElementById('loginEmail').value;
+      const email = document.getElementById('loginEmail').value.toLowerCase();
       const pass = document.getElementById('loginPassword').value;
 
       const record = localStorage.getItem('gp_user_' + email);
@@ -1007,11 +1048,19 @@
         return;
       }
 
+      // ENSURE OWNER PRIVILEGES IF ADMIN EMAIL
+      if (email === ADMIN_EMAIL) {
+        user.isOwner = true;
+        user.isPremium = true;
+        user.name = "Grason Powell (Team)";
+      }
+
       localStorage.setItem('gp_active_user', JSON.stringify(user));
       currentUser = user;
 
       closeAuthModal();
       renderAccountState();
+      if (user.isOwner) alert('Owner Logged In: Welcome back, Grason Powell!');
     }
 
     function renderAccountState() {
@@ -1028,10 +1077,11 @@
 
       document.getElementById('welcomeHeadline').innerText = `Welcome Back to the Fire, ${currentUser.name}! 🔥`;
       document.getElementById('welcomeParagraph').innerHTML = `
-        It's great to see you back by the fire, ${currentUser.name}. As a registered member of The Circle, you have full access to exclusive behind-the-scenes updates, custom merch previews, and direct song requests. ${currentUser.isPremium ? '<strong>Your Premium VIP Pass ($10/year) is active! You have full access to presale codes, exclusive message boards, and VIP updates below.</strong>' : 'Consider upgrading to a <strong>Premium Pass ($10/year)</strong> to unlock presales, RSVP meetups, and exclusive message boards!'}
+        It's great to see you back by the fire, ${currentUser.name}. ${currentUser.isOwner ? '<strong>You are currently logged in as a Website Owner with full administrative control.</strong>' : currentUser.isPremium ? '<strong>Your Premium VIP Pass ($10/year) is active! You have full access to presale codes, exclusive message boards, and VIP updates below.</strong>' : 'Consider upgrading to a <strong>Premium Pass ($10/year)</strong> to unlock presales, RSVP meetups, and exclusive message boards!'}
       `;
 
-      if (currentUser.isPremium) {
+      // DYNAMIC UNLOCKS
+      if (currentUser.isPremium || currentUser.isOwner) {
         document.getElementById('vipNavTab').style.display = 'block';
         document.getElementById('premiumHomeContent').style.display = 'block';
         document.getElementById('upgradeContainer').style.display = 'none';
@@ -1041,6 +1091,13 @@
         document.getElementById('premiumHomeContent').style.display = 'none';
         document.getElementById('upgradeContainer').style.display = 'block';
         document.getElementById('activePremiumContainer').style.display = 'none';
+      }
+
+      // SHOW OWNER ADMIN TAB IF LOGGED IN AS ADMIN
+      if (currentUser.isOwner || currentUser.email === ADMIN_EMAIL) {
+        document.getElementById('adminNavTab').style.display = 'block';
+      } else {
+        document.getElementById('adminNavTab').style.display = 'none';
       }
 
       let avatarHtml = currentUser.avatar 
@@ -1059,7 +1116,11 @@
       document.getElementById('profilePhone').value = currentUser.phone || '';
 
       const badge = document.getElementById('memberBadge');
-      if (currentUser.isPremium) {
+      if (currentUser.isOwner) {
+        badge.innerText = '👑 Website Owner';
+        badge.style.background = '#00ffaa';
+        badge.style.color = '#000';
+      } else if (currentUser.isPremium) {
         badge.innerText = '🔥 Premium Member ($10/Year)';
         badge.style.background = 'var(--accent-gold)';
         badge.style.color = '#000';
@@ -1126,12 +1187,35 @@
       const newPost = document.createElement('div');
       newPost.className = 'post-item';
       newPost.innerHTML = `
-        <strong style="color: var(--accent-gold);">${currentUser.name} (VIP Pass Member)</strong>
+        <strong style="color: var(--accent-gold);">${currentUser.name} ${currentUser.isOwner ? '(👑 Website Owner)' : '(VIP Pass Member)'}</strong>
         <p style="margin-top: 0.3rem;">${content}</p>
       `;
 
       postsList.prepend(newPost);
       document.getElementById('postContent').value = '';
+    }
+
+    // ADMIN PRIVILEGES
+    function publishAdminBroadcast() {
+      const text = document.getElementById('adminBroadcastInput').value;
+      if (!text.trim()) return;
+
+      document.getElementById('welcomeParagraph').innerText = text;
+      alert('Broadcast announcement updated live on the homepage!');
+      document.getElementById('adminBroadcastInput').value = '';
+    }
+
+    function clearFanBoard() {
+      const confirmClear = confirm("Are you sure you want to clear all fan posts on the VIP board?");
+      if (confirmClear) {
+        document.getElementById('postsList').innerHTML = `
+          <div class="post-item">
+            <strong style="color: var(--accent-gold);">Grason Powell (Team)</strong>
+            <p style="margin-top: 0.3rem;">Welcome to the VIP message board! Thanks for taking a seat by the fire.</p>
+          </div>
+        `;
+        alert('Board cleared successfully!');
+      }
     }
 
     function logoutUser() {
