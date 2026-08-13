@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grason Powell | The Campfire Sessions</title>
+  <style>
+    /* --- CAMPFIRE AESTHETIC VARIABLES --- */
+    :root {
+      --bg-dark: #0d0b0a; /* Darkest bark/ash */
+      --bg-card: rgba(26, 23, 20, 0.9); /* Translucent leather */
+      --accent: #ff9f43; /* Bright ember gold */
+      --accent-hover: #ffca85;
+      --text-main: #f5f0eb; /* Clean ash-white */
+      --text-muted: #a69b8f; /* Faded oak */
+      --border: rgba(212, 163, 89, 0.2); /* Faint ember glow */
+      --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Georgia", serif;
+      --font-logo: "Georgia", "Times New Roman", serif; /* More rustic/classic */
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* --- BACKGROUND VIDEO INJECT --- */
+    .bg-video-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+      filter: brightness(0.6) saturate(0.8); /* Enhance dark campfire vibe */
+    }
+
+    /* Simulate live video with an embed or video tag. I am providing a placeholder overlay. */
+    .bg-video-overlay {
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, transparent 20%, rgba(13, 11, 10, 1) 90%);
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    /* In production, replace with: <video autoplay muted loop id="bgVideo"><source src="fire.mp4" type="video/mp4"></video> */
+
+    /* --- NAVIGATION --- */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(13, 11, 10, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+    }
+
+    .logo {
+      font-family: var(--font-logo);
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-main);
+    }
+
+    .logo span {
+      color: var(--accent);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: color 0.2s, transform 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.8rem 2.2rem;
+      border-radius: 4px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+    }
+
+    .btn-login {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--accent);
+      font-size: 0.8rem;
+    }
+
+    .btn-login:hover {
+      border-color: var(--accent);
+      background: rgba(255, 159, 67, 0.1);
+    }
+
+    /* --- HERO SECTION --- */
+    #home {
+      min-height: 90vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8rem 2rem 4rem;
+    }
+
+    .hero-content {
+      max-width: 800px;
+    }
+
+    .tagline {
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 5px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .campfire-title {
+      font-family: var(--font-logo);
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 900;
+      letter-spacing: -2px;
+      text-transform: uppercase;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+
+    .artist-name {
+      color: var(--accent);
+      font-weight: 700;
+      margin-top: 0.5rem;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #110f0d;
+      box-shadow: 0 4px 15px rgba(255, 159, 67, 0.4);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 159, 67, 0.6);
+    }
+
+    /* --- SECTIONS --- */
+    section {
+      padding: 6rem 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+    }
+
+    .section-subtitle {
+      color: var(--accent);
+      font-size: 0.95rem;
+      margin-top: 0.5rem;
+      font-style: italic;
+    }
+
+    /* --- FORM STYLES (REQUIRED: Phone, Email, Password + Optional Checkbox) --- */
+    .form-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 3rem;
+      max-width: 500px;
+      margin: 0 auto;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    }
+
+    .input-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .input-group label {
+      display: block;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 1rem;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      background: rgba(13, 11, 10, 0.5);
+      color: var(--text-main);
+      font-size: 1rem;
+    }
+
+    .input-field:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .checkbox-field {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent);
+    }
+
+    .checkbox-label {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* --- MUSIC/TOUR PLACEHOLDERS (AS SET PREVIOUSLY) --- */
+    .music-teaser, .tour-box, .merch-grid {
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      border-radius: 8px;
+      padding: 3rem;
+      text-align: center;
+    }
+
+    /* --- LOGIN MODAL --- */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(5px);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.open {
+      display: flex;
+    }
+
+    .modal-content {
+      position: relative;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      color: var(--accent);
+      font-size: 1.5rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+
+    /* --- FOOTER --- */
+    footer {
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 3rem 2rem;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BACKGROUND VIDEO (Placeholder in code, replace with a real fire loop mp4) -->
+  <div class="bg-video-wrapper">
+    <!-- Replace the placeholder below with a real live campfire video -->
+    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" style="background:#0d0b0a; width:100%; height:100%;">
+    <div class="bg-video-overlay"></div>
+  </div>
+
+  <!-- NAVIGATION -->
+  <header>
+    <nav>
+      <a href="#home" class="logo">GRASON <span>POWELL</span></a>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#join">The Circle</a></li>
+        <li><a href="#music">Music</a></li>
+        <li><a href="#tour">Tour</a></li>
+        <li><button class="btn btn-login" onclick="toggleModal('loginModal')">Sign Up / Login</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section id="home">
+    <div class="hero-content">
+      <div class="tagline">Country Music Artist</div>
+      <h1 class="campfire-title">Take A Seat Next To The Fire<span class="artist-name"><br>Grason Powell</span></h1>
+      <a href="#join" class="btn btn-primary">Join The Circle</a>
+    </div>
+  </section>
+
+  <!-- SIGN UP SECTION (REQUIRED FIELDS) -->
+  <section id="join">
+    <div class="section-header">
+      <h2 class="section-title">Join The Circle</h2>
+      <p class="section-subtitle">Sign up for exclusive access and updates</p>
+    </div>
+    <div class="form-box">
+      <form onsubmit="handleFormSubmit(event)">
+        <div class="input-group">
+          <label for="phone">Phone (Required)</label>
+          <input type="tel" id="phone" name="phone" class="input-field" required placeholder="123-456-7890">
+        </div>
+        <div class="input-group">
+          <label for="email">Email (Required)</label>
+          <input type="email" id="email" name="email" class="input-field" required placeholder="your.name@email.com">
+        </div>
+        <div class="input-group">
+          <label for="password">Password (Required)</label>
+          <input type="password" id="password" name="password" class="input-field" required minlength="8" placeholder="At least 8 characters">
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="updates" name="updates" class="checkbox-field">
+          <label for="updates" class="checkbox-label">Optional: Sign up for email updates & new campfire sessions.</label>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Join The Fire</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- MUSIC/TOUR/MERCH SECTIONS (Previous Customizations - Placeholders) -->
+  <section id="music">
+    <div class="section-header"><h2 class="section-title">Music</h2><p class="section-subtitle">Releases coming soon.</p></div>
+    <div class="music-teaser">Debut release currently in the studio.</div>
+  </section>
+
+  <section id="tour">
+    <div class="section-header"><h2 class="section-title">Tour Dates</h2><p class="section-subtitle">Live shows & campfire sessions</p></div>
+    <div class="tour-box">No tour dates available at the moment.</div>
+  </section>
+
+  <!-- LOGIN MODAL (HIDDEN) -->
+  <div class="modal" id="loginModal">
+    <div class="modal-content">
+      <button class="close-modal" onclick="toggleModal('loginModal')">&times;</button>
+      <div class="form-box">
+        <form onsubmit="handleFormSubmit(event)">
+          <div class="section-header" style="margin-bottom: 2rem;">
+            <h2 class="section-title" style="font-size: 1.5rem;">Access The Circle</h2>
+          </div>
+          <div class="input-group">
+            <label for="login-email">Email or Phone</label>
+            <input type="text" id="login-email" name="login-email" class="input-field" required placeholder="email or phone">
+          </div>
+          <div class="input-group">
+            <label for="login-password">Password</label>
+            <input type="password" id="login-password" name="login-password" class="input-field" required placeholder="password">
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 Grason Powell Music. "Take a seat next to the fire."</p>
+  </footer>
+
+  <script>
+    // Smooth Transition / Modal Handler
+    function toggleModal(modalId) {
+      document.getElementById(modalId).classList.toggle('open');
+    }
+
+    // Form submission simulation
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      alert('Action recorded for: ' + e.target.querySelector('input').value);
+      toggleModal('loginModal'); // Close modal if used
+    }
+  </script>
+</body>
+</html>
