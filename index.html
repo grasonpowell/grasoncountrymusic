@@ -71,16 +71,16 @@
     }
 
     .nav-links {
-      display: flex; gap: 0.8rem;
+      display: flex; gap: 0.6rem;
       list-style: none; align-items: center;
     }
 
     .nav-tab {
       background: none; border: none;
-      color: var(--text-muted); font-size: 0.8rem;
+      color: var(--text-muted); font-size: 0.78rem;
       font-weight: 700; letter-spacing: 1.2px;
       text-transform: uppercase; cursor: pointer;
-      padding: 0.5rem 0.8rem; border-radius: 4px;
+      padding: 0.5rem 0.7rem; border-radius: 4px;
       transition: all 0.3s ease;
     }
 
@@ -101,6 +101,22 @@
       background: rgba(0, 255, 170, 0.1);
     }
 
+    /* --- ARTIST VERIFIED BADGE --- */
+    .artist-verified-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      vertical-align: middle;
+      margin-left: 6px;
+    }
+
+    .artist-badge-svg {
+      width: 18px;
+      height: 18px;
+      filter: drop-shadow(0 0 6px var(--accent-gold));
+    }
+
+    /* --- AVATAR BUTTON --- */
     .nav-avatar-btn {
       display: flex; align-items: center; gap: 0.6rem;
       background: rgba(255, 69, 0, 0.1);
@@ -115,10 +131,13 @@
       background: linear-gradient(135deg, var(--accent-gold), var(--accent-ember));
       color: #080605; display: flex; align-items: center; justify-content: center;
       font-weight: 800; font-size: 0.85rem; object-fit: cover;
-      border: 1px solid var(--accent-gold); overflow: hidden; flex-shrink: 0;
+      border: 1px solid var(--accent-gold);
+      overflow: hidden; flex-shrink: 0;
     }
 
-    .avatar-circle img { width: 100%; height: 100%; object-fit: cover; }
+    .avatar-circle img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
 
     /* --- TITLE ANIMATION --- */
     .burn-title {
@@ -189,6 +208,33 @@
     .post-card img, .post-card video {
       width: 100%; max-height: 480px; object-fit: cover;
       border-radius: 8px; margin-top: 1rem; border: 1px solid var(--border-glow);
+    }
+
+    .post-card audio { width: 100%; margin-top: 1rem; }
+
+    .post-actions {
+      display: flex; gap: 1rem; margin-top: 1rem; align-items: center;
+      border-top: 1px solid rgba(255, 85, 0, 0.2); padding-top: 0.8rem;
+    }
+
+    .action-btn {
+      background: none; border: none; color: var(--text-muted);
+      cursor: pointer; font-size: 0.9rem; font-weight: 700;
+      display: flex; align-items: center; gap: 0.4rem;
+      transition: color 0.2s;
+    }
+
+    .action-btn:hover, .action-btn.liked { color: var(--accent-gold); }
+
+    .comment-section {
+      margin-top: 1rem; padding-top: 1rem;
+      border-top: 1px dashed rgba(255, 85, 0, 0.2);
+      display: none;
+    }
+
+    .comment-item {
+      background: rgba(0,0,0,0.4); padding: 0.6rem 0.8rem;
+      border-radius: 6px; margin-bottom: 0.5rem; font-size: 0.88rem;
     }
 
     /* --- FORM ELEMENTS --- */
@@ -263,6 +309,19 @@
       </div>
     </div>
 
+    <!-- MEMBERSHIP SUBSCRIPTION BANNER -->
+    <div class="content-card" style="border-color: var(--accent-gold); text-align: center;">
+      <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.8rem; margin-bottom: 0.5rem;">
+        🔥 Join The VIP Campfire Membership
+      </h3>
+      <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 1rem;">
+        Get full access to ticket presales, backstage updates, and the exclusive VIP message board for <strong>$10/year</strong>.
+      </p>
+      <a href="https://grasoncountrymusic.myshopify.com/products/grason-powell-premium-membership" target="_blank" class="btn btn-primary" style="padding: 1rem 2rem; font-size: 0.95rem;">
+        Subscribe To Membership ($10/Year) ↗
+      </a>
+    </div>
+
     <!-- FAN POLL -->
     <div class="content-card">
       <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.6rem; margin-bottom: 1rem;">
@@ -325,14 +384,15 @@
     </div>
   </div>
 
-  <!-- MERCH STORE VIEW -->
+  <!-- MERCH STORE VIEW (INTEGRATED DIRECT SHOPIFY STORE BUY BUTTONS) -->
   <div class="view-container" id="merchView">
     <div class="content-card">
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 1.5rem;">
         <h2 class="burn-title" style="font-size: 2.2rem;">Official Merch Store</h2>
-        <a href="https://rx63su-pf.myshopify.com" target="_blank" class="btn btn-outline" style="font-size: 0.75rem;">Open Full Store ↗</a>
+        <a href="https://grasoncountrymusic.myshopify.com" target="_blank" class="btn btn-outline" style="font-size: 0.75rem;">Open Full Store ↗</a>
       </div>
 
+      <!-- SHOPIFY EMBED CONTAINER -->
       <div id='collection-component-1786641499028'></div>
       <script type="text/javascript">
       /*<![CDATA[*/
@@ -356,7 +416,7 @@
         }
         function ShopifyBuyInit() {
           var client = ShopifyBuy.buildClient({
-            domain: 'rx63su-pf.myshopify.com',
+            domain: 'grasoncountrymusic.myshopify.com',
             storefrontAccessToken: '186ec34e83f113c009011f7991e99dce',
           });
           ShopifyBuy.UI.onReady(client).then(function (ui) {
@@ -369,12 +429,11 @@
                   "styles": {
                     "product": {
                       "@media (min-width: 601px)": {
-                        "max-width": "calc(33.333% - 30px)",
-                        "margin-left": "30px",
+                        "max-width": "calc(33.333% - 20px)",
+                        "margin-left": "20px",
                         "margin-bottom": "50px",
-                        "width": "calc(33.333% - 30px)"
-                      },
-                      "background-color": "transparent"
+                        "width": "calc(33.333% - 20px)"
+                      }
                     },
                     "title": { "color": "#fffdfa" },
                     "price": { "color": "#ff9900" },
@@ -386,7 +445,7 @@
                     }
                   },
                   "buttonDestination": "modal",
-                  "text": { "button": "View Product" }
+                  "text": { "button": "Buy Now" }
                 }
               }
             });
@@ -448,6 +507,64 @@
     </div>
   </div>
 
+  <!-- VIP MESSAGE BOARD VIEW -->
+  <div class="view-container" id="boardView">
+    <div class="content-card" style="max-width: 800px;">
+      <h2 class="burn-title" style="font-size: 2.2rem;">Exclusive VIP Message Board</h2>
+      <form onsubmit="addBoardPost(event)" style="margin-bottom: 2rem;">
+        <div class="form-group">
+          <textarea id="postContent" class="form-control" rows="3" placeholder="Post a message to the campfire board..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Post Message</button>
+      </form>
+      <div id="postsList"></div>
+    </div>
+  </div>
+
+  <!-- ARTIST STUDIO PANEL -->
+  <div class="view-container" id="artistPanel">
+    <div class="content-card" style="max-width: 850px; border-color: #00ffaa;">
+      <h2 class="burn-title" style="font-size: 2.2rem; color: #00ffaa;">👑 Artist Studio Control Panel</h2>
+      <div style="background: rgba(0, 255, 170, 0.08); border: 1px solid #00ffaa; border-radius: 12px; padding: 1.8rem; margin-bottom: 2rem;">
+        <h3 style="color: #00ffaa; margin-bottom: 1rem;">📸 Publish Official Artist Post</h3>
+        <form onsubmit="publishArtistMediaPost(event)">
+          <div class="form-group">
+            <textarea id="postCaptionInput" class="form-control" rows="3" placeholder="Write your post..." required></textarea>
+          </div>
+          <div class="form-group">
+            <input type="file" id="mediaFileInput" class="form-control" accept="image/*,video/*,audio/*">
+          </div>
+          <button type="submit" class="btn btn-primary" style="background: #00ffaa; color: #000;">Publish Post To Feed</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAN ACCOUNT MANAGER VIEW -->
+  <div class="view-container" id="accountView">
+    <div class="content-card" style="max-width: 850px;">
+      <h2 class="burn-title" style="font-size: 2.2rem;">Your Account & Pass</h2>
+      
+      <div style="display: flex; gap: 2rem; align-items: center; margin-bottom: 2rem; flex-wrap: wrap;">
+        <div id="profileAvatarDisplay" class="avatar-circle" style="width: 80px; height: 80px; font-size: 2rem;">GP</div>
+        <div>
+          <div id="memberBadge" style="display: inline-block; background: var(--accent-ember); color: #fff; padding: 2px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; margin-bottom: 0.5rem;">Free Member</div>
+          <p id="accountEmailText" style="color: var(--text-muted); font-size: 0.9rem;"></p>
+        </div>
+      </div>
+
+      <div style="background: rgba(255, 153, 0, 0.1); border: 1px solid var(--accent-gold); border-radius: 12px; padding: 2rem; margin-bottom: 2.5rem;">
+        <h3 style="color: var(--accent-gold); font-size: 1.6rem; margin-bottom: 0.5rem;">VIP Membership ($10/Year)</h3>
+        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Join the inner circle for presale codes and access to the VIP message board.</p>
+        <a href="https://grasoncountrymusic.myshopify.com/products/grason-powell-premium-membership" target="_blank" class="btn btn-primary" style="font-size: 0.9rem; padding: 0.8rem 1.8rem;">
+          Subscribe Now ($10/Year) ↗
+        </a>
+      </div>
+
+      <button type="button" class="btn btn-outline" onclick="logoutUser()">Log Out</button>
+    </div>
+  </div>
+
   <!-- AUTHENTICATION MODAL -->
   <div class="modal-overlay" id="authModal">
     <div class="modal-card content-card" style="position: relative; max-width: 450px;">
@@ -499,11 +616,21 @@
     let currentUser = null;
     const ADMIN_EMAIL = "grasoncountrymusic@gmail.com";
 
+    const ARTIST_BADGE_HTML = `
+      <span class="artist-verified-badge" title="Official Artist Badge">
+        <svg class="artist-badge-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L15.09 5.26L19.5 4.5L19.26 9L23 12L19.26 15L19.5 19.5L15.09 18.74L12 22L8.91 18.74L4.5 19.5L4.74 15L1 12L4.74 9L4.5 4.5L8.91 5.26L12 2Z" fill="#ffaa00"/>
+          <path d="M9 12L11 14L15 10" stroke="#080605" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+    `;
+
     const INITIAL_POSTS = [
       {
         id: "post_gp_1",
         authorName: "Grason Powell",
         authorEmail: ADMIN_EMAIL,
+        isArtist: true,
         time: "Yesterday",
         caption: "Welcome to GP - Posts! Feel free to share thoughts and chat around the campfire.",
         mediaHtml: ""
@@ -518,7 +645,7 @@
       const stored = localStorage.getItem('gp_active_user');
       if (stored) {
         currentUser = JSON.parse(stored);
-        renderAccountNav();
+        renderAccountState();
       }
 
       renderFeedPosts();
@@ -544,10 +671,12 @@
       posts.forEach(post => {
         const postCard = document.createElement('div');
         postCard.className = 'post-card';
+        let badge = post.isArtist ? ARTIST_BADGE_HTML : '';
+
         postCard.innerHTML = `
           <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 0.8rem;">
             <div>
-              <strong style="color: var(--accent-gold); font-size: 1.05rem;">${post.authorName}</strong>
+              <strong style="color: var(--accent-gold); font-size: 1.05rem;">${post.authorName} ${badge}</strong>
               <div style="font-size: 0.75rem; color: var(--text-muted);">${post.time}</div>
             </div>
           </div>
@@ -573,6 +702,7 @@
         id: "post_" + Date.now(),
         authorName: currentUser.name,
         authorEmail: currentUser.email,
+        isArtist: currentUser.isArtist || currentUser.email === ADMIN_EMAIL,
         time: "Just Now",
         caption: caption,
         mediaHtml: ""
@@ -582,6 +712,28 @@
       renderFeedPosts();
       e.target.reset();
       togglePostCreatorBox();
+    }
+
+    function publishArtistMediaPost(e) {
+      e.preventDefault();
+      const caption = document.getElementById('postCaptionInput').value;
+      const posts = JSON.parse(localStorage.getItem('gp_community_posts') || '[]');
+
+      posts.unshift({
+        id: "post_" + Date.now(),
+        authorName: "Grason Powell",
+        authorEmail: ADMIN_EMAIL,
+        isArtist: true,
+        time: "Just Now",
+        caption: caption,
+        mediaHtml: ""
+      });
+
+      localStorage.setItem('gp_community_posts', JSON.stringify(posts));
+      renderFeedPosts();
+      e.target.reset();
+      alert("Post published to feed!");
+      switchTab('postsView');
     }
 
     function handleSurveySubmit(e) {
@@ -613,35 +765,93 @@
 
     function handleSignup(e) {
       e.preventDefault();
+      const email = document.getElementById('signupEmail').value.toLowerCase();
+      const name = document.getElementById('signupName').value;
+      const isArtist = email === ADMIN_EMAIL;
+
       const user = {
-        name: document.getElementById('signupName').value,
-        email: document.getElementById('signupEmail').value,
+        name: isArtist ? "Grason Powell" : name,
+        email: email,
+        isArtist: isArtist,
+        isPremium: isArtist
       };
+
       localStorage.setItem('gp_active_user', JSON.stringify(user));
       currentUser = user;
-      renderAccountNav();
+      renderAccountState();
       closeAuthModal();
     }
 
     function handleLogin(e) {
       e.preventDefault();
+      const email = document.getElementById('loginEmail').value.toLowerCase();
+      const isArtist = email === ADMIN_EMAIL;
+
       const user = {
-        name: "Fan Member",
-        email: document.getElementById('loginEmail').value,
+        name: isArtist ? "Grason Powell" : "Fan Member",
+        email: email,
+        isArtist: isArtist,
+        isPremium: isArtist
       };
+
       localStorage.setItem('gp_active_user', JSON.stringify(user));
       currentUser = user;
-      renderAccountNav();
+      renderAccountState();
       closeAuthModal();
     }
 
-    function renderAccountNav() {
+    function renderAccountState() {
       if (!currentUser) return;
-      document.getElementById('authNavContainer').innerHTML = `
-        <button class="nav-avatar-btn" onclick="logoutUser()">
-          <span>${currentUser.name} (Log Out)</span>
+
+      const navContainer = document.getElementById('authNavContainer');
+      const artistNavTab = document.getElementById('artistNavTab');
+      const vipNavTab = document.getElementById('vipNavTab');
+
+      if (currentUser.isArtist || currentUser.email === ADMIN_EMAIL) {
+        artistNavTab.style.display = 'block';
+        vipNavTab.style.display = 'block';
+      } else if (currentUser.isPremium) {
+        artistNavTab.style.display = 'none';
+        vipNavTab.style.display = 'block';
+      } else {
+        artistNavTab.style.display = 'none';
+        vipNavTab.style.display = 'none';
+      }
+
+      let badgeHtml = currentUser.isArtist ? ARTIST_BADGE_HTML : '';
+
+      navContainer.innerHTML = `
+        <button class="nav-avatar-btn" onclick="switchTab('accountView')">
+          <div class="avatar-circle">GP</div>
+          <span>${currentUser.name} ${badgeHtml}</span>
         </button>
       `;
+
+      document.getElementById('accountEmailText').innerText = currentUser.email;
+      const badge = document.getElementById('memberBadge');
+      if (currentUser.isArtist) {
+        badge.innerHTML = '👑 Official Artist Account';
+        badge.style.background = '#00ffaa'; badge.style.color = '#000';
+      } else if (currentUser.isPremium) {
+        badge.innerText = '🔥 VIP Member ($10/Year)';
+        badge.style.background = 'var(--accent-gold)'; badge.style.color = '#000';
+      }
+    }
+
+    function addBoardPost(e) {
+      e.preventDefault();
+      const content = document.getElementById('postContent').value;
+      const postsList = document.getElementById('postsList');
+
+      const newPost = document.createElement('div');
+      newPost.style.cssText = "background: rgba(8, 6, 5, 0.7); border: 1px solid var(--border-glow); padding: 1.2rem; border-radius: 8px; margin-bottom: 1rem;";
+      newPost.innerHTML = `
+        <strong style="color: var(--accent-gold);">${currentUser ? currentUser.name : 'Fan'}</strong>
+        <p style="margin-top: 0.3rem;">${content}</p>
+      `;
+
+      postsList.prepend(newPost);
+      document.getElementById('postContent').value = '';
     }
 
     function logoutUser() {
