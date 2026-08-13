@@ -373,7 +373,7 @@
       <div class="logo">GRASON POWELL</div>
       <ul class="nav-links">
         <li><button class="nav-tab active" onclick="switchTab('homeView')">Home</button></li>
-        <li><button class="nav-tab" onclick="switchTab('postsView')">Community Feed</button></li>
+        <li><button class="nav-tab" onclick="switchTab('postsView')">Posts</button></li>
         <li><button class="nav-tab" onclick="switchTab('musicView')">Music</button></li>
         <li><button class="nav-tab" onclick="switchTab('merchView')">Merch Store</button></li>
         <li id="surveyNavTab"><button class="nav-tab" onclick="switchTab('surveyView')">Fan Survey</button></li>
@@ -432,15 +432,25 @@
     </footer>
   </div>
 
-  <!-- COMMUNITY & ARTIST POSTS FEED (ALL FANS CAN POST & COMMENT) -->
+  <!-- POSTS VIEW (GP - POSTS LANDING PAGE & FEED) -->
   <div class="view-container" id="postsView">
     <div class="content-card" style="max-width: 900px;">
-      <h2 class="burn-title" style="font-size: 2.2rem; margin-bottom: 0.5rem;">Community Feed</h2>
-      <p style="color: var(--text-muted); margin-bottom: 2rem;">Photos, audio previews, video clips, and thoughts from Grason and fans around the fire.</p>
+      
+      <!-- LANDING HEADER WITH "GP - POSTS" -->
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; border-bottom: 1px solid var(--border-glow); padding-bottom: 1.5rem;">
+        <div>
+          <h2 class="burn-title" style="font-size: 2.8rem; text-align: left;">GP - Posts</h2>
+          <p style="color: var(--text-muted); margin-top: 0.4rem; font-size: 1.05rem;">Official updates from Grason Powell & fan community posts around the campfire.</p>
+        </div>
+        <button class="btn btn-primary" onclick="togglePostCreatorBox()">Create A Post ✍️</button>
+      </div>
 
-      <!-- FAN POST CREATOR BOX -->
-      <div style="background: rgba(8, 6, 5, 0.9); border: 1px solid var(--border-glow); border-radius: 12px; padding: 1.5rem; margin-bottom: 2.5rem;">
-        <h3 style="color: var(--accent-gold); font-size: 1.2rem; margin-bottom: 1rem;">🔥 Share Something With The Circle</h3>
+      <!-- FAN POST CREATOR BOX (TOGGLED VIA BUTTON) -->
+      <div id="userPostCreatorContainer" style="display: none; background: rgba(8, 6, 5, 0.95); border: 1px solid var(--accent-gold); border-radius: 12px; padding: 1.8rem; margin-bottom: 2.5rem; box-shadow: 0 0 20px rgba(255, 153, 0, 0.2);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <h3 style="color: var(--accent-gold); font-size: 1.3rem;">🔥 Share Something With The Circle</h3>
+          <button onclick="togglePostCreatorBox()" style="background: none; border: none; color: var(--text-muted); font-size: 1.2rem; cursor: pointer;">&times;</button>
+        </div>
         <form onsubmit="handleUserPostSubmit(event)">
           <div class="form-group">
             <textarea id="userPostCaption" class="form-control" rows="3" placeholder="Write a post, share a memory, or leave a thought..." required></textarea>
@@ -449,10 +459,11 @@
             <label>Upload Media File (Photo, Video, or Audio MP3)</label>
             <input type="file" id="userPostMedia" class="form-control" accept="image/*,video/*,audio/*">
           </div>
-          <button type="submit" class="btn btn-primary">Post To Feed 🚀</button>
+          <button type="submit" class="btn btn-primary" style="width: 100%;">Post To Feed 🚀</button>
         </form>
       </div>
 
+      <!-- POSTS FEED CONTAINER -->
       <div id="artistPostsFeed"></div>
     </div>
   </div>
@@ -468,7 +479,7 @@
     </div>
   </div>
 
-  <!-- MERCH STORE VIEW -->
+  <!-- MERCH STORE VIEW (EXACT EMBED) -->
   <div class="view-container" id="merchView">
     <div class="content-card">
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 1.5rem;">
@@ -476,15 +487,312 @@
         <a href="https://rx63su-pf.myshopify.com" target="_blank" class="btn btn-outline" style="font-size: 0.75rem;">Open Full Shopify Store ↗</a>
       </div>
 
-      <div id='collection-component-1786603249726' style="min-height: 300px;"></div>
-
-      <div id="fallbackStoreButtons" style="margin-top: 2rem; border-top: 1px solid var(--border-glow); padding-top: 2rem;">
-        <h3 style="color: var(--accent-gold); margin-bottom: 1rem; font-family: var(--font-display);">Direct Checkout Options</h3>
-        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-          <a href="https://rx63su-pf.myshopify.com/collections/all" target="_blank" class="btn btn-primary">Browse All Merch Items 🛒</a>
-          <a href="https://rx63su-pf.myshopify.com/cart" target="_blank" class="btn btn-outline">View Cart / Checkout ↗</a>
-        </div>
-      </div>
+      <!-- EXACT MERCH EMBED CODE -->
+      <div id='collection-component-1786641499028'></div>
+      <script type="text/javascript">
+      /*<![CDATA[*/
+      (function () {
+        var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
+        if (window.ShopifyBuy) {
+          if (window.ShopifyBuy.UI) {
+            ShopifyBuyInit();
+          } else {
+            loadScript();
+          }
+        } else {
+          loadScript();
+        }
+        function loadScript() {
+          var script = document.createElement('script');
+          script.async = true;
+          script.src = scriptURL;
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
+          script.onload = ShopifyBuyInit;
+        }
+        function ShopifyBuyInit() {
+          var client = ShopifyBuy.buildClient({
+            domain: 'rx63su-pf.myshopify.com',
+            storefrontAccessToken: '186ec34e83f113c009011f7991e99dce',
+          });
+          ShopifyBuy.UI.onReady(client).then(function (ui) {
+            ui.createComponent('collection', {
+              id: '685602373792',
+              node: document.getElementById('collection-component-1786641499028'),
+              moneyFormat: '%24%7B%7Bamount%7D%7D',
+              options: {
+        "product": {
+          "styles": {
+            "product": {
+              "@media (min-width: 601px)": {
+                "max-width": "calc(25% - 20px)",
+                "margin-left": "20px",
+                "margin-bottom": "50px",
+                "width": "calc(25% - 20px)"
+              },
+              "img": {
+                "height": "calc(100% - 15px)",
+                "position": "absolute",
+                "left": "0",
+                "right": "0",
+                "top": "0"
+              },
+              "imgWrapper": {
+                "padding-top": "calc(75% + 15px)",
+                "position": "relative",
+                "height": "0"
+              }
+            },
+            "title": {
+              "color": "#000000"
+            },
+            "button": {
+              "font-family": "Arvo, serif",
+              "font-weight": "bold",
+              "color": "#976f08",
+              ":hover": {
+                "color": "#976f08",
+                "background-color": "#000000"
+              },
+              "background-color": "#000000",
+              ":focus": {
+                "background-color": "#000000"
+              }
+            },
+            "price": {
+              "color": "#000000"
+            },
+            "compareAt": {
+              "color": "#000000"
+            },
+            "unitPrice": {
+              "color": "#000000"
+            }
+          },
+          "buttonDestination": "modal",
+          "contents": {
+            "options": false
+          },
+          "text": {
+            "button": "View product"
+          },
+          "googleFonts": [
+            "Arvo"
+          ]
+        },
+        "productSet": {
+          "styles": {
+            "products": {
+              "@media (min-width: 601px)": {
+                "margin-left": "-20px"
+              }
+            }
+          }
+        },
+        "modalProduct": {
+          "contents": {
+            "img": false,
+            "imgWithCarousel": true,
+            "button": false,
+            "buttonWithQuantity": true
+          },
+          "styles": {
+            "product": {
+              "@media (min-width: 601px)": {
+                "max-width": "100%",
+                "margin-left": "0px",
+                "margin-bottom": "0px"
+              }
+            },
+            "button": {
+              "font-family": "Arvo, serif",
+              "font-weight": "bold",
+              "color": "#976f08",
+              ":hover": {
+                "color": "#976f08",
+                "background-color": "#000000"
+              },
+              "background-color": "#000000",
+              ":focus": {
+                "background-color": "#000000"
+              }
+            },
+            "title": {
+              "font-family": "Helvetica Neue, sans-serif",
+              "font-weight": "bold",
+              "font-size": "26px",
+              "color": "#4c4c4c"
+            },
+            "price": {
+              "font-family": "Helvetica Neue, sans-serif",
+              "font-weight": "normal",
+              "font-size": "18px",
+              "color": "#4c4c4c"
+            },
+            "compareAt": {
+              "font-family": "Helvetica Neue, sans-serif",
+              "font-weight": "normal",
+              "font-size": "15.299999999999999px",
+              "color": "#4c4c4c"
+            },
+            "unitPrice": {
+              "font-family": "Helvetica Neue, sans-serif",
+              "font-weight": "normal",
+              "font-size": "15.299999999999999px",
+              "color": "#4c4c4c"
+            }
+          },
+          "googleFonts": [
+            "Arvo"
+          ],
+          "text": {
+            "button": "Add to cart"
+          }
+        },
+        "option": {},
+        "cart": {
+          "styles": {
+            "button": {
+              "font-family": "Arvo, serif",
+              "font-weight": "bold",
+              "color": "#976f08",
+              ":hover": {
+                "color": "#976f08",
+                "background-color": "#000000"
+              },
+              "background-color": "#000000",
+              ":focus": {
+                "background-color": "#000000"
+              }
+            },
+            "title": {
+              "color": "#000000"
+            },
+            "header": {
+              "color": "#000000"
+            },
+            "lineItems": {
+              "color": "#000000"
+            },
+            "subtotalText": {
+              "color": "#000000"
+            },
+            "subtotal": {
+              "color": "#000000"
+            },
+            "notice": {
+              "color": "#000000"
+            },
+            "currency": {
+              "color": "#000000"
+            },
+            "close": {
+              "color": "#000000",
+              ":hover": {
+                "color": "#000000"
+              }
+            },
+            "empty": {
+              "color": "#000000"
+            },
+            "noteDescription": {
+              "color": "#000000"
+            },
+            "discountText": {
+              "color": "#000000"
+            },
+            "discountIcon": {
+              "fill": "#000000"
+            },
+            "discountAmount": {
+              "color": "#000000"
+            },
+            "cart": {
+              "background-color": "#be6600"
+            },
+            "footer": {
+              "background-color": "#be6600"
+            }
+          },
+          "text": {
+            "total": "Subtotal",
+            "button": "Checkout"
+          },
+          "popup": false,
+          "googleFonts": [
+            "Arvo"
+          ]
+        },
+        "toggle": {
+          "styles": {
+            "toggle": {
+              "font-family": "Arvo, serif",
+              "font-weight": "bold",
+              "background-color": "#000000",
+              ":hover": {
+                "background-color": "#000000"
+              },
+              ":focus": {
+                "background-color": "#000000"
+              }
+            },
+            "count": {
+              "color": "#976f08",
+              ":hover": {
+                "color": "#976f08"
+              }
+            },
+            "iconPath": {
+              "fill": "#976f08"
+            }
+          },
+          "googleFonts": [
+            "Arvo"
+          ]
+        },
+        "lineItem": {
+          "styles": {
+            "variantTitle": {
+              "color": "#000000"
+            },
+            "title": {
+              "color": "#000000"
+            },
+            "price": {
+              "color": "#000000"
+            },
+            "fullPrice": {
+              "color": "#000000"
+            },
+            "discount": {
+              "color": "#000000"
+            },
+            "discountIcon": {
+              "fill": "#000000"
+            },
+            "quantity": {
+              "color": "#000000"
+            },
+            "quantityIncrement": {
+              "color": "#000000",
+              "border-color": "#000000"
+            },
+            "quantityDecrement": {
+              "color": "#000000",
+              "border-color": "#000000"
+            },
+            "quantityInput": {
+              "color": "#000000",
+              "border-color": "#000000"
+            }
+          }
+        }
+      },
+            });
+          });
+        }
+      })();
+      /*]]>*/
+      </script>
     </div>
   </div>
 
@@ -660,14 +968,319 @@
         </div>
       </div>
 
-      <!-- UPGRADE CONTAINER -->
+      <!-- UPGRADE CONTAINER WITH EXACT MEMBERSHIP EMBED -->
       <div id="upgradeContainer" style="background: rgba(255, 153, 0, 0.1); border: 1px solid var(--accent-gold); border-radius: 12px; padding: 2rem; margin-bottom: 2.5rem;">
         <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.6rem; margin-bottom: 0.5rem;">Upgrade to Premium Member Pass</h3>
         <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">Join the VIP inner circle for <strong>$10/year</strong> via secure Shopify checkout below.</p>
 
-        <a href="https://rx63su-pf.myshopify.com/cart/47035540472096:1?channel=buy_button" target="_blank" onclick="activateMembershipOnCheckout()" class="btn btn-primary" style="margin-bottom: 1.5rem; width: 100%; max-width: 340px;">
-          Subscribe & Pay $10.00 / Year ↗
-        </a>
+        <!-- EXACT MEMBERSHIP EMBED CODE -->
+        <div id='product-component-1786641542683' onclick="activateMembershipOnCheckout()"></div>
+        <script type="text/javascript">
+        /*<![CDATA[*/
+        (function () {
+          var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
+          if (window.ShopifyBuy) {
+            if (window.ShopifyBuy.UI) {
+              ShopifyBuyInit();
+            } else {
+              loadScript();
+            }
+          } else {
+            loadScript();
+          }
+          function loadScript() {
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = scriptURL;
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
+            script.onload = ShopifyBuyInit;
+          }
+          function ShopifyBuyInit() {
+            var client = ShopifyBuy.buildClient({
+              domain: 'rx63su-pf.myshopify.com',
+              storefrontAccessToken: '186ec34e83f113c009011f7991e99dce',
+            });
+            ShopifyBuy.UI.onReady(client).then(function (ui) {
+              ui.createComponent('product', {
+                id: '15829045280928',
+                node: document.getElementById('product-component-1786641542683'),
+                moneyFormat: '%24%7B%7Bamount%7D%7D',
+                options: {
+          "product": {
+            "styles": {
+              "product": {
+                "@media (min-width: 601px)": {
+                  "max-width": "100%",
+                  "margin-left": "0",
+                  "margin-bottom": "50px"
+                },
+                "text-align": "left"
+              },
+              "title": {
+                "font-size": "26px",
+                "color": "#000000"
+              },
+              "button": {
+                "font-family": "Arvo, serif",
+                "font-weight": "bold",
+                "color": "#976f08",
+                ":hover": {
+                  "color": "#976f08",
+                  "background-color": "#000000"
+                },
+                "background-color": "#000000",
+                ":focus": {
+                  "background-color": "#000000"
+                }
+              },
+              "price": {
+                "font-size": "18px",
+                "color": "#000000"
+              },
+              "compareAt": {
+                "font-size": "15.299999999999999px",
+                "color": "#000000"
+              },
+              "unitPrice": {
+                "font-size": "15.299999999999999px",
+                "color": "#000000"
+              }
+            },
+            "buttonDestination": "checkout",
+            "layout": "horizontal",
+            "contents": {
+              "img": false,
+              "imgWithCarousel": true,
+              "description": true
+            },
+            "width": "100%",
+            "text": {
+              "button": "Buy now"
+            },
+            "googleFonts": [
+              "Arvo"
+            ]
+          },
+          "productSet": {
+            "styles": {
+              "products": {
+                "@media (min-width: 601px)": {
+                  "margin-left": "-20px"
+                }
+              }
+            }
+          },
+          "modalProduct": {
+            "contents": {
+              "img": false,
+              "imgWithCarousel": true,
+              "button": false,
+              "buttonWithQuantity": true
+            },
+            "styles": {
+              "product": {
+                "@media (min-width: 601px)": {
+                  "max-width": "100%",
+                  "margin-left": "0px",
+                  "margin-bottom": "0px"
+                }
+              },
+              "button": {
+                "font-family": "Arvo, serif",
+                "font-weight": "bold",
+                "color": "#976f08",
+                ":hover": {
+                  "color": "#976f08",
+                  "background-color": "#000000"
+                },
+                "background-color": "#000000",
+                ":focus": {
+                  "background-color": "#000000"
+                }
+              },
+              "title": {
+                "font-family": "Helvetica Neue, sans-serif",
+                "font-weight": "bold",
+                "font-size": "26px",
+                "color": "#4c4c4c"
+              },
+              "price": {
+                "font-family": "Helvetica Neue, sans-serif",
+                "font-weight": "normal",
+                "font-size": "18px",
+                "color": "#4c4c4c"
+              },
+              "compareAt": {
+                "font-family": "Helvetica Neue, sans-serif",
+                "font-weight": "normal",
+                "font-size": "15.299999999999999px",
+                "color": "#4c4c4c"
+              },
+              "unitPrice": {
+                "font-family": "Helvetica Neue, sans-serif",
+                "font-weight": "normal",
+                "font-size": "15.299999999999999px",
+                "color": "#4c4c4c"
+              }
+            },
+            "googleFonts": [
+              "Arvo"
+            ],
+            "text": {
+              "button": "Add to cart"
+            }
+          },
+          "option": {
+            "styles": {
+              "label": {
+                "color": "#000000"
+              }
+            }
+          },
+          "cart": {
+            "styles": {
+              "button": {
+                "font-family": "Arvo, serif",
+                "font-weight": "bold",
+                "color": "#976f08",
+                ":hover": {
+                  "color": "#976f08",
+                  "background-color": "#000000"
+                },
+                "background-color": "#000000",
+                ":focus": {
+                  "background-color": "#000000"
+                }
+              },
+              "title": {
+                "color": "#000000"
+              },
+              "header": {
+                "color": "#000000"
+              },
+              "lineItems": {
+                "color": "#000000"
+              },
+              "subtotalText": {
+                "color": "#000000"
+              },
+              "subtotal": {
+                "color": "#000000"
+              },
+              "notice": {
+                "color": "#000000"
+              },
+              "currency": {
+                "color": "#000000"
+              },
+              "close": {
+                "color": "#000000",
+                ":hover": {
+                  "color": "#000000"
+                }
+              },
+              "empty": {
+                "color": "#000000"
+              },
+              "noteDescription": {
+                "color": "#000000"
+              },
+              "discountText": {
+                "color": "#000000"
+              },
+              "discountIcon": {
+                "fill": "#000000"
+              },
+              "discountAmount": {
+                "color": "#000000"
+              },
+              "cart": {
+                "background-color": "#be6600"
+              },
+              "footer": {
+                "background-color": "#be6600"
+              }
+            },
+            "text": {
+              "total": "Subtotal",
+              "button": "Checkout"
+            },
+            "popup": false,
+            "googleFonts": [
+              "Arvo"
+            ]
+          },
+          "toggle": {
+            "styles": {
+              "toggle": {
+                "font-family": "Arvo, serif",
+                "font-weight": "bold",
+                "background-color": "#000000",
+                ":hover": {
+                  "background-color": "#000000"
+                },
+                ":focus": {
+                  "background-color": "#000000"
+                }
+              },
+              "count": {
+                "color": "#976f08",
+                ":hover": {
+                  "color": "#976f08"
+                }
+              },
+              "iconPath": {
+                "fill": "#976f08"
+              }
+            },
+            "googleFonts": [
+              "Arvo"
+            ]
+          },
+          "lineItem": {
+            "styles": {
+              "variantTitle": {
+                "color": "#000000"
+              },
+              "title": {
+                "color": "#000000"
+              },
+              "price": {
+                "color": "#000000"
+              },
+              "fullPrice": {
+                "color": "#000000"
+              },
+              "discount": {
+                "color": "#000000"
+              },
+              "discountIcon": {
+                "fill": "#000000"
+              },
+              "quantity": {
+                "color": "#000000"
+              },
+              "quantityIncrement": {
+                "color": "#000000",
+                "border-color": "#000000"
+              },
+              "quantityDecrement": {
+                "color": "#000000",
+                "border-color": "#000000"
+              },
+              "quantityInput": {
+                "color": "#000000",
+                "border-color": "#000000"
+              }
+            }
+          }
+        },
+              });
+            });
+          }
+        })();
+        /*]]>*/
+        </script>
 
         <h4 style="margin-top: 1.5rem; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; color: var(--accent-gold);">ALL PREMIUM MEMBERS GET ACCESS TO:</h4>
         <ul style="margin-top: 0.8rem; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.8rem;">
@@ -816,7 +1429,7 @@
         isArtist: true,
         avatar: null,
         time: "Official Update",
-        caption: "Welcome to the new official community feed! Drop studio photos, acoustic clips, and chat with each other right here. Take a seat by the fire!",
+        caption: "Welcome to GP - Posts! Drop studio photos, acoustic clips, and chat with each other right here. Take a seat by the fire!",
         mediaHtml: "",
         likes: 12,
         likedBy: [],
@@ -827,7 +1440,6 @@
     ];
 
     window.addEventListener('DOMContentLoaded', () => {
-      // Seed default admin account
       if (!localStorage.getItem('gp_user_' + ADMIN_EMAIL)) {
         const adminAccount = {
           name: "Grason Powell",
@@ -841,7 +1453,6 @@
         localStorage.setItem('gp_user_' + ADMIN_EMAIL, JSON.stringify(adminAccount));
       }
 
-      // Seed default feed posts if empty
       if (!localStorage.getItem('gp_community_posts')) {
         localStorage.setItem('gp_community_posts', JSON.stringify(INITIAL_POSTS));
       }
@@ -862,6 +1473,11 @@
       
       const target = document.getElementById(viewId);
       if (target) target.classList.add('active');
+    }
+
+    function togglePostCreatorBox() {
+      const box = document.getElementById('userPostCreatorContainer');
+      box.style.display = box.style.display === 'none' ? 'block' : 'none';
     }
 
     function openAuthModal(form) {
@@ -889,7 +1505,6 @@
       document.getElementById('loginView').style.display = form === 'login' ? 'block' : 'none';
     }
 
-    /* 4-SECOND SETUP LOADING DISPLAY */
     function run4SecondSetup(callback) {
       const overlay = document.getElementById('setupLoadingOverlay');
       const text = document.getElementById('loadingStatusText');
@@ -904,7 +1519,6 @@
       }, 4000);
     }
 
-    /* RENDER ALL PERSISTENT POSTS & COMMENTS */
     function renderFeedPosts() {
       const feed = document.getElementById('artistPostsFeed');
       const posts = JSON.parse(localStorage.getItem('gp_community_posts') || '[]');
@@ -1002,6 +1616,7 @@
       }
 
       e.target.reset();
+      togglePostCreatorBox();
     }
 
     function saveAndAppendPost(caption, mediaHtml) {
@@ -1025,7 +1640,7 @@
       localStorage.setItem('gp_community_posts', JSON.stringify(posts));
 
       renderFeedPosts();
-      alert("Your post is live on the Community Feed!");
+      alert("Your post is live on GP - Posts!");
     }
 
     function deletePost(postId) {
@@ -1079,7 +1694,6 @@
       toggleCommentsDisplay(postId);
     }
 
-    /* SURVEY TAG & OTHER TOGGLE HANDLERS */
     function selectSurveyTag(el, questionGroup) {
       const parent = el.parentElement;
       parent.querySelectorAll('.survey-tag').forEach(t => t.classList.remove('selected'));
@@ -1135,7 +1749,6 @@
       }
     }
 
-    /* ARTIST SPECIFIC PUBLISHING & AVATARS */
     function handleArtistAvatarUpload(e) {
       const file = e.target.files[0];
       if (!file) return;
@@ -1210,6 +1823,44 @@
 
     function votePoll(btn) {
       document.getElementById('pollResult').innerText = `Thanks for voting! You selected: "${btn.innerText}". Grason has received your vote!`;
+    }
+
+    function activateMembershipOnCheckout() {
+      if (!currentUser) {
+        alert('Please sign up or log in first before purchasing!');
+        openAuthModal('signup');
+        return;
+      }
+      currentUser.isPremium = true;
+      localStorage.setItem('gp_user_' + currentUser.email, JSON.stringify(currentUser));
+      localStorage.setItem('gp_active_user', JSON.stringify(currentUser));
+      renderAccountState();
+      alert('Your $10/Year VIP Pass is now active!');
+    }
+
+    function cancelSubscription() {
+      if (!currentUser || !currentUser.isPremium) return;
+
+      const confirmCancel = confirm("Are you sure you want to cancel your Premium Pass subscription? You will lose access to the VIP board.");
+      if (confirmCancel) {
+        currentUser.isPremium = false;
+        localStorage.setItem('gp_user_' + currentUser.email, JSON.stringify(currentUser));
+        localStorage.setItem('gp_active_user', JSON.stringify(currentUser));
+        renderAccountState();
+        alert("Your Premium subscription has been canceled.");
+      }
+    }
+
+    function deleteAccount() {
+      if (!currentUser) return;
+
+      const confirmDelete = confirm("Are you sure you want to completely DELETE your account?");
+      if (confirmDelete) {
+        localStorage.removeItem('gp_user_' + currentUser.email);
+        localStorage.removeItem('gp_active_user');
+        alert("Your account has been deleted.");
+        location.reload();
+      }
     }
 
     function handleSignup(e) {
