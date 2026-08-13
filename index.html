@@ -1,182 +1,410 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-const jwt = require('jwt-simple');
-const nodemailer = require('nodemailer');
-const cors = require('cors');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grason Powellt<title>
+  <style>
+    :root {
+      --bg-dark: #080605;
+      --bg-card: rgba(18, 13, 9, 0.94);
+      --accent-ember: #ff4500;
+      --accent-gold: #ff9900;
+      --text-bright: #fffdfa;
+      --text-muted: #c7b299;
+      --border-glow: rgba(255, 85, 0, 0.35);
+      --font-display: "Georgia", serif;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
 
-const app = express();
-app.use(express.json());
-app.use(cors({ origin: 'https://grasoncountrymusic.com', credentials: true }));
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background-color: var(--bg-dark); color: var(--text-bright); font-family: var(--font-sans); min-height: 100vh; overflow-x: hidden; }
 
-const JWT_SECRET = process.env.JWT_SECRET || 'super-secret-key-grason-country';
-const ADMIN_EMAIL = 'grasoncountrymusic@gmail.com';
+    /* BACKGROUND VIDEO */
+    .bg-video-wrapper { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; }
+    .bg-video-wrapper video { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.4) contrast(1.1); }
+    .bg-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; background: radial-gradient(circle, rgba(255, 69, 0, 0.15) 0%, rgba(8, 6, 5, 0.92) 80%); }
 
-// DB Schemas
-const UserSchema = new mongoose.Schema({
-  name: String,
-  email: { type: String, unique: true, required: true },
-  passwordHash: String,
-  isArtist: { type: Boolean, default: false },
-  twoFactorCode: String,
-  twoFactorExpires: Date
-});
+    /* NAVBAR */
+    header { position: fixed; top: 0; left: 0; width: 100%; background: rgba(8, 6, 5, 0.95); backdrop-filter: blur(12px); z-index: 1000; border-bottom: 1px solid var(--border-glow); }
+    nav { max-width: 1250px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; }
+    .logo { font-family: var(--font-display); font-size: 1.5rem; font-weight: 800; letter-spacing: 2px; color: var(--text-bright); }
+    .nav-links { display: flex; gap: 0.8rem; list-style: none; align-items: center; }
+    .nav-tab { background: none; border: none; color: var(--text-muted); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; cursor: pointer; padding: 0.5rem 0.8rem; border-radius: 4px; }
+    .nav-tab:hover, .nav-tab.active { color: var(--accent-gold); background: rgba(255, 69, 0, 0.12); }
+    .artist-tab-link { color: #00ffaa !important; border: 1px solid #00ffaa; background: rgba(0, 255, 170, 0.1); }
 
-const PostSchema = new mongoose.Schema({
-  authorName: String,
-  authorEmail: String,
-  isArtist: Boolean,
-  caption: String,
-  mediaUrl: String,
-  mediaType: String,
-  firewood: { type: Number, default: 0 },
-  likes: [String],
-  comments: [{ author: String, text: String, createdAt: { type: Date, default: Date.now } }],
-  createdAt: { type: Date, default: Date.now }
-});
+    /* CONTAINERS */
+    .view-container { position: absolute; top: 75px; left: 0; width: 100vw; min-height: calc(100vh - 75px); padding: 3rem 2rem 8rem 2rem; display: none; flex-direction: column; align-items: center; }
+    .view-container.active { display: flex; }
+    .content-card { background: var(--bg-card); border: 1px solid var(--border-glow); border-radius: 16px; padding: 2.5rem; max-width: 950px; width: 100%; margin-bottom: 2.5rem; }
 
-const PollSchema = new mongoose.Schema({
-  question: String,
-  options: [{ text: String, votes: { type: Number, default: 0 } }],
-  active: { type: Boolean, default: true }
-});
+    .burn-title { font-family: var(--font-display); font-size: clamp(2.5rem, 6vw, 4.8rem); font-weight: 900; text-transform: uppercase; text-align: center; background: linear-gradient(180deg, #ffffff 0%, #ffaa00 50%, #8b2500 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-const User = mongoose.model('User', UserSchema);
-const Post = mongoose.model('Post', PostSchema);
-const Poll = mongoose.model('Poll', PollSchema);
+    /* BUTTONS & FORMS */
+    .btn { display: inline-block; padding: 0.8rem 1.8rem; border-radius: 30px; font-weight: 700; text-transform: uppercase; font-size: 0.8rem; cursor: pointer; border: none; text-align: center; }
+    .btn-primary { background: linear-gradient(135deg, var(--accent-gold), var(--accent-ember)); color: #080605; }
+    .btn-outline { background: transparent; border: 1px solid var(--border-glow); color: var(--text-bright); }
 
-// Email Transporter for 2FA
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
-});
+    .form-group { margin-bottom: 1.2rem; }
+    .form-control { width: 100%; padding: 0.8rem 1rem; border-radius: 8px; border: 1px solid var(--border-glow); background: rgba(8, 6, 5, 0.8); color: var(--text-bright); font-size: 0.95rem; }
 
-// Middleware: Authenticate Token
-const requireAuth = (req, res, next) => {
-  const token = req.headers.authorization?.split(' ')[1];
-  if (!token) return res.status(401).json({ error: 'Unauthorized access' });
-  try {
-    req.user = jwt.decode(token, JWT_SECRET);
-    next();
-  } catch (err) {
-    res.status(401).json({ error: 'Invalid token' });
-  }
-};
+    /* MODAL */
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.9); z-index: 2000; display: none; align-items: center; justify-content: center; }
+    .modal-overlay.active { display: flex; }
 
-// Middleware: Require Artist Admin
-const requireArtist = (req, res, next) => {
-  if (!req.user || !req.user.isArtist) {
-    return res.status(403).json({ error: 'Forbidden: Artist privileges required' });
-  }
-  next();
-};
+    /* SOCIAL FEED STYLES */
+    .social-post-card { background: rgba(12, 9, 6, 0.9); border: 1px solid var(--border-glow); border-radius: 12px; padding: 1.8rem; margin-bottom: 1.5rem; }
+    .social-avatar { width: 42px; height: 42px; border-radius: 50%; background: var(--accent-gold); color: #000; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+    .action-bar { display: flex; gap: 1.5rem; margin-top: 1rem; border-top: 1px solid rgba(255,85,0,0.2); padding-top: 0.8rem; }
+    .action-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; font-weight: 700; display: flex; align-items: center; gap: 0.4rem; }
+  </style>
+</head>
+<body>
 
-/* --- AUTHENTICATION & 2FA --- */
-app.post('/api/auth/login', async (req, res) => {
-  const { email, password } = req.body;
-  const user = await User.findOne({ email: email.toLowerCase() });
-  if (!user || !(await bcrypt.compare(password, user.passwordHash))) {
-    return res.status(400).json({ error: 'Invalid credentials' });
-  }
+  <div class="bg-video-wrapper">
+    <video autoplay muted loop playsinline preload="auto">
+      <source src="https://assets.mixkit.co/videos/preview/mixkit-camp-fire-in-the-night-4032-large.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="bg-overlay"></div>
 
-  // Trigger 2FA for Artist Account
-  if (user.email === ADMIN_EMAIL) {
-    const code = Math.floor(100000 + Math.random() * 900000).toString();
-    user.twoFactorCode = code;
-    user.twoFactorExpires = Date.now() + 10 * 60 * 1000; // 10 minutes
-    await user.save();
+  <!-- NAVIGATION -->
+  <header>
+    <nav>
+      <div class="logo">GRASON POWELL</div>
+      <ul class="nav-links">
+        <li><button class="nav-tab active" onclick="switchTab('homeView')">Home</button></li>
+        <li><button class="nav-tab" onclick="switchTab('postsView')">Community Feed</button></li>
+        <li><button class="nav-tab" onclick="switchTab('merchView')">Merch Store</button></li>
+        <li id="artistNavTab" style="display: none;"><button class="nav-tab artist-tab-link" onclick="switchTab('artistPanel')">👑 Artist Panel</button></li>
+        <li id="authNavContainer">
+          <button class="btn btn-outline" onclick="openModal('authModal')">Sign Up / Login</button>
+        </li>
+      </ul>
+    </nav>
+  </header>
 
-    await transporter.sendMail({
-      from: '"Grason Powell Security" <no-reply@grasoncountrymusic.com>',
-      to: ADMIN_EMAIL,
-      subject: '🔑 Your Artist Security Verification Code',
-      text: `Your 2FA login verification code is: ${code}`
+  <!-- HOME VIEW & DYNAMIC POLL -->
+  <div class="view-container active" id="homeView">
+    <div style="text-align: center; margin-bottom: 3rem;">
+      <h1 class="burn-title">GRASON POWELL</h1>
+      <p style="color: var(--text-muted); margin-top: 0.8rem; letter-spacing: 2px;">OFFICIAL ARTIST HUB</p>
+    </div>
+
+    <!-- PERSISTENT DYNAMIC POLL -->
+    <div class="content-card">
+      <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.6rem; margin-bottom: 1rem;">🔥 Official Fan Poll</h3>
+      <p id="pollQuestionDisplay" style="font-size: 1.2rem; font-weight: 700; margin-bottom: 1.2rem;">Loading current poll...</p>
+      <div id="pollOptionsDisplay"></div>
+    </div>
+  </div>
+
+  <!-- SOCIAL FEED VIEW -->
+  <div class="view-container" id="postsView">
+    <div class="content-card" style="max-width: 800px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h2 class="burn-title" style="font-size: 2.2rem;">Campfire Feed</h2>
+        <button class="btn btn-primary" onclick="togglePostBox()">Create Post ✍️</button>
+      </div>
+
+      <div id="createPostBox" style="display: none; background: rgba(0,0,0,0.5); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; border: 1px solid var(--accent-gold);">
+        <textarea id="newPostCaption" class="form-control" rows="3" placeholder="Share something with the circle..."></textarea>
+        <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="submitSocialPost()">Publish Post 🚀</button>
+      </div>
+
+      <div id="socialFeedContainer"></div>
+    </div>
+  </div>
+
+  <!-- WORKING SHOPIFY MERCH STORE -->
+  <div class="view-container" id="merchView">
+    <div class="content-card">
+      <h2 class="burn-title" style="font-size: 2.2rem; margin-bottom: 2rem;">Official Store</h2>
+      <div id="shopify-collection-root"></div>
+    </div>
+  </div>
+
+  <!-- ARTIST ADMIN CONTROL PANEL -->
+  <div class="view-container" id="artistPanel">
+    <div class="content-card" style="border-color: #00ffaa;">
+      <h2 class="burn-title" style="font-size: 2.2rem; color: #00ffaa;">👑 Artist Studio Control</h2>
+      
+      <!-- POLL MANAGER -->
+      <div style="background: rgba(0, 255, 170, 0.08); border: 1px solid #00ffaa; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
+        <h3 style="color: #00ffaa; margin-bottom: 1rem;">📊 Dynamic Poll Manager</h3>
+        <div class="form-group">
+          <label>Poll Question</label>
+          <input type="text" id="adminPollQuestion" class="form-control" placeholder="What song should I record next?">
+        </div>
+        <div class="form-group">
+          <label>Options (Comma Separated)</label>
+          <input type="text" id="adminPollOptions" class="form-control" placeholder="Acoustic Ballad, Country Rock, Porch Jam">
+        </div>
+        <button class="btn btn-primary" style="background: #00ffaa; color: #000;" onclick="saveAdminPoll()">Publish & Save Poll</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- AUTHENTICATION & 2FA MODAL -->
+  <div class="modal-overlay" id="authModal">
+    <div class="content-card" style="max-width: 450px; position: relative;">
+      <button onclick="closeModal('authModal')" style="position: absolute; top: 1rem; right: 1.5rem; background: none; border: none; color: #fff; font-size: 1.5rem;">&times;</button>
+
+      <div id="loginFormSection">
+        <h2 style="color: var(--accent-gold); text-align: center; margin-bottom: 1.5rem;">Account Login</h2>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="loginEmail" class="form-control" placeholder="grasoncountrymusic@gmail.com">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="loginPassword" class="form-control">
+        </div>
+        <button class="btn btn-primary" style="width: 100%;" onclick="processLogin()">Log In</button>
+      </div>
+
+      <!-- 2FA POPUP STEP -->
+      <div id="twoFactorSection" style="display: none; text-align: center;">
+        <h2 style="color: #00ffaa; margin-bottom: 0.5rem;">🔑 Artist Security Code</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">A 6-digit verification code was sent to grasoncountrymusic@gmail.com.</p>
+        <div class="form-group">
+          <input type="text" id="twoFactorCodeInput" class="form-control" placeholder="Enter 6-Digit Code" style="text-align: center; font-size: 1.3rem; letter-spacing: 4px;">
+        </div>
+        <button class="btn btn-primary" style="width: 100%; background: #00ffaa; color: #000;" onclick="verifyTwoFactor()">Verify & Login</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SHOPIFY STOREFRONT BUY BUTTON SDK -->
+  <script type="text/javascript">
+    (function () {
+      var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
+      if (window.ShopifyBuy && window.ShopifyBuy.UI) { ShopifyInit(); } 
+      else {
+        var script = document.createElement('script');
+        script.async = true; script.src = scriptURL;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
+        script.onload = ShopifyInit;
+      }
+
+      function ShopifyInit() {
+        var client = ShopifyBuy.buildClient({
+          domain: 'grasoncountrymusic.myshopify.com',
+          storefrontAccessToken: '186ec34e83f113c009011f7991e99dce',
+        });
+        ShopifyBuy.UI.onReady(client).then(function (ui) {
+          ui.createComponent('collection', {
+            id: '685602373792',
+            node: document.getElementById('shopify-collection-root'),
+            moneyFormat: '%24%7B%7Bamount%7D%7D',
+            options: {
+              product: {
+                styles: {
+                  product: { 'background-color': 'transparent' },
+                  title: { color: '#fffdfa' },
+                  price: { color: '#ff9900' },
+                  button: { 'background-color': '#ff9900', color: '#000', ':hover': { 'background-color': '#ff4500' } }
+                },
+                buttonDestination: 'cart',
+                text: { button: 'Add to Cart' }
+              },
+              cart: {
+                styles: { button: { 'background-color': '#ff9900', color: '#000' } },
+                text: { title: 'Your Campfire Order', total: 'Subtotal', button: 'Checkout' }
+              }
+            }
+          });
+        });
+      }
+    })();
+  </script>
+
+  <!-- APP ENGINE SCRIPT -->
+  <script>
+    const API_URL = 'http://localhost:5000/api';
+    let currentUser = null;
+    let authToken = localStorage.getItem('gp_auth_token');
+
+    window.addEventListener('DOMContentLoaded', () => {
+      fetchPoll();
+      fetchPosts();
+      if (authToken) {
+        currentUser = JSON.parse(localStorage.getItem('gp_user_data'));
+        renderAuthState();
+      }
     });
 
-    return res.json({ require2FA: true, email: user.email });
-  }
+    function switchTab(id) {
+      document.querySelectorAll('.view-container').forEach(e => e.classList.remove('active'));
+      document.querySelectorAll('.nav-tab').forEach(e => el => el.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
 
-  const token = jwt.encode({ id: user._id, name: user.name, email: user.email, isArtist: user.isArtist }, JWT_SECRET);
-  res.json({ token, user: { name: user.name, email: user.email, isArtist: user.isArtist } });
-});
+    function openModal(id) { document.getElementById(id).classList.add('active'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+    function togglePostBox() { const el = document.getElementById('createPostBox'); el.style.display = el.style.display === 'none' ? 'block' : 'none'; }
 
-app.post('/api/auth/verify-2fa', async (req, res) => {
-  const { email, code } = req.body;
-  const user = await User.findOne({ email: email.toLowerCase() });
+    /* AUTHENTICATION & 2FA */
+    async function processLogin() {
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
 
-  if (!user || user.twoFactorCode !== code || Date.now() > user.twoFactorExpires) {
-    return res.status(400).json({ error: 'Invalid or expired 2FA verification code' });
-  }
+      const res = await fetch(`${API_URL}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      const data = await res.json();
 
-  user.twoFactorCode = null;
-  user.twoFactorExpires = null;
-  await user.save();
+      if (data.require2FA) {
+        document.getElementById('loginFormSection').style.display = 'none';
+        document.getElementById('twoFactorSection').style.display = 'block';
+      } else if (data.token) {
+        saveAuthSession(data.token, data.user);
+      } else {
+        alert(data.error || 'Login failed');
+      }
+    }
 
-  const token = jwt.encode({ id: user._id, name: user.name, email: user.email, isArtist: true }, JWT_SECRET);
-  res.json({ token, user: { name: user.name, email: user.email, isArtist: true } });
-});
+    async function verifyTwoFactor() {
+      const email = document.getElementById('loginEmail').value;
+      const code = document.getElementById('twoFactorCodeInput').value;
 
-/* --- DYNAMIC POLL ENGINE --- */
-app.get('/api/poll', async (req, res) => {
-  const poll = await Poll.findOne({ active: true });
-  res.json(poll);
-});
+      const res = await fetch(`${API_URL}/auth/verify-2fa`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, code })
+      });
+      const data = await res.json();
 
-app.post('/api/poll/update', requireAuth, requireArtist, async (req, res) => {
-  const { question, options } = req.body; // options is an array of string items
-  await Poll.updateMany({}, { active: false });
+      if (data.token) {
+        saveAuthSession(data.token, data.user);
+      } else {
+        alert(data.error || 'Invalid 2FA Verification Code');
+      }
+    }
 
-  const newPoll = new Poll({
-    question,
-    options: options.map(opt => ({ text: opt, votes: 0 })),
-    active: true
-  });
-  await newPoll.save();
-  res.json({ success: true, poll: newPoll });
-});
+    function saveAuthSession(token, user) {
+      authToken = token;
+      currentUser = user;
+      localStorage.setItem('gp_auth_token', token);
+      localStorage.setItem('gp_user_data', JSON.stringify(user));
+      renderAuthState();
+      closeModal('authModal');
+    }
 
-app.post('/api/poll/vote', async (req, res) => {
-  const { pollId, optionIndex } = req.body;
-  const poll = await Poll.findById(pollId);
-  if (poll && poll.options[optionIndex]) {
-    poll.options[optionIndex].votes += 1;
-    await poll.save();
-  }
-  res.json(poll);
-});
+    function renderAuthState() {
+      if (!currentUser) return;
+      if (currentUser.isArtist) {
+        document.getElementById('artistNavTab').style.display = 'block';
+      }
+      document.getElementById('authNavContainer').innerHTML = `
+        <button class="btn btn-outline" onclick="logout()">${currentUser.name} (Log Out)</button>
+      `;
+    }
 
-/* --- SOCIAL MEDIA FEED API --- */
-app.get('/api/posts', async (req, res) => {
-  const posts = await Post.find().sort({ createdAt: -1 });
-  res.json(posts);
-});
+    function logout() {
+      localStorage.clear();
+      location.reload();
+    }
 
-app.post('/api/posts', requireAuth, async (req, res) => {
-  const { caption, mediaUrl, mediaType } = req.body;
-  const post = new Post({
-    authorName: req.user.name,
-    authorEmail: req.user.email,
-    isArtist: req.user.isArtist,
-    caption,
-    mediaUrl,
-    mediaType
-  });
-  await post.save();
-  res.json(post);
-});
+    /* PERSISTENT POLL ENGINE */
+    async function fetchPoll() {
+      const res = await fetch(`${API_URL}/poll`);
+      const poll = await res.json();
+      if (!poll) return;
 
-app.post('/api/posts/:id/comment', requireAuth, async (req, res) => {
-  const post = await Post.findById(req.params.id);
-  post.comments.push({ author: req.user.name, text: req.body.text });
-  await post.save();
-  res.json(post);
-});
+      document.getElementById('pollQuestionDisplay').innerText = poll.question;
+      const optionsContainer = document.getElementById('pollOptionsDisplay');
+      optionsContainer.innerHTML = '';
 
-app.post('/api/posts/:id/firewood', async (req, res) => {
-  const post = await Post.findById(req.params.id);
-  post.firewood += 1;
-  await post.save();
-  res.json(post);
-});
+      poll.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'btn btn-outline';
+        btn.style.cssText = 'width: 100%; text-align: left; margin-bottom: 0.8rem; display: flex; justify-content: space-between;';
+        btn.innerHTML = `<span>${opt.text}</span><strong>${opt.votes} Votes</strong>`;
+        btn.onclick = () => votePoll(poll._id, idx);
+        optionsContainer.appendChild(btn);
+      });
+    }
 
-app.listen(5000, () => console.log('🔒 Security Server Running on Port 5000'));
+    async function votePoll(pollId, optionIndex) {
+      await fetch(`${API_URL}/poll/vote`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pollId, optionIndex })
+      });
+      fetchPoll();
+    }
+
+    async function saveAdminPoll() {
+      const question = document.getElementById('adminPollQuestion').value;
+      const optionsStr = document.getElementById('adminPollOptions').value;
+      const options = optionsStr.split(',').map(s => s.trim()).filter(Boolean);
+
+      await fetch(`${API_URL}/poll/update`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`
+        },
+        body: JSON.stringify({ question, options })
+      });
+
+      alert('Poll published and saved across all devices!');
+      fetchPoll();
+      switchTab('homeView');
+    }
+
+    /* SOCIAL FEED ENGINE */
+    async function fetchPosts() {
+      const res = await fetch(`${API_URL}/posts`);
+      const posts = await res.json();
+      const container = document.getElementById('socialFeedContainer');
+      container.innerHTML = '';
+
+      posts.forEach(post => {
+        const card = document.createElement('div');
+        card.className = 'social-post-card';
+        card.innerHTML = `
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 1rem;">
+            <div class="social-avatar">${post.authorName.charAt(0)}</div>
+            <div>
+              <strong style="color: var(--accent-gold);">${post.authorName} ${post.isArtist ? '👑' : ''}</strong>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">${new Date(post.createdAt).toLocaleDateString()}</div>
+            </div>
+          </div>
+          <p style="line-height: 1.6;">${post.caption}</p>
+          <div class="action-bar">
+            <button class="action-btn" onclick="addFirewood('${post._id}')">🪵 ${post.firewood} Firewood</button>
+            <button class="action-btn">💬 ${post.comments.length} Comments</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    async function submitSocialPost() {
+      const caption = document.getElementById('newPostCaption').value;
+      await fetch(`${API_URL}/posts`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`
+        },
+        body: JSON.stringify({ caption })
+      });
+
+      document.getElementById('newPostCaption').value = '';
+      togglePostBox();
+      fetchPosts();
+    }
+
+    async function addFirewood(postId) {
+      await fetch(`${API_URL}/posts/${postId}/firewood`, { method: 'POST' });
+      fetchPosts();
+    }
+  </script>
+</body>
+</html>
