@@ -193,7 +193,7 @@
       top: 75px; left: 0;
       width: 100vw;
       height: calc(100vh - 75px);
-      overflow-y: auto; /* ENABLES ROOM TO SCROLL WITHIN EACH TAB */
+      overflow-y: auto;
       padding: 4rem 2rem 8rem 2rem;
       display: none;
       flex-direction: column;
@@ -209,9 +209,9 @@
       border: 1px solid var(--border-glow);
       border-radius: 16px;
       padding: 3rem;
-      max-width: 950px;
+      max-width: 1000px;
       width: 100%;
-      margin-bottom: 3rem; /* SPACING TO SCROLL DOWN */
+      margin-bottom: 3rem;
       box-shadow: 0 20px 50px rgba(0,0,0,0.85);
       backdrop-filter: blur(12px);
     }
@@ -246,30 +246,6 @@
       color: var(--text-bright);
     }
 
-    /* --- MERCH CARDS --- */
-    .merch-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 2rem;
-      margin-top: 2rem;
-    }
-
-    .merch-card {
-      background: rgba(8, 6, 5, 0.8);
-      border: 1px solid var(--border-glow);
-      border-radius: 12px;
-      padding: 1.5rem;
-      text-align: center;
-      transition: transform 0.3s, border-color 0.3s;
-    }
-
-    .merch-card:hover {
-      transform: translateY(-5px);
-      border-color: var(--accent-gold);
-    }
-
-    .merch-icon { font-size: 3.5rem; margin-bottom: 0.8rem; }
-
     /* --- FORM ELEMENTS --- */
     .form-group { margin-bottom: 1.2rem; }
     .form-group label {
@@ -283,53 +259,6 @@
       background: rgba(8, 6, 5, 0.8); color: var(--text-bright);
       font-size: 0.95rem;
     }
-
-    /* --- SOUND TOGGLE SWITCH STYLES --- */
-    .sound-toggle-box {
-      position: fixed;
-      bottom: 25px;
-      right: 25px;
-      background: rgba(18, 13, 9, 0.95);
-      border: 1px solid var(--border-glow);
-      padding: 0.6rem 1.2rem;
-      border-radius: 30px;
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      z-index: 1000;
-      box-shadow: 0 0 20px rgba(0,0,0,0.8);
-    }
-
-    .switch {
-      position: relative;
-      display: inline-block;
-      width: 44px;
-      height: 24px;
-    }
-
-    .switch input { opacity: 0; width: 0; height: 0; }
-
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: #3a2e2b;
-      transition: .4s;
-      border-radius: 24px;
-    }
-
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 18px; width: 18px;
-      left: 3px; bottom: 3px;
-      background-color: var(--text-bright);
-      transition: .4s;
-      border-radius: 50%;
-    }
-
-    input:checked + .slider { background-color: var(--accent-ember); }
-    input:checked + .slider:before { transform: translateX(20px); }
 
     /* --- MODALS --- */
     .modal-overlay {
@@ -358,11 +287,6 @@
   </div>
   <div class="bg-overlay"></div>
 
-  <!-- AUDIO SOURCE FOR CAMPFIRE SOUND -->
-  <audio id="fireAudio" loop>
-    <source src="https://assets.mixkit.co/active_storage/sfx/2386/2386-preview.mp3" type="audio/mpeg">
-  </audio>
-
   <!-- NAVIGATION BAR -->
   <header>
     <nav>
@@ -380,7 +304,7 @@
     </nav>
   </header>
 
-  <!-- HOME VIEW (EXTENDED FOR SCROLLING) -->
+  <!-- HOME VIEW -->
   <div class="view-container active" id="homeView">
     <div style="text-align: center; margin-bottom: 4rem; padding-top: 2rem;">
       <h1 class="burn-title">GRASON POWELL</h1>
@@ -391,7 +315,6 @@
       </div>
     </div>
 
-    <!-- ROOM TO SCROLL DOWN -->
     <div class="content-card">
       <h3 style="color: var(--accent-gold); font-family: var(--font-display); font-size: 1.8rem; margin-bottom: 1rem;">Welcome to the Campfire</h3>
       <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.8;">
@@ -407,7 +330,7 @@
     </div>
   </div>
 
-  <!-- MUSIC VIEW (EXTENDED FOR SCROLLING) -->
+  <!-- MUSIC VIEW -->
   <div class="view-container" id="musicView">
     <div class="content-card" style="text-align: center;">
       <h2 class="burn-title" style="font-size: 2.5rem;">Music</h2>
@@ -423,7 +346,7 @@
     </div>
   </div>
 
-  <!-- TOUR VIEW (EXTENDED FOR SCROLLING) -->
+  <!-- TOUR VIEW -->
   <div class="view-container" id="tourView">
     <div class="content-card" style="text-align: center;">
       <h2 class="burn-title" style="font-size: 2.5rem;">Tour Dates</h2>
@@ -438,35 +361,190 @@
     </div>
   </div>
 
-  <!-- MERCH STORE VIEW (SHOPIFY STOREFRONT WITH SCROLL ROOM) -->
+  <!-- MERCH STORE VIEW (SHOPIFY BUY BUTTON INTEGRATED) -->
   <div class="view-container" id="merchView">
     <div class="content-card">
-      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 1rem;">
-        <h2 class="burn-title" style="font-size: 2.2rem;">Official Merch Store</h2>
-        <a href="https://Grasoncountrymusic.myshopify.com" target="_blank" class="btn btn-outline" style="font-size: 0.75rem;">Open Full Shopify Site ↗</a>
-      </div>
-      <p style="color: var(--text-muted);">Official merchandise integrated directly with Printful & Shopify.</p>
+      <h2 class="burn-title" style="font-size: 2.2rem; margin-bottom: 1.5rem;">Official Merch Store</h2>
       
-      <div class="merch-grid">
-        <div class="merch-card">
-          <div class="merch-icon">🧢</div>
-          <h3>Grason Powell Cap</h3>
-          <p style="color: var(--accent-gold); font-weight: 700; margin: 0.5rem 0;">$28.00</p>
-          <a href="https://Grasoncountrymusic.myshopify.com" target="_blank" class="btn btn-primary" style="padding: 0.5rem 1.2rem; font-size: 0.75rem;">Buy Item</a>
-        </div>
-        <div class="merch-card">
-          <div class="merch-icon">👕</div>
-          <h3>Campfire Logo Tee</h3>
-          <p style="color: var(--accent-gold); font-weight: 700; margin: 0.5rem 0;">$32.00</p>
-          <a href="https://Grasoncountrymusic.myshopify.com" target="_blank" class="btn btn-primary" style="padding: 0.5rem 1.2rem; font-size: 0.75rem;">Buy Item</a>
-        </div>
-        <div class="merch-card">
-          <div class="merch-icon">🧥</div>
-          <h3>Acoustic Sessions Hoodie</h3>
-          <p style="color: var(--accent-gold); font-weight: 700; margin: 0.5rem 0;">$55.00</p>
-          <a href="https://Grasoncountrymusic.myshopify.com" target="_blank" class="btn btn-primary" style="padding: 0.5rem 1.2rem; font-size: 0.75rem;">Buy Item</a>
-        </div>
-      </div>
+      <!-- SHOPIFY BUY BUTTON EMBED START -->
+      <div id='collection-component-1786603249726'></div>
+      <script type="text/javascript">
+      /*<![CDATA[*/
+      (function () {
+        var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
+        if (window.ShopifyBuy) {
+          if (window.ShopifyBuy.UI) {
+            ShopifyBuyInit();
+          } else {
+            loadScript();
+          }
+        } else {
+          loadScript();
+        }
+        function loadScript() {
+          var script = document.createElement('script');
+          script.async = true;
+          script.src = scriptURL;
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
+          script.onload = ShopifyBuyInit;
+        }
+        function ShopifyBuyInit() {
+          var client = ShopifyBuy.buildClient({
+            domain: 'rx63su-pf.myshopify.com',
+            storefrontAccessToken: '186ec34e83f113c009011f7991e99dce',
+          });
+          ShopifyBuy.UI.onReady(client).then(function (ui) {
+            ui.createComponent('collection', {
+              id: '685602373792',
+              node: document.getElementById('collection-component-1786603249726'),
+              moneyFormat: '%24%7B%7Bamount%7D%7D',
+              options: {
+        "product": {
+          "styles": {
+            "product": {
+              "@media (min-width: 601px)": {
+                "max-width": "calc(25% - 20px)",
+                "margin-left": "20px",
+                "margin-bottom": "50px",
+                "width": "calc(25% - 20px)"
+              },
+              "img": {
+                "height": "calc(100% - 15px)",
+                "position": "absolute",
+                "left": "0",
+                "right": "0",
+                "top": "0"
+              },
+              "imgWrapper": {
+                "padding-top": "calc(75% + 15px)",
+                "position": "relative",
+                "height": "0"
+              }
+            },
+            "title": {
+              "color": "#ffaa00"
+            },
+            "button": {
+              "font-family": "Quantico, sans-serif",
+              "color": "#ffaa00",
+              ":hover": {
+                "color": "#ffffff",
+                "background-color": "#ff4500"
+              },
+              "background-color": "#110f0d",
+              ":focus": {
+                "background-color": "#110f0d"
+              }
+            },
+            "price": {
+              "color": "#ffaa00"
+            },
+            "compareAt": {
+              "color": "#ffaa00"
+            },
+            "unitPrice": {
+              "color": "#ffaa00"
+            }
+          },
+          "text": {
+            "button": "Add to cart"
+          },
+          "googleFonts": [
+            "Quantico"
+          ]
+        },
+        "productSet": {
+          "styles": {
+            "products": {
+              "@media (min-width: 601px)": {
+                "margin-left": "-20px"
+              }
+            }
+          }
+        },
+        "modalProduct": {
+          "contents": {
+            "img": false,
+            "imgWithCarousel": true,
+            "button": false,
+            "buttonWithQuantity": true
+          },
+          "styles": {
+            "product": {
+              "@media (min-width: 601px)": {
+                "max-width": "100%",
+                "margin-left": "0px",
+                "margin-bottom": "0px"
+              }
+            },
+            "button": {
+              "font-family": "Quantico, sans-serif",
+              "color": "#ffaa00",
+              ":hover": {
+                "color": "#ffffff",
+                "background-color": "#ff4500"
+              },
+              "background-color": "#110f0d",
+              ":focus": {
+                "background-color": "#110f0d"
+              }
+            },
+            "title": {
+              "font-family": "Helvetica Neue, sans-serif",
+              "font-weight": "bold",
+              "font-size": "26px",
+              "color": "#ffaa00"
+            },
+            "price": {
+              "font-family": "Helvetica Neue, sans-serif",
+              "font-weight": "normal",
+              "font-size": "18px",
+              "color": "#ffaa00"
+            }
+          },
+          "googleFonts": [
+            "Quantico"
+          ],
+          "text": {
+            "button": "Add to cart"
+          }
+        },
+        "cart": {
+          "styles": {
+            "button": {
+              "font-family": "Quantico, sans-serif",
+              "color": "#000000",
+              ":hover": {
+                "background-color": "#ffaa00"
+              },
+              "background-color": "#ff4500"
+            },
+            "title": { "color": "#ffaa00" },
+            "header": { "color": "#ffaa00" },
+            "lineItems": { "color": "#ffaa00" },
+            "subtotalText": { "color": "#ffaa00" },
+            "subtotal": { "color": "#ffaa00" },
+            "cart": { "background-color": "#110f0d" },
+            "footer": { "background-color": "#110f0d" }
+          },
+          "text": {
+            "total": "Subtotal",
+            "button": "Checkout"
+          },
+          "popup": false,
+          "googleFonts": [
+            "Quantico"
+          ]
+        }
+      },
+            });
+          });
+        }
+      })();
+      /*]]>*/
+      </script>
+      <!-- SHOPIFY BUY BUTTON EMBED END -->
+
     </div>
   </div>
 
@@ -578,15 +656,6 @@
         </p>
       </div>
     </div>
-  </div>
-
-  <!-- CAMPFIRE AUDIO TOGGLE SWITCH -->
-  <div class="sound-toggle-box">
-    <span style="font-size: 0.8rem; font-weight: 700; color: var(--accent-gold);">🔥 Campfire Sound</span>
-    <label class="switch">
-      <input type="checkbox" id="soundSwitch" onchange="toggleSound(this)">
-      <span class="slider"></span>
-    </label>
   </div>
 
   <script>
@@ -750,16 +819,6 @@
     function logoutUser() {
       localStorage.removeItem('gp_active_user');
       location.reload();
-    }
-
-    // TOGGLE CAMPFIRE AUDIO SWITCH
-    function toggleSound(switchEl) {
-      const audio = document.getElementById('fireAudio');
-      if (switchEl.checked) {
-        audio.play().catch(err => console.log('Audio playback allowed after interaction.'));
-      } else {
-        audio.pause();
-      }
     }
   </script>
 </body>
